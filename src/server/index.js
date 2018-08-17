@@ -11,7 +11,7 @@ axios.defaults.baseURL = url
 // POST传参序列化
 axios.interceptors.request.use((config) => {
   if (config.method === 'post') {
-    config.data = qs.stringify(config.data)
+    config.data = qs.parse(config.data)
   }
   return config
 }, (error) => {

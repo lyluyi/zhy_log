@@ -7,7 +7,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/home'
+      redirect: '/login'
     },
     {
       path: '/login',
@@ -15,7 +15,7 @@ export default new Router({
       meta: {
         title: '登录'
       },
-      component: () => import('@/components/login/login.vue')
+      component: (resolve) => require(['../components/login/login.vue'], resolve)
     },
     {
       path: '/home',
@@ -23,16 +23,37 @@ export default new Router({
       meta: {
         title: '首页'
       },
-      component: () => import('@/components/home/home.vue')
-      // children: [
-      //   {
-      //     path: 'test',
-      //     name: 'test',
-      //     meta: {
-      //     },
-      //     component: () => import('@/views/test/test.vue')
-      //   }
-      // ]
+      component: (resolve) => require(['../components/home/home.vue'], resolve),
+      children: [
+        {
+          path: 'person',
+          name: 'person',
+          meta: {
+          },
+          component: (resolve) => require(['../components/personInfo/person.vue'], resolve)
+        },
+        {
+          path: 'company',
+          name: 'company',
+          meta: {
+          },
+          component: (resolve) => require(['../components/personInfo/company.vue'], resolve)
+        },
+        {
+          path: 'department',
+          name: 'department',
+          meta: {
+          },
+          component: (resolve) => require(['../components/personInfo/department.vue'], resolve)
+        },
+        {
+          path: 'job',
+          name: 'job',
+          meta: {
+          },
+          component: (resolve) => require(['../components/personInfo/job.vue'], resolve)
+        }
+      ]
     }
   ]
 })
