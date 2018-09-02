@@ -1,21 +1,21 @@
 <template>
   <div class="company">
     <div class="company_title mb20">
-      职位信息录入
+      用户账号管理
     </div>
     <div class="company_inputGroup">
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">职位名称：</Button>
+          <Button class="wd mr10 tr" type="text">查询人员账号：</Button>
           <Input search enter-button placeholder="" />
         </Col>
          <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">职务：</Button>
+          <Button class="wd mr10 tr" type="text">账号是否注销：</Button>
           <Input placeholder="" />
         </Col>
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">职等：</Button>
-          <Input placeholder="" />
+          <Button class="wd mr10 tr" type="text">查询角色：</Button>
+          <Input search enter-button placeholder="" />
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">

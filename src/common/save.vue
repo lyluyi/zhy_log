@@ -1,0 +1,41 @@
+<template>
+    <Button @click="instance('info')">Info</Button>
+    <Button @click="instance('success')">Success</Button>
+    <Button @click="instance('warning')">Warning</Button>
+    <Button @click="instance('error')">Error</Button>
+</template>
+<script>
+    export default {
+        methods: {
+            instance (type) {
+                const title = '操作';
+                switch (type) {
+                    case 'info':
+                        this.$Modal.info({
+                            title: title,
+                            content: ''
+                        });
+                        break;
+                    case 'success':
+                        this.$Modal.success({
+                            title: title,
+                            content: '保存成功！'
+                        });
+                        break;
+                    case 'warning':
+                        this.$Modal.warning({
+                            title: title,
+                            content: content
+                        });
+                        break;
+                    case 'error':
+                        this.$Modal.error({
+                            title: title,
+                            content: '保存失败！'
+                        });
+                        break;
+                }
+            }
+        }
+    }
+</script>

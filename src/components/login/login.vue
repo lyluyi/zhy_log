@@ -1,20 +1,19 @@
 <style lang="less">
   @import './login.less';
 </style>
-
 <template>
   <div class="login-container">
     <Form ref="loginForm" class="login-form" :model="form" :rules="rules">
-      <h3 class="login-form-title">Zhy_log_test</h3>
-      <FormItem prop="username" class="mb30">
-        <Input v-model="form.username" size="large" placeholder="请输入用户名">
+      <h3 class="login-form-title">Zhy 平台系统</h3>
+      <FormItem prop="name" class="mb30">
+        <Input v-model="form.name" size="large" placeholder="">
           <span slot="prepend">
             <Icon :size="16" type="person"></Icon>
           </span>
         </Input>
       </FormItem>
-      <FormItem prop="password" class="mb30">
-        <Input type="password" v-model="form.password" size="large" placeholder="请输入密码">
+      <FormItem prop="word" class="mb30">
+        <Input type="password" v-model="form.pass" size="large" placeholder="请输入密码">
           <span slot="prepend">
             <Icon :size="14" type="locked"></Icon>
           </span>
@@ -25,7 +24,7 @@
       </FormItem>
     </Form>
     <div class="login-footer">
-      Zhy_log_test
+      The platform system of Zhy
     </div>
   </div>
 </template>
@@ -38,16 +37,16 @@ export default {
     return {
       loading: false,
       form: {
-        username: 'admin',
-        password: ''
+        name: '000000',
+        pass: '123456'
       },
       rules: {
-        username: [{
+        name: [{
           required: true,
           message: '账号不能为空',
           trigger: 'blur'
         }],
-        password: [{
+        pass: [{
           required: true,
           message: '密码不能为空',
           trigger: 'blur'
@@ -55,21 +54,23 @@ export default {
       }
     }
   },
+  created () {
+    localStorage.removeItem('admin')
+  },
   methods: {
     onLogin () {
       this.$refs.loginForm.validate(valid => {
         if (!valid) return
-        const { username, password } = this.form
-        const pms = { username, password }
-        this.$Loading.start()
-        this.loading = true
-        getLogin(pms).then((res) => {
+        let params = {
+          userId: this.form.name,
+          password: this.form.pass
+        }
+        getLogin(params).then((res) => {
           console.log(res)
-          this.$Loading.finish()
-          this.loading = false
-          this.$router.push('/main')
-        }).catch((err) => {
-          console.log(err)
+          localStorage.setItem('Authorization', 'Bearer ' + res.Authorization)
+          localStorage.setItem('menuList', JSON.stringify(res.treeList))
+          this.$Message.success({ content: '登陆成功！' })
+          this.$router.push('/home/company')
         })
       })
     }

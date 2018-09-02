@@ -52,6 +52,55 @@ export default new Router({
           meta: {
           },
           component: (resolve) => require(['../components/personInfo/job.vue'], resolve)
+        },
+        {
+          path: 'contract',
+          name: 'contract',
+          meta: {
+          },
+          component: (resolve) => require(['../components/personInfo/contract.vue'], resolve)
+        },
+        {
+          path: 'companyStruct',
+          name: 'companyStruct',
+          meta: {
+          },
+          component: (resolve) => require(['../components/stanceManagement/companyStruct.vue'], resolve)
+        },
+        {
+          path: 'userLog',
+          name: 'userLog',
+          meta: {
+          },
+          component: (resolve) => require(['../components/stanceManagement/userLog.vue'], resolve)
+        },
+        {
+          path: 'role',
+          name: 'role',
+          meta: {
+          },
+          component: (resolve) => require(['../components/right/role.vue'], resolve)
+        },
+        {
+          path: 'roleAdmin',
+          name: 'roleAdmin',
+          meta: {
+          },
+          component: (resolve) => require(['../components/right/roleAdmin.vue'], resolve)
+        },
+        {
+          path: 'userAdmin',
+          name: 'userAdmin',
+          meta: {
+          },
+          component: (resolve) => require(['../components/right/userAdmin.vue'], resolve)
+        },
+        {
+          path: 'jobDevice',
+          name: 'jobDevice',
+          meta: {
+          },
+          component: (resolve) => require(['../components/right/jobDevice.vue'], resolve)
         }
       ]
     }
