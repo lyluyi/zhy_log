@@ -58,4 +58,6 @@ export default {
 .ivu-transfer { margin: 0 auto; }
 .ivu-transfer-list { width: 300px; height: 340px; font-size: 14px; }
 .ivu-transfer-list-content-item { font-size: 14px !important; }
+.ivu-tree-title { padding: 4px 24px 4px 20px; font-size: 14px; margin-left: 10px;}
+.ivu-icon-md-arrow-dropright:before { content: "\F341"; font-size: 29px; }
 </style>

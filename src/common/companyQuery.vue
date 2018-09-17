@@ -16,7 +16,7 @@
             </div>
           </Col>
         </Row>
-        <list-view v-if="showList" @tableitem="getTable" :data="comdata"></list-view>
+        <list-view v-if="showList" @tableitem="getTable" :data="comdata" @pageInfo="getPageInfo" :pageInfo="pageData"></list-view>
     </Modal>
   </div>
 </template>
@@ -28,6 +28,9 @@ export default {
   props: {
     data: {
       type: Boolean
+    },
+    pageInfo: {
+      type: Object
     }
   },
   data () {
@@ -43,17 +46,18 @@ export default {
         cid: '',
         cname: ''
       },
+      pageData: {},
       comdata: {
         process: [],
-        pagesize: 4,
+        pagesize: 1,
         column: [
           {
             title: '公司代号',
-            key: 'CID'
+            key: 'cid'
           },
           {
             title: '公司名称',
-            key: 'CNAME'
+            key: 'cname'
           }
         ]
       }
@@ -68,7 +72,8 @@ export default {
       this.$Loading.start()
       getCompanyId().then((res) => {
         // console.log(res)
-        this.comdata.process = res
+        this.pageData = res
+        this.comdata.process = res.list
         this.showList = true
         this.$Loading.finish()
       })
@@ -93,13 +98,31 @@ export default {
         this.showCom = false
       }
     },
+    getPageInfo (item) {
+      console.log(item)
+      let params = {
+        pageNumber: item.pageNumber,
+        ...this.selectData
+      }
+      this.showList = false
+      this.$Loading.start()
+      getCompanyId(params).then((res) => {
+        this.$Loading.finish()
+        this.pageData = res
+        this.comdata.pagesize = item.pageNumber
+        this.comdata.process = res.list
+        console.log(this.comdata.process)
+        this.showList = true
+      })
+    },
     selectCom () {
       this.showList = false
       this.$Loading.start()
       let params = this.selectData
       getCompanyId(params).then((res) => {
         this.$Loading.finish()
-        this.comdata.process = res
+        this.pageData = res
+        this.comdata.process = res.list
         this.showList = true
       })
       // axios.post(this.ip + 'common/findComp.do', qs.stringify(selectData), {

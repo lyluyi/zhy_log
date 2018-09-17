@@ -76,7 +76,7 @@ export default {
     },
     getCompany (item) {
       // console.log(item)
-      this.allData.cid = item.CID
+      this.allData.cid = item.cid
       // this.alldata.reportOfCompanyName = item.cname
     },
     getCompanyStatus (item) {

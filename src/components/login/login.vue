@@ -37,7 +37,7 @@ export default {
     return {
       loading: false,
       form: {
-        name: '000000',
+        name: '019799',
         pass: '123456'
       },
       rules: {
@@ -69,6 +69,7 @@ export default {
           console.log(res)
           localStorage.setItem('Authorization', 'Bearer ' + res.Authorization)
           localStorage.setItem('menuList', JSON.stringify(res.treeList))
+          localStorage.setItem('userId', this.form.name)
           this.$Message.success({ content: '登陆成功！' })
           this.$router.push('/home/company')
         })

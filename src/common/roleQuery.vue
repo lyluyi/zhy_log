@@ -16,7 +16,7 @@
             </div>
           </Col> -->
         </Row>
-        <list-view v-if="showList" @tableitem="getTable" :data="comdata"></list-view>
+        <list-view v-if="showList" @tableitem="getTable" :data="comdata" @pageInfo="getPageInfo" :pageInfo="pageData" ></list-view>
     </Modal>
   </div>
 </template>
@@ -43,6 +43,7 @@ export default {
         cid: '',
         cname: ''
       },
+      pageData: {},
       comdata: {
         process: [],
         pagesize: 4,
@@ -71,6 +72,7 @@ export default {
       }
       getRoleList(params).then((res) => {
         // console.log(res)
+        this.pageData = res
         this.comdata.process = res
         this.showList = true
         this.$Loading.finish()
@@ -95,6 +97,23 @@ export default {
       if (item != null) {
         this.showCom = false
       }
+    },
+    getPageInfo (item) {
+      console.log(item)
+      let params = {
+        pageNumber: item.pageNumber,
+        ...this.selectData
+      }
+      this.showList = false
+      this.$Loading.start()
+      getRoleList(params).then((res) => {
+        this.$Loading.finish()
+        this.pageData = res
+        this.comdata.pagesize = item.pageNumber
+        this.comdata.process = res
+        console.log(this.comdata.process)
+        this.showList = true
+      })
     }
     // selectCom () {
     //   this.showList = false

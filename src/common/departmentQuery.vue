@@ -7,7 +7,7 @@
               <!-- <Button type="text">公司ID编号</Button>
               <Input  placeholder="请输入..." v-model="selectData.cid"></Input> -->
               <Button type="text">上级部门</Button>
-              <Input  placeholder="请输入..." v-model="selectData.cname"></Input>
+              <Input  placeholder="请输入..." v-model="selectData.dname"></Input>
             </div>
           </Col>
           <Col span="5" offset="1">
@@ -16,7 +16,7 @@
             </div>
           </Col>
         </Row>
-        <list-view v-if="showList" @tableitem="getTable" :data="comdata"></list-view>
+        <list-view v-if="showList" @tableitem="getTable" :data="comdata"  @pageInfo="getPageInfo" :pageInfo="pageData" ></list-view>
     </Modal>
   </div>
 </template>
@@ -31,6 +31,9 @@ export default {
     },
     cid: {
       type: String
+    },
+    pageInfo: {
+      type: Object
     }
   },
   data () {
@@ -43,19 +46,20 @@ export default {
       },
       selectData: {
         cid: this.cid,
-        cname: ''
+        dname: ''
       },
+      pageData: {},
       comdata: {
         process: [],
         pagesize: 4,
         column: [
           {
             title: '公司ID',
-            key: 'CID'
+            key: 'cid'
           },
           {
             title: '上级部门',
-            key: 'DNAME'
+            key: 'dname'
           }
         ]
       }
@@ -71,8 +75,8 @@ export default {
       this.$Loading.start()
       let params = { cid: this.cid }
       getDepartmentLevel(params).then((res) => {
-        // console.log(res)
-        this.comdata.process = res
+        this.pageData = res
+        this.comdata.process = res.list
         this.showList = true
         this.$Loading.finish()
       })
@@ -97,15 +101,33 @@ export default {
         this.showDep = false
       }
     },
+    getPageInfo (item) {
+      console.log(item)
+      let params = {
+        pageNumber: item.pageNumber,
+        ...this.selectData
+      }
+      this.showList = false
+      this.$Loading.start()
+      getDepartmentLevel(params).then((res) => {
+        this.$Loading.finish()
+        this.pageData = res
+        this.comdata.pagesize = item.pageNumber
+        this.comdata.process = res.list
+        console.log(this.comdata.process)
+        this.showList = true
+      })
+    },
     selectDep () {
       this.showList = false
       this.$Loading.start()
       let params = this.selectData
       // let params = { unDid: this.selectData.upDid }
       getDepartmentLevel(params).then((res) => {
-        this.$Loading.finish()
-        this.comdata.process = res
+        this.pageData = res
+        this.comdata.process = res.list
         this.showList = true
+        this.$Loading.finish()
       })
       // axios.post(this.ip + 'common/findComp.do', qs.stringify(selectData), {
       //   headers: {

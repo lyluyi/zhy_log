@@ -35,24 +35,23 @@
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
-                <Col class="col_flex" span="12">
-                <!-- ????????????????? -->
+                <!-- <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">主职位：</Button>
                   <Input  placeholder="" v-model="allData.cname" />
-                </Col>
+                </Col> -->
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">直接主管：</Button>
                   <Input  placeholder="" v-model="allData.upHeader" />
                 </Col>
-              </Row>
-              <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">姓名：</Button>
                   <Input  placeholder="" v-model="allData.userName" />
                 </Col>
+              </Row>
+              <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">工号：</Button>
-                  <Input  placeholder="" v-model="allData.userId" />
+                  <Input  placeholder="" v-model="allData.userId" readonly />
                 </Col>
               </Row>
             </Col>
@@ -172,7 +171,7 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">预计转正日期：</Button>
-              <DatePicker type="date" placeholder="Select date"  placement="bottom" v-model="allData.toBeWorkDate"></DatePicker>
+              <DatePicker type="date" placeholder="Select date"  placement="bottom" v-model="allData.beWorkDate"></DatePicker>
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">目前住址：</Button>
@@ -323,43 +322,43 @@
             <Select v-model="infoRecordTypeValue" @on-change="infoRecordChange" style="width:150px">
               <Option v-for="item in infoRecordType" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-              <!-- <Button type="success" class="ml20" @click="addItem">添加</Button>
-              <Button type="error" class="ml20" @click="removeItem">清除</Button> -->
+              <Button type="success" class="ml20" @click="addItem">添加</Button>
+              <Button type="error" class="ml20" @click="removeItem">清除</Button>
           </div>
             <!-- ********工作简历******* -->
             <div v-show="infoTemplate === '工作简历'">
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">开始日期：</Button>
-                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.UserWorkhis.beginDate"></DatePicker>
+                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userWorkhis.beginDate"></DatePicker>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">结束日期：</Button>
-                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.UserWorkhis.endDate"></DatePicker>
+                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userWorkhis.endDate"></DatePicker>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">单位名称：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserWorkhis.company" />
+                  <Input type="text" placeholder="" v-model="userWorkhis.company" />
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">单位性质：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserWorkhis.comType" />
+                  <Input type="text" placeholder="" v-model="userWorkhis.comType" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">担任职位：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserWorkhis.jobName" />
+                  <Input type="text" placeholder="" v-model="userWorkhis.jobName" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">薪资情况：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserWorkhis.wages" />
+                  <Input type="text" placeholder="" v-model="userWorkhis.wages" />
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">离职原因：</Button>
-                  <Input type="text" placeholder=""  v-model="allData.UserWorkhis.quitRes" />
+                  <Input type="text" placeholder=""  v-model="userWorkhis.quitRes" />
                 </Col>
               </Row>
             </div>
@@ -368,35 +367,39 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">开始日期：</Button>
-                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.UserTrainhis.beginDate"></DatePicker>
+                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userTrainhis.beginDate"></DatePicker>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">结束日期：</Button>
-                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.UserTrainhis.endDate"></DatePicker>
+                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userTrainhis.endDate"></DatePicker>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">培训机构：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserTrainhis.trainName" />
+                  <Input type="text" placeholder="" v-model="userTrainhis.trainName" />
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">培训主题：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserTrainhis.trainTheme" />
+                  <Input type="text" placeholder="" v-model="userTrainhis.trainTheme" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">培训课程：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserTrainhis.trainContent" />
+                  <Input type="text" placeholder="" v-model="userTrainhis.trainContent" />
                 </Col>
                 <Col class="col_flex" span="8">
-                  <Button class="wd mr10 tr" type="text">证书有效期：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserTrainhis.certTerm" />
+                  <Button class="wd mr10 tr" type="text">证书名称：</Button>
+                  <Input type="text" placeholder="" v-model="userTrainhis.certName" />
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text">证书有效期：</Button>
+                  <Input type="text" placeholder="" v-model="userTrainhis.certTerm" />
+                </Col>
+                <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">备注：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserTrainhis.remark" />
+                  <Input type="text" placeholder="" v-model="userTrainhis.remark" />
                 </Col>
               </Row>
             </div>
@@ -405,57 +408,57 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">开始日期：</Button>
-                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.UserStudyhis.beginDate"></DatePicker>
+                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userStudyhis.beginDate"></DatePicker>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">结束日期：</Button>
-                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.UserStudyhis.endDate"></DatePicker>
+                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userStudyhis.endDate"></DatePicker>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">院校名称：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserStudyhis.schoolName" />
+                  <Input type="text" placeholder="" v-model="userStudyhis.schoolName" />
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">院校性质：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserStudyhis.schoolType" />
+                  <Input type="text" placeholder="" v-model="userStudyhis.schoolType" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">主修专业：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserStudyhis.major" />
+                  <Input type="text" placeholder="" v-model="userStudyhis.major" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">毕业类型：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserStudyhis.graduationType" />
+                  <Input type="text" placeholder="" v-model="userStudyhis.graduationType" />
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">学历情况：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserStudyhis.education" />
+                  <Input type="text" placeholder="" v-model="userStudyhis.education" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">学制：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserStudyhis.years" />
+                  <Input type="text" placeholder="" v-model="userStudyhis.years" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">职务：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserStudyhis.jobName" />
+                  <Input type="text" placeholder="" v-model="userStudyhis.jobName" />
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">证明人：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserStudyhis.witness" />
+                  <Input type="text" placeholder="" v-model="userStudyhis.witness" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">学位情况：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserStudyhis.endDate" />
+                  <Input type="text" placeholder="" v-model="userStudyhis.educationDgree" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">备注：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserStudyhis.remark" />
+                  <Input type="text" placeholder="" v-model="userStudyhis.remark" />
                 </Col>
               </Row>
             </div>
@@ -464,35 +467,35 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">家属姓名：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserFamily.sibName" />
+                  <Input type="text" placeholder="" v-model="userFamily.sibName" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">与己关系：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserFamily.relationship" />
+                  <Input type="text" placeholder="" v-model="userFamily.relationship" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">所在单位：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserFamily.cname" />
+                  <Input type="text" placeholder="" v-model="userFamily.cname" />
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">出生日期：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserFamily.birthdate" />
+                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userFamily.birthdate"></DatePicker>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">担任职位：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserFamily.jobName" />
+                  <Input type="text" placeholder="" v-model="userFamily.jobName" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">电话号码：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserFamily.phone" />
+                  <Input type="text" placeholder="" v-model="userFamily.phone" />
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">备注：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserFamily.remark" />
+                  <Input type="text" placeholder="" v-model="userFamily.remark" />
                 </Col>
               </Row>
             </div>
@@ -501,35 +504,35 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">语种：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserLanguag.languageType" />
+                  <Input type="text" placeholder="" v-model="userLanguage.languageType" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">听力能力：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserLanguag.lisnten" />
+                  <Input type="text" placeholder="" v-model="userLanguage.lisnten" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">会话能力：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserLanguag.talk" />
+                  <Input type="text" placeholder="" v-model="userLanguage.talk" />
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">书写能力：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserLanguag.write" />
+                  <Input type="text" placeholder="" v-model="userLanguage.write" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">等级状态：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserLanguag.levleStatus" />
+                  <Input type="text" placeholder="" v-model="userLanguage.levleStatus" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">证书级别：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserLanguag.levle" />
+                  <Input type="text" placeholder="" v-model="userLanguage.levle" />
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">备注：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserLanguag.remark" />
+                  <Input type="text" placeholder="" v-model="userLanguage.remark" />
                 </Col>
               </Row>
             </div>
@@ -538,39 +541,35 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">联系人：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserLanguag.urgentName" />
+                  <Input type="text" placeholder="" v-model="userUrgent.urgentName" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">与己关系：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserLanguag.urgentType" />
+                  <Input type="text" placeholder="" v-model="userUrgent.urgentType" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">联系电话：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserLanguag.phone" />
+                  <Input type="text" placeholder="" v-model="userUrgent.phone" />
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
-                  <Button class="wd mr10 tr" type="text">手机号码：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserLanguag.phone" />
-                </Col>
-                <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">E-mail：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserLanguag.email" />
+                  <Input type="text" placeholder="" v-model="userUrgent.email" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">邮政编码：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserLanguag.remark" />
+                  <Input type="text" placeholder="" v-model="userUrgent.code" />
+                </Col>
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text">联系地址：</Button>
+                  <Input type="text" placeholder="" v-model="userUrgent.addr" />
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
-                  <Button class="wd mr10 tr" type="text">联系地址：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserLanguag.remark" />
-                </Col>
-                <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">备注：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserLanguag.remark" />
+                  <Input type="text" placeholder="" v-model="userUrgent.remark" />
                 </Col>
               </Row>
             </div>
@@ -579,29 +578,29 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">职称信息：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserJobinfo.jobinfo" />
+                  <Input type="text" placeholder="" v-model="userJobinfo.jobinfo" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">获得日期：</Button>
-                  <DatePicker type="date" placeholder="Select date" placement="bottom"  v-model="allData.UserJobinfo.getDate"></DatePicker>
+                  <DatePicker type="date" placeholder="Select date" placement="bottom"  v-model="userJobinfo.getDate"></DatePicker>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">所在学校：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserJobinfo.jobinfo" />
+                  <Input type="text" placeholder="" v-model="userJobinfo.company" />
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">职位描述：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserJobinfo.jobinfo" />
+                  <Input type="text" placeholder="" v-model="userJobinfo.description" />
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">备注：</Button>
-                  <Input type="text" placeholder="" v-model="allData.UserJobinfo.jobinfo" />
+                  <Input type="text" placeholder="" v-model="userJobinfo.remark" />
                 </Col>
               </Row>
             </div>
-          <!-- <Table stripe :columns="columns1" :data="data1" class="mt20"></Table> -->
+          <Table stripe :columns="columns1" :data="data1" class="mt20"></Table>
           <Divider orientation="left">
           </Divider>
         </TabPane>
@@ -618,7 +617,7 @@ import companyQuery from '@/common/companyQuery'
 import ip from '@/config'
 
 import { currentTime } from '@/util/common'
-import { getAvatraJson, postPersonData } from '@/server/api'
+import { getAvatraJson, postPersonData, getUserId } from '@/server/api'
 
 export default {
   data () {
@@ -685,26 +684,98 @@ export default {
         { value: '紧急联系人', label: '紧急联系人' },
         { value: '职称信息', label: '职称信息' }
       ],
-      // infoRecordTableObj: {
-      //   '工作简历': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['单位名称', 'company'], ['单位性质', 'comType'], ['担任职位', 'jobName'], ['薪资情况', 'wages'], ['离职原因', 'quitRes']],
-      //   '培训经历': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['培训机构', 'trainName'], ['培训主题', 'trainTheme'], ['培训课程', 'trainContent'], ['证书有效期', 'certTerm'], ['备注', 'remark']],
-      //   '教育背景': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['院校名称', 'schoolName'], ['院校性质', 'schoolType'], ['主修专业', 'major'], ['毕业类型', 'graduationType'], ['学历情况', 'education'], ['学制', 'years'], ['职务', 'jobName'], ['证明人', 'witness'], ['备注', 'remark']],
-      //   '家庭关系': [['家属姓名', 'sibName'], ['与己关系', 'relationship'], ['所在单位', 'cname'], ['出生日期', 'birthdate'], ['担任职位', 'jobName'], ['电话号码', 'phone'], ['备注', 'remark']],
-      //   '语言情况': [['语种', 'languageType'], ['听力能力', 'lisnten'], ['会话能力', 'talk'], ['书写能力', 'write'], ['等级状态', 'levleStatus'], ['证书级别', 'levle'], ['备注',, 'remark']],
-      //   '紧急联系人': [['联系人', 'urgentName'], ['与己关系', 'urgentType'], ['联系电话', 'phone'], ['E-mail', 'email'], ['邮政编码', 'code'], ['联系地址', 'addr'], ['备注',, 'remark']],
-      //   '职称信息': [['职称信息', 'jobinfo'], ['获得日期', 'getDate'], ['所在学校', 'company'], ['职位描述', 'description'], ['备注', 'remark']]
-      // },
-      // columns1: [],
-      // data1: [],
+      infoRecordTableObj: {
+        '工作简历': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['单位名称', 'company'], ['单位性质', 'comType'], ['担任职位', 'jobName'], ['薪资情况', 'wages'], ['离职原因', 'quitRes']],
+        '培训经历': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['培训机构', 'trainName'], ['培训主题', 'trainTheme'], ['培训课程', 'trainContent'], ['证书有效期', 'certTerm'], ['备注', 'remark']],
+        '教育背景': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['院校名称', 'schoolName'], ['院校性质', 'schoolType'], ['主修专业', 'major'], ['毕业类型', 'graduationType'], ['学历情况', 'education'], ['学制', 'years'], ['学位', 'educationDgree'], ['职务', 'jobName'], ['证明人', 'witness'], ['备注', 'remark']],
+        '家庭关系': [['家属姓名', 'sibName'], ['与己关系', 'relationship'], ['所在单位', 'cname'], ['出生日期', 'birthdate'], ['担任职位', 'jobName'], ['电话号码', 'phone'], ['备注', 'remark']],
+        '语言情况': [['语种', 'languageType'], ['听力能力', 'lisnten'], ['会话能力', 'talk'], ['书写能力', 'write'], ['等级状态', 'levleStatus'], ['证书级别', 'levle'], ['备注', 'remark']],
+        '紧急联系人': [['联系人', 'urgentName'], ['与己关系', 'urgentType'], ['联系电话', 'phone'], ['E-mail', 'email'], ['邮政编码', 'code'], ['联系地址', 'addr'], ['备注', 'remark']],
+        '职称信息': [['职称信息', 'jobinfo'], ['获得日期', 'getDate'], ['所在学校', 'company'], ['职位描述', 'description'], ['备注', 'remark']]
+      },
+      columns1: [],
+      data1: [],
       infoTemplate: '工作简历',
       infoRecordTypeValue: '工作简历', // 信息录入select option value
+      userWorkhis: {
+        // userId: '', // 员工工号
+        beginDate: '', // 开始日期
+        endDate: '', // 结束日期
+        company: '', // 单位名称
+        comType: '', // 单位类型
+        jobName: '', // 担任职务
+        wages: '', // 薪资
+        quitRes: '' // 离职原因
+      }, // 工作简历
+      userTrainhis: {
+        // userId: '', // 员工工号
+        beginDate: '', // 开始时间
+        endDate: '', // 结束时间
+        trainName: '', // 培训机构
+        trainTheme: '', // 培训主题
+        trainContent: '', // 培训课程
+        certName: '', // 证书名称
+        certTerm: '' // 证书期限
+      }, // 培训经历
+      userStudyhis: {
+        // userId: '', // 员工工号
+        beginDate: '', // 开始日期
+        endDate: '', // 结束日期
+        schoolName: '', // 学校名称
+        schoolType: '', // 学校性质
+        major: '', // 主修专业
+        graduationType: '', // 毕业类型
+        education: '', // 学历
+        educationDgree: '', // 学位
+        years: '', // 学制
+        jobName: '', // 证明人职位
+        witness: '', // 证明人
+        remark: '' // 备注
+      }, // 教育背景
+      userFamily: {
+        // userId: '', // 员工工号
+        sibName: '', // 家属关系
+        relationship: '', // 与己关系
+        cname: '', // 公司
+        birthdate: '', // 生日
+        jobName: '', // 工作
+        phone: '', // 联系电话
+        remark: '' // 备注
+      }, // 家庭关系
+      userLanguage: {
+        // userId: '', // 员工工号
+        languageType: '', // 语种
+        lisnten: '', // 听力能力
+        talk: '', // 会话能力
+        write: '', // 书写能力
+        levleStatus: '', // 登记状态
+        levle: '' // 级别
+      }, // 语言情况
+      userUrgent: {
+        // userId: '', // 员工工号
+        urgentName: '', // 紧急联系人
+        urgentType: '', // 关系
+        phone: '', // 电话
+        email: '', // 邮箱
+        code: '', // 邮政编号
+        addr: '', // 住址
+        remark: '' // 备注
+      }, // 紧急联系人
+      userJobinfo: {
+        // userId: '', // 员工工号
+        jobinfo: '', // 职称信息
+        getDate: '', // 获得时间
+        company: '', // 所在公司
+        description: '', // 描述
+        remark: '' // 备注
+      }, // 职称信息
       allData: {
         userName: '', // 姓名
         userId: '', // 工号
         did: '', // 部门
         sex: '', // 性别
         birthdate: '', // 出生日期
-        age: '', // 年龄
+        // age: '', // 年龄
         education: '', // 学历
         major: '', // 主修专业
         userType: '', // 员工属性
@@ -738,7 +809,6 @@ export default {
         isreserveid: '', // 是否储备人才
         isLabour: '', // 是否为工会成员
         lastworkdate: '', // 最后工作日
-        toBeWorkDate: '', // 预计转正日期
         isDept01: '', // 一级部门
         dLevle: '', // 部门层级
         dname: '', // 部门全称
@@ -752,93 +822,42 @@ export default {
         jobLevle: '', // 职等
         inneruserdept: '', // 内部推荐人部门
         photo: '', // 员工照片
-        UserWorkhis: {
-          userId: '', // 员工工号
-          beginDate: '', // 开始日期
-          endDate: '', // 结束日期
-          company: '', // 单位名称
-          comType: '', // 单位类型
-          jobName: '', // 担任职务
-          wages: '', // 薪资
-          quitRes: '' // 离职原因
-        }, // 工作简历
-        UserTrainhis: {
-          userId: '', // 员工工号
-          beginDate: '', // 开始时间
-          endDate: '', // 结束时间
-          trainName: '', // 培训机构
-          trainTheme: '', // 培训主题
-          trainContent: '', // 培训课程
-          certName: '', // 证书名称
-          certTerm: '' // 证书期限
-        }, // 培训经历
-        UserStudyhis: {
-          userId: '', // 员工工号
-          beginDate: '', // 开始日期
-          endDate: '', // 结束日期
-          schoolName: '', // 学校名称
-          schoolType: '', // 学校性质
-          major: '', // 主修专业
-          graduationType: '', // 毕业类型
-          education: '', // 学历
-          years: '', // 学制
-          jobName: '', // 证明人职位
-          witness: '', // 证明人
-          remark: '' // 备注
-        }, // 教育背景
-        UserFamily: {
-          userId: '', // 员工工号
-          sibName: '', // 家属关系
-          relationship: '', // 与己关系
-          cname: '', // 公司
-          birthdate: '', // 生日
-          jobName: '', // 工作
-          phone: '', // 联系电话
-          remark: '' // 备注
-        }, // 家庭关系
-        UserLanguag: {
-          userId: '', // 员工工号
-          languageType: '', // 语种
-          lisnten: '', // 听力能力
-          talk: '', // 会话能力
-          write: '', // 书写能力
-          levleStatus: '', // 登记状态
-          levle: '' // 级别
-        }, // 语言情况
-        contactList: {
-          urgentName: '', // 紧急联系人
-          urgentType: '', // 关系
-          phone: '', // 电话
-          email: '', // 邮箱
-          code: '', // 邮政编号
-          addr: '', // 住址
-          remark: '' // 备注
-        }, // 合同
-        UserJobinfo: {
-          userId: '', // 员工工号
-          jobinfo: '', // 职称信息
-          getDate: '', // 获得时间
-          company: '', // 所在公司
-          description: '', // 描述
-          remark: '' // 备注
-        } // 职称信息
+        userWorkhis: [], // 工作简历
+        userTrainhis: [], // 培训经历
+        userStudyhis: [], // 教育背景
+        userFamily: [], // 家庭关系
+        userLanguage: [], // 语言情况
+        userUrgent: [], // 紧急联系人
+        userJobinfo: [] // 职称信息
       }
     }
   },
   created () {
-    // this.createInfoRecordTh() // 创建默认的人员信息录入的th
-    // console.log(this.ip)
+    this.getByUserId()
+    this.createInfoRecordTh()
   },
   mounted () {
   },
   methods: {
+    getByUserId () {
+      getUserId().then((res) => {
+        this.allData.userId = res.userId
+        // this.allData.userFamily.userId = res.userId
+        // this.allData.userJobinfo.userId = res.userId
+        // this.allData.userLanguage.userId = res.userId
+        // this.allData.userStudyhis.userId = res.userId
+        // this.allData.userTrainhis.userId = res.userId
+        // this.allData.userUrgent.userId = res.userId
+        // this.allData.userWorkhis.userId = res.userId
+      })
+    },
     queryCompany () { // 公司信息查询
       this.flag1 = true
       this.model1 = true
     },
     getCompany (item) {
-      this.allData.cid = item.CID
-      this.allData.cname = item.CNAME
+      this.allData.cid = item.cid
+      this.allData.cname = item.cname
     },
     getCompanyStatus (item) {
       this.flag1 = item.comFlag
@@ -854,7 +873,7 @@ export default {
     },
     getDepartment (item) {
       // console.log(item)
-      this.allData.did = item.DNAME
+      this.allData.did = item.dname
     },
     getDepartmentStatus (item) {
       // console.log(item)
@@ -897,98 +916,162 @@ export default {
     },
     infoRecordChange (val) { // 选择创建表格的类型以及相应输入
       this.infoTemplate = val
-      // switch (val) {
-      //   case '工作简历': this.infoTemplate = '工作简历'
-      //     // this.createInfoRecordTh()
-      //     // this.data1.push(this.allData.UserWorkhis)
-      //     break
-      //   case '培训经历': this.infoTemplate = '培训经历'
-      //     // this.createInfoRecordTh()
-      //     // this.data1.push(this.allData.UserTrainhis)
-      //     break
-      //   case '教育背景': this.infoTemplate = '教育背景'
-      //     // this.createInfoRecordTh()
-      //     // this.data1.push(this.allData.UserStudyhis)
-      //     break
-      //   case '家庭关系': this.infoTemplate = '家庭关系'
-      //     // this.createInfoRecordTh()
-      //     // this.data1.push(this.allData.UserFamily)
-      //     break
-      //   case '语言情况': this.infoTemplate = '语言情况'
-      //     // this.createInfoRecordTh()
-      //     // this.data1.push(this.allData.UserLanguag)
-      //     break
-      //   case '紧急联系人': this.infoTemplate = '紧急联系人'
-      //     // this.createInfoRecordTh()
-      //     // this.data1.push(this.allData.contactList)
-      //     break
-      //   case '职称信息': this.infoTemplate = '职称信息'
-      //     // this.createInfoRecordTh()
-      //     // this.data1.push(this.allData.UserJobinfo)
-      //     break
-      // }
+      this.data1 = []
+      switch (val) {
+        case '工作简历': this.infoTemplate = '工作简历'
+          this.createInfoRecordTh()
+          this.data1 = this.allData.userWorkhis
+          break
+        case '培训经历': this.infoTemplate = '培训经历'
+          this.createInfoRecordTh()
+          this.data1 = this.allData.userTrainhis
+          // this.data1.push(this.allData.userTrainhis)
+          break
+        case '教育背景': this.infoTemplate = '教育背景'
+          this.createInfoRecordTh()
+          this.data1 = this.allData.userStudyhis
+          // this.data1.push(this.allData.userStudyhis)
+          break
+        case '家庭关系': this.infoTemplate = '家庭关系'
+          this.createInfoRecordTh()
+          this.data1 = this.allData.userFamily
+          // this.data1.push(this.allData.userFamily)
+          break
+        case '语言情况': this.infoTemplate = '语言情况'
+          this.createInfoRecordTh()
+          this.data1 = this.allData.userLanguage
+          // this.data1.push(this.allData.userLanguage)
+          break
+        case '紧急联系人': this.infoTemplate = '紧急联系人'
+          this.createInfoRecordTh()
+          this.data1 = this.allData.userUrgent
+          // this.data1.push(this.allData.userUrgent)
+          break
+        case '职称信息': this.infoTemplate = '职称信息'
+          this.createInfoRecordTh()
+          this.data1 = this.allData.userJobinfo
+          // this.data1.push(this.allData.userJobinfo)
+          break
+      }
     },
-    // createInfoRecordTh () {
-    //   this.columns1 = []
-    //   this.data1 = []
-    //   let infoItem = this.allData.infoRecordTypeValue
-    //   let infoRecordTh = this.infoRecordTableObj[infoItem]
-    //   infoRecordTh.forEach((item, index) => {
-    //     let obj = {
-    //       title: item[0],
-    //       key: item[1]
-    //     }
-    //     this.columns1.push(obj)
-    //   })
-    //   console.log(this.infoRecordTh)
-    // },
-    // addItem () {
-    //   let val = this.allData.infoRecordTypeValue
-    //   this.data1 = []
-    //   switch (val) {
-    //     case '工作简历':
-    //       this.data1.push(this.allData.UserWorkhis)
-    //       break
-    //     case '培训经历':
-    //       this.data1.push(this.allData.UserTrainhis)
-    //       break
-    //     case '教育背景':
-    //       this.data1.push(this.allData.UserStudyhis)
-    //       break
-    //     case '家庭关系':
-    //       this.data1.push(this.allData.UserFamily)
-    //       break
-    //     case '语言情况':
-    //       this.data1.push(this.allData.UserLanguag)
-    //       break
-    //     case '紧急联系人':
-    //       this.data1.push(this.allData.contactList)
-    //       break
-    //     case '职称信息':
-    //       this.data1.push(this.allData.UserJobinfo)
-    //       break
-    //   }
-    // },
-    // removeItem () {
-    // }
+    createInfoRecordTh () {
+      this.columns1 = []
+      this.data1 = []
+      let infoItem = this.infoRecordTypeValue
+      let infoRecordTh = this.infoRecordTableObj[infoItem]
+      infoRecordTh.forEach((item, index) => {
+        let obj = {
+          title: item[0],
+          key: item[1]
+        }
+        this.columns1.push(obj)
+      })
+      console.log(this.columns1)
+    },
+    addItem () {
+      let val = this.infoRecordTypeValue
+      this.data1 = []
+      switch (val) {
+        case '工作简历':
+          this.userWorkhis.beginDate = currentTime(this.userWorkhis.beginDate)
+          this.userWorkhis.endDate = currentTime(this.userWorkhis.endDate)
+          let obj = Object.assign({}, this.userWorkhis)
+          this.allData.userWorkhis.push(obj)
+          this.data1 = this.allData.userWorkhis
+          break
+        case '培训经历':
+          this.userTrainhis.beginDate = currentTime(this.userTrainhis.beginDate)
+          this.userTrainhis.endDate = currentTime(this.userTrainhis.endDate)
+          let obj1 = Object.assign({}, this.userTrainhis)
+          this.allData.userTrainhis.push(obj1)
+          this.data1 = this.allData.userTrainhis
+          break
+        case '教育背景':
+          this.userStudyhis.beginDate = currentTime(this.userStudyhis.beginDate)
+          this.userStudyhis.endDate = currentTime(this.userStudyhis.endDate)
+          let obj2 = Object.assign({}, this.userStudyhis)
+          this.allData.userStudyhis.push(obj2)
+          this.data1 = this.allData.userStudyhis
+          break
+        case '家庭关系':
+          this.userFamily.birthdate = currentTime(this.userFamily.birthdate)
+          let obj3 = Object.assign({}, this.userFamily)
+          this.allData.userFamily.push(obj3)
+          this.data1 = this.allData.userFamily
+          break
+        case '语言情况':
+          let obj4 = Object.assign({}, this.userLanguage)
+          this.allData.userLanguage.push(obj4)
+          this.data1 = this.allData.userLanguage
+          break
+        case '紧急联系人':
+          let obj5 = Object.assign({}, this.userUrgent)
+          this.allData.userUrgent.push(obj5)
+          this.data1 = this.allData.userUrgent
+          break
+        case '职称信息':
+          this.userJobinfo.getDate = currentTime(this.userJobinfo.getDate)
+          let obj6 = Object.assign({}, this.userJobinfo)
+          this.allData.userJobinfo.push(obj6)
+          this.data1 = this.allData.userJobinfo
+          break
+      }
+    },
+    removeItem () {
+      let val = this.infoRecordTypeValue
+      switch (val) {
+        case '工作简历':
+          let len1 = this.allData.userWorkhis.length - 1
+          this.allData.userWorkhis.splice(len1, 1)
+          this.data1 = this.allData.userWorkhis
+          break
+        case '培训经历':
+          let len2 = this.allData.userTrainhis.length - 1
+          this.allData.userTrainhis.splice(len2, 1)
+          this.data1 = [].concat(this.allData.userTrainhis)
+          break
+        case '教育背景':
+          let len3 = this.allData.userStudyhis.length - 1
+          this.allData.userStudyhis.splice(len3, 1)
+          this.data1 = [].concat(this.allData.userStudyhis)
+          break
+        case '家庭关系':
+          let len4 = this.allData.userFamily.length - 1
+          this.allData.userStudyhis.splice(len4, 1)
+          this.data1 = [].concat(this.allData.userFamily)
+          break
+        case '语言情况':
+          let len5 = this.allData.userLanguage.length - 1
+          this.allData.userLanguage.splice(len5, 1)
+          this.data1 = [].concat(this.allData.userLanguage)
+          break
+        case '紧急联系人':
+          let len6 = this.allData.userUrgent.length - 1
+          this.allData.userUrgent.splice(len6, 1)
+          this.data1 = [].concat(this.allData.userUrgent)
+          break
+        case '职称信息':
+          let len7 = this.allData.userJobinfo.length - 1
+          this.allData.userJobinfo.splice(len7, 1)
+          this.data1 = [].concat(this.allData.userJobinfo)
+          break
+      }
+    },
     save () {
+      this.timeFormatting()
+      let params = this.allData
+      postPersonData(params).then((res) => {
+        console.log(res)
+      })
+    },
+    timeFormatting () {
+      this.allData.idcardkindid = currentTime(this.allData.idcardkindid)
       this.allData.birthdate = currentTime(this.allData.birthdate)
       this.allData.startworkdata = currentTime(this.allData.startworkdata)
       this.allData.beWorkDate = currentTime(this.allData.beWorkDate)
       this.allData.healhDate = currentTime(this.allData.healhDate)
       this.allData.beginWorkDate = currentTime(this.allData.beginWorkDate)
       this.allData.lastworkdate = currentTime(this.allData.lastworkdate)
-      this.allData.UserWorkhis.beginDate = currentTime(this.allData.UserWorkhis.beginDate)
-      this.allData.UserWorkhis.endDate = currentTime(this.allData.UserWorkhis.endDate)
-      this.allData.UserTrainhis.beginDate = currentTime(this.allData.UserTrainhis.beginDate)
-      this.allData.UserTrainhis.endDate = currentTime(this.allData.UserTrainhis.endDate)
-      this.allData.UserStudyhis.beginDate = currentTime(this.allData.UserStudyhis.beginDate)
-      this.allData.UserStudyhis.endDate = currentTime(this.allData.UserStudyhis.endDate)
-      this.allData.UserJobinfo.endDate = currentTime(this.allData.UserJobinfo.endDate)
-      let params = this.allData
-      postPersonData(params).then((res) => {
-        console.log(res)
-      })
     }
   },
   components: {

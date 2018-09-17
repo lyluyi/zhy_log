@@ -4,43 +4,28 @@
       <span>公司组织架构</span>
     </div>
     <div class="structWrap pl10 pr10">
-      <Tree :data="data1"></Tree>
+      <Tree :data="data1" ></Tree>
     </div>
   </div>
 </template>
 <script>
+
+import { getCompanyTree } from '@/server/api.js'
+
 export default {
   data () {
     return {
-      data1: [
-        {
-          title: 'parent1',
-          expand: true,
-          children: [
-            {
-              title: 'leaf 1-1-1'
-            },
-            {
-              title: 'leaf 1-1-2'
-            }
-          ]
-        },
-        {
-          title: 'parent2',
-          expand: true,
-          children: [
-            {
-              title: 'leaf 1-2-1'
-            },
-            {
-              title: 'leaf 1-2-2'
-            }
-          ]
-        }
-      ]
+      data1: []
     }
   },
-  created () {},
+  created () {
+    this.$Spin.show()
+    getCompanyTree().then((res) => {
+      console.log(res)
+      this.data1 = res
+      this.$Spin.hide()
+    })
+  },
   mounted () {},
   methods: {},
   components: {}

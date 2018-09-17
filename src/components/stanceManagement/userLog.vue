@@ -7,38 +7,38 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">时间：</Button>
-          <DatePicker type="datetimerange" placeholder="Select date and time" style="width: 300px"></DatePicker>
+          <DatePicker type="date" placeholder="Select date"  v-model="allData.operaDate" style="width: 300px"></DatePicker>
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">IP：</Button>
-          <Input placeholder="" />
+          <Input placeholder=""  v-model="allData.userIP" />
         </Col>
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">用户名：</Button>
-          <Input  placeholder="" />
+          <Button class="wd mr10 tr"  type="text">用户名：</Button>
+          <Input  placeholder=""  v-model="allData.userName"/>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">用户编码：</Button>
-          <Input placeholder="" />
+          <Button class="wd mr10 tr"  type="text">用户编码：</Button>
+          <Input placeholder="" v-model="allData.userId" />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">Mac地址：</Button>
-          <Input placeholder="" />
+          <Input placeholder=""  v-model="allData.macaIP"  />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">详细：</Button>
-          <Input  placeholder="" />
+          <Input  placeholder=""  v-model="allData.information" />
         </Col>
       </Row>
       <Row :gutter="16" class="mb20 mt20 pt20">
         <Col class="col_flex" span="24">
-          <Button class="wd tc" type="primary" style="margin: 0 auto;">查询</Button>
+          <Button class="wd tc" type="primary" style="margin: 0 auto;" @click="queryLog">查询</Button>
         </Col>
       </Row>
-      <Table border :columns="columns7" :data="data6" :loading="loading" class="mb20"></Table>
-      <Page :total="100" show-total />
+      <Table border :columns="columns7" :data="data6" :loading="loading"  class="mb20"></Table>
+      <Page :total="100" show-total @on-change="changPageSize" />
     </div>
   </div>
 </template>
@@ -46,11 +46,23 @@
 
 import { getAccountLog } from '@/server/api.js'
 
+import { currentTime } from '@/util/common.js'
+
 export default {
   data () {
     return {
       logList: [],
       loading: true,
+      maxSize: 10,
+      allData: {
+        userName: '',
+        userId: '',
+        userIP: '',
+        macaIP: '',
+        operaDate: '',
+        result: '',
+        information: ''
+      },
       data6: [],
       columns7: [
         {
@@ -111,8 +123,11 @@ export default {
   created () {
     getAccountLog().then((res) => {
       console.log(res)
-      this.logList = res.logList.splice(0, 100)
-      this.data6 = this.logList.splice(0, 10)
+      this.logList = res.logList.slice(0, 100)
+      this.maxSize = Math.ceil(this.logList.length / 10)
+      console.log(this.maxSize)
+      console.log(this.logList)
+      this.data6 = this.logList.slice(0, 10)
       this.loading = false
     })
   },
@@ -124,8 +139,26 @@ export default {
         content: `用户名：${this.data6[index].userName}<br>userIP：${this.data6[index].userIP}<br>操作：${this.data6[index].actionDetailed}`
       })
     },
-    remove (index) {
-      this.data6.splice(index, 1)
+    changPageSize (currentSize) {
+      if (currentSize < this.maxSize) {
+        this.data6 = this.logList.slice((currentSize - 1) * 10, currentSize * 10)
+      } else {
+        this.data6 = this.logList.slice((currentSize - 1) * 10, this.logList.length)
+      }
+      console.log(this.logList, this.logList.length)
+    },
+    queryLog () {
+      this.allData.operaDate = this.allData.operaDate ? currentTime(this.allData.operaDate) : ''
+      let params = this.allData
+      getAccountLog(params).then((res) => {
+        if (res.logList.length <= 100) {
+          this.logList = res.logList
+        } else {
+          this.logList = res.logList.slice(0, 100)
+        }
+        this.maxSize = Math.ceil(this.logList.length / 10)
+        this.data6 = this.logList.slice(0, 10)
+      })
     }
   },
   components: {}

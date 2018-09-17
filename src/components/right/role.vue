@@ -42,11 +42,12 @@ import { getRoleMuneList, postRoleMuneList } from '@/server/api.js'
 export default {
   data () {
     return {
-      title: ['菜单选项', '已配置菜单'],
+      title: ['可配置菜单选项', '已配置菜单'],
       data4: [],
       menuList: [],
       targetList: [],
       targetKeys: [],
+      rightMenu: [],
       roleId: '',
       roleName: '',
       // targetKeys4: this.getTargetKeys(),
@@ -62,49 +63,83 @@ export default {
     }
   },
   created () {
-    let params = {}
-    let menuData = []
-    // this.$Spin.show()
-    getRoleMuneList(params).then((res) => { // 获取默认的菜单列表
-      console.log(res)
-      let menuList = [].concat(res)
-      // this.$Spin.hide()
-      menuList.forEach((item, index) => {
-        menuData.push({
-          ...item,
-          ...{
-            key: index,
-            label: item.menu_ID,
-            description: item.menu_NAME
-          }
-        })
-        console.log(menuData)
-      })
-    })
-    this.data4 = menuData
-    this.menuList = menuData
+    // let params = {}
+    // let menuData = []
+    // // this.$Spin.show()
+    // getRoleMuneList(params).then((res) => { // 获取默认的菜单列表
+    //   console.log(res)
+    //   let menuList = [].concat(res)
+    //   // this.$Spin.hide()
+    //   menuList.forEach((item, index) => {
+    //     menuData.push({
+    //       ...item,
+    //       ...{
+    //         key: index,
+    //         label: item.menu_ID,
+    //         description: item.menu_NAME
+    //       }
+    //     })
+    //     console.log(menuData)
+    //   })
+    // })
+    // this.data4 = menuData
+    // this.menuList = menuData
   },
   mounted () {
   },
   methods: {
-    queryRole () { // 公司信息查询
-      console.log(111)
+    queryRole () { // 角色信息查询
       this.flag6 = true
       this.modal6 = true
     },
     getRole (item) {
       this.roleId = item.roleId
       this.roleName = item.roleName
+      this.rightMenu = []
       this.targetList.forEach((item) => {
         item.roleId = this.roleId
         return item
       })
+      this.getAllMenu()
     },
     getRoleStatus (item) {
       this.flag6 = item.comFlag
       this.modal6 = item.commodal
     },
-    handleChange4 (newTargetKeys, direction, moveKeys) {
+    getAllMenu () { // 获取所有的菜单项
+      let params = {
+        ROLE_ID: this.roleId
+      }
+      let menuData = []
+      // this.$Spin.show()
+      getRoleMuneList(params).then((res) => { // 获取默认的菜单列表
+        console.log(res)
+        let menuList = [].concat(res)
+        // this.$Spin.hide()
+        menuList.forEach((item, index) => {
+          menuData.push({
+            ...item,
+            ...{
+              key: index,
+              label: item.menu_ID,
+              description: item.menu_NAME
+            }
+          })
+          console.log(menuData)
+        })
+        this.data4 = menuData
+        this.menuList = menuData
+        this.menuList.forEach(item => {
+          if (item.remark === 'T') {
+            this.rightMenu.push(item.key)
+            return ''
+          }
+        })
+        this.handleChange4(this.rightMenu, 'right', this.rightMenu)
+      })
+      console.log(this.rightMenu)
+    },
+    handleChange4 (newTargetKeys, direction, moveKeys) { // 左右配置的事件
       this.targetList = []
       console.log(newTargetKeys, direction, moveKeys)
       this.targetKeys = newTargetKeys

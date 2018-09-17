@@ -72,7 +72,21 @@ export default {
   },
   methods: {
     routerTo (e) {
+      let userId = localStorage.getItem('userId')
+      // let token = this.compileStr('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLlvKDmtpsiLCJyb2xlcyI6InVzZXIiLCJpYXQiOjE1MzY0MDA2OTgsImV4cCI6MTUzODEwNTczMH0.6KpBNsDiybdyfBaulndvhshGMH4b4oA7m3Ku_qoY5r0')
+      let token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLlvKDmtpsiLCJyb2xlcyI6InVzZXIiLCJpYXQiOjE1MzY0MDA2OTgsImV4cCI6MTUzODEwNTczMH0.6KpBNsDiybdyfBaulndvhshGMH4b4oA7m3Ku_qoY5r0'
+      if (e === 'ZHYOA') {
+        window.open(`http://localhost:8055/#/login?userId=${userId}&token=${token}`)
+        return
+      }
       this.$router.push(this.prefix + e)
+    },
+    compileStr (code) { // 对字符串进行加密
+      var c = String.fromCharCode(code.charCodeAt(0) + code.length)
+      for (var i = 1; i < code.length; i++) {
+        c += String.fromCharCode(code.charCodeAt(i) + code.charCodeAt(i - 1))
+      }
+      return escape(c)
     }
   }
 }

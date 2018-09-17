@@ -8,7 +8,7 @@
         </Select>
       </div>
       <div style="float: right;">
-        <Page :total="dataCount" :page-size="pageSize" show-total @on-change="changePage"></Page>
+        <Page :total="pageInfo.totalRow" :page-size="pageInfo.pageSize" :current="pageInfo.pageNumber" show-total @on-change="changePage"></Page>
       </div>
     </div>
 
@@ -19,13 +19,12 @@
 // import Loading from '../../base/loading/loading.vue'
 export default {
   props: {
-    data: {}
+    data: {},
+    pageInfo: {}
   },
   data () {
     return {
       ajaxHistoryData: [],
-      dataCount: 0,
-      pageSize: 3,
       historyData: [],
       showLoading: true,
       costType: 10,
@@ -33,18 +32,13 @@ export default {
         {
           value: 10,
           label: '10行/页'
-        },
-        {
-          value: 50,
-          label: '50行/页'
-        },
-        {
-          value: 100,
-          label: '100行/页'
-        }]
+        }
+      ]
     }
   },
   created () {
+    console.log(this.data)
+    console.log(this.pageInfo)
     // console.log(this.data)
     this.$nextTick(() => {
       this.handleListApproveHistory()
@@ -52,28 +46,29 @@ export default {
   },
   methods: {
     change () {
-      this.pageSize = this.costType
       this.historyData = this.ajaxHistoryData.slice(0, this.pageSize)
     },
     handleListApproveHistory () {
-      this.pageSize = this.data.pagesize
-      this.ajaxHistoryData = this.data.process
-      this.dataCount = this.data.process.length
-      if (this.data.process.length < this.pageSize) {
-        this.historyData = this.ajaxHistoryData
-      } else {
-        this.historyData = this.ajaxHistoryData.slice(0, this.pageSize)
-      }
+      // this.ajaxHistoryData = this.pageInfo.list
+      this.historyData = this.pageInfo
+      // if (this.data.process.length < this.pageSize) {
+      //   this.historyData = this.ajaxHistoryData
+      // } else {
+      //   this.historyData = this.ajaxHistoryData.slice(0, this.pageSize)
+      // }
     },
     clickRow (item, index) {
       // console.log(item)
       this.$emit('tableitem', item)
     },
     changePage (page) {
-      let _start = (page - 1) * this.pageSize
-      let _end = page * this.pageSize
-      this.historyData = this.ajaxHistoryData.slice(_start, _end)
-      this.$emit('pageSize', page)
+      console.log(page)
+      this.pageInfo.pageNumber = page
+      console.log(this.pageInfo)
+      // let _start = (page - 1) * this.pageSize
+      // let _end = page * this.pageSize
+      // this.historyData = this.ajaxHistoryData.slice(_start, _end)
+      this.$emit('pageInfo', this.pageInfo)
     }
   }
 }

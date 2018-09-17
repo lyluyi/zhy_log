@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -21,7 +21,8 @@ export default new Router({
       path: '/home',
       name: 'home',
       meta: {
-        title: '首页'
+        title: '首页',
+        content: true
       },
       component: (resolve) => require(['../components/home/home.vue'], resolve),
       children: [
@@ -29,6 +30,8 @@ export default new Router({
           path: 'person',
           name: 'person',
           meta: {
+            title: '人员',
+            content: true
           },
           component: (resolve) => require(['../components/personInfo/person.vue'], resolve)
         },
@@ -36,6 +39,8 @@ export default new Router({
           path: 'company',
           name: 'company',
           meta: {
+            title: '公司',
+            content: true
           },
           component: (resolve) => require(['../components/personInfo/company.vue'], resolve)
         },
@@ -43,6 +48,8 @@ export default new Router({
           path: 'department',
           name: 'department',
           meta: {
+            title: '部门',
+            content: true
           },
           component: (resolve) => require(['../components/personInfo/department.vue'], resolve)
         },
@@ -50,6 +57,8 @@ export default new Router({
           path: 'job',
           name: 'job',
           meta: {
+            title: '职位',
+            content: true
           },
           component: (resolve) => require(['../components/personInfo/job.vue'], resolve)
         },
@@ -57,6 +66,8 @@ export default new Router({
           path: 'contract',
           name: 'contract',
           meta: {
+            title: '合同',
+            content: true
           },
           component: (resolve) => require(['../components/personInfo/contract.vue'], resolve)
         },
@@ -64,6 +75,8 @@ export default new Router({
           path: 'companyStruct',
           name: 'companyStruct',
           meta: {
+            title: '公司组织',
+            content: true
           },
           component: (resolve) => require(['../components/stanceManagement/companyStruct.vue'], resolve)
         },
@@ -71,13 +84,26 @@ export default new Router({
           path: 'userLog',
           name: 'userLog',
           meta: {
+            title: '日志',
+            content: true
           },
           component: (resolve) => require(['../components/stanceManagement/userLog.vue'], resolve)
+        },
+        {
+          path: 'userInfo',
+          name: 'userInfo',
+          meta: {
+            title: '人员信息',
+            content: true
+          },
+          component: (resolve) => require(['../components/stanceManagement/userInfo.vue'], resolve)
         },
         {
           path: 'role',
           name: 'role',
           meta: {
+            title: '角色菜单',
+            content: true
           },
           component: (resolve) => require(['../components/right/role.vue'], resolve)
         },
@@ -85,6 +111,8 @@ export default new Router({
           path: 'roleAdmin',
           name: 'roleAdmin',
           meta: {
+            title: '角色管理',
+            content: true
           },
           component: (resolve) => require(['../components/right/roleAdmin.vue'], resolve)
         },
@@ -92,6 +120,8 @@ export default new Router({
           path: 'userAdmin',
           name: 'userAdmin',
           meta: {
+            title: '用户管理',
+            content: true
           },
           component: (resolve) => require(['../components/right/userAdmin.vue'], resolve)
         },
@@ -99,6 +129,8 @@ export default new Router({
           path: 'jobDevice',
           name: 'jobDevice',
           meta: {
+            title: '职位配置',
+            content: true
           },
           component: (resolve) => require(['../components/right/jobDevice.vue'], resolve)
         }
@@ -106,3 +138,5 @@ export default new Router({
     }
   ]
 })
+
+export default router

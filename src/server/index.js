@@ -44,7 +44,12 @@ axios.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = token
   }
-  if (config.method === 'post') {
+  console.log(axios.dataType)
+  if (config.method === 'post' && axios.dataType === 'FormData') {
+    config.headers['content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+    config.data = qs.stringify(config.data) // key-value传参
+  }
+  if (config.method === 'post' && axios.dataType === 'Json') {
     config.data = qs.parse(config.data) // 传参
   }
   return config
@@ -54,7 +59,7 @@ axios.interceptors.request.use((config) => {
 
 // 返回状态判断
 axios.interceptors.response.use((res) => {
-  if (!res.data) { // 状态码
+  if (!res) { // 状态码
     return Promise.reject(res)
   }
   return res
@@ -63,8 +68,9 @@ axios.interceptors.response.use((res) => {
   return Promise.reject(error)
 })
 
-export default function fetch (url, params) {
+export default function fetch (dataType, url, params) {
   return new Promise((resolve, reject) => {
+    axios.dataType = dataType
     axios.post(url, params)
       .then(response => {
         resolve(response.data)
