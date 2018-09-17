@@ -57,3 +57,5 @@ export const getInfoCheck = (params) => { return fetch('Json', 'user/pagePlus', 
 export const getSubCheck = (params) => { return fetch('FormData', 'users/findUserInfoByUserId', params) } // 子表信息查询
 
 export const exportTableData = (params) => { return fetch('Json', 'user/exportPlus', params) } // 表格信息导出
+
+export const getlinkman = (params) => { return fetch('Json', 'user/linkmanPage', params) } // 人员联系方式

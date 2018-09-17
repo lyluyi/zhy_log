@@ -133,6 +133,15 @@ const router = new Router({
             content: true
           },
           component: (resolve) => require(['../components/right/jobDevice.vue'], resolve)
+        },
+        {
+          path: 'usertel',
+          name: 'usertel',
+          meta: {
+            title: '人员联系方式',
+            content: true
+          },
+          component: (resolve) => require(['../components/right/usertel.vue'], resolve)
         }
       ]
     }
