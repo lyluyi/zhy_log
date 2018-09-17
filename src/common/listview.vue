@@ -50,7 +50,7 @@ export default {
     },
     handleListApproveHistory () {
       // this.ajaxHistoryData = this.pageInfo.list
-      this.historyData = this.pageInfo
+      this.historyData = this.pageInfo.list
       // if (this.data.process.length < this.pageSize) {
       //   this.historyData = this.ajaxHistoryData
       // } else {
