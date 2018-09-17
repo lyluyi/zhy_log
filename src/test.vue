@@ -7,7 +7,7 @@ export default {
   data () {
     return {
           UserWorkhis: {
-          userId: '', // 员工工号 
+          userId: '32131', // 员工工号 
           beginDate: '', // 开始日期
           endDate: '',  // 结束日期
           company: '', // 单位名称
