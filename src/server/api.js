@@ -58,4 +58,10 @@ export const getSubCheck = (params) => { return fetch('FormData', 'users/findUse
 
 export const exportTableData = (params) => { return fetch('Json', 'user/exportPlus', params) } // 表格信息导出
 
-export const getlinkman = (params) => { return fetch('Json', 'user/linkmanPage', params) } // 人员联系方式
+export const getLinkman = (params) => { return fetch('Json', 'user/linkmanPage', params) } // 人员联系方式
+
+export const getJobPage = (params) => { return fetch('FormData', 'job/page', params) } //  查询job
+
+export const getOptionalJobDictListByDeptId = (params) => { return fetch('FormData', 'jobDict/optionalJobDictListByDeptId', params) } //  根据部门id查询可选的职位
+
+export const saveJob = (params) => { return fetch('Json', 'job/saveJob', params) } //  保持TJob

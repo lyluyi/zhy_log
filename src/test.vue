@@ -8,7 +8,7 @@ export default {
     return {
           UserWorkhis: {
           userId: '32131', // 员工工号 
-          beginDate: '', // 开始日期
+          beginDate: 'aaaa', // 开始日期
           endDate: '',  // 结束日期
           company: '', // 单位名称
           comType: '', // 单位类型
