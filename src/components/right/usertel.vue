@@ -111,5 +111,4 @@ export default {
   background: #2d8cf0;
   margin: 0 auto;
 }
-.inf
 </style>
