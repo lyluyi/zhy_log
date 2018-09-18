@@ -10,7 +10,7 @@
     </div>
 </template>
 <script>
-import { getlinkman } from '@/server/api.js'
+import { getLinkman } from '@/server/api.js'
 export default {
   data () {
     return {
@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     getlinkmanPage (params) {
-      getlinkman(params).then((res) => {
+      getLinkman(params).then((res) => {
         this.users = res.list
         let { pageNumber, pageSize, totalPage, totalRow } = {...res}
         this.pageInfo = {
