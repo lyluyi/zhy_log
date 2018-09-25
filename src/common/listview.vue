@@ -39,7 +39,6 @@ export default {
   created () {
     console.log(this.data)
     console.log(this.pageInfo)
-    // console.log(this.data)
     this.$nextTick(() => {
       this.handleListApproveHistory()
     })
@@ -49,13 +48,7 @@ export default {
       this.historyData = this.ajaxHistoryData.slice(0, this.pageSize)
     },
     handleListApproveHistory () {
-      // this.ajaxHistoryData = this.pageInfo.list
       this.historyData = this.pageInfo.list
-      // if (this.data.process.length < this.pageSize) {
-      //   this.historyData = this.ajaxHistoryData
-      // } else {
-      //   this.historyData = this.ajaxHistoryData.slice(0, this.pageSize)
-      // }
     },
     clickRow (item, index) {
       // console.log(item)
@@ -65,9 +58,6 @@ export default {
       console.log(page)
       this.pageInfo.pageNumber = page
       console.log(this.pageInfo)
-      // let _start = (page - 1) * this.pageSize
-      // let _end = page * this.pageSize
-      // this.historyData = this.ajaxHistoryData.slice(_start, _end)
       this.$emit('pageInfo', this.pageInfo)
     }
   }
