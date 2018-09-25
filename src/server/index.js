@@ -4,7 +4,7 @@ import qs from 'qs'
 import url from '../config'
 
 // axios 配置
-axios.defaults.timeout = 10000
+axios.defaults.timeout = 15000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 axios.defaults.baseURL = url
 
