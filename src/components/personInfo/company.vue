@@ -33,7 +33,7 @@
         </Col> -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">上级公司ID：</Button>
-          <Input search enter-button placeholder="" v-model="allData.cid" @on-search="queryCompany" />
+          <Input search enter-button placeholder="" v-model="allData.cid" @on-search="queryCompany" readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
@@ -42,7 +42,7 @@
         </Col>
       </Row>
     </div>
-    <companyQuery @tableCompany="getCompany" @statusRole='getCompanyStatus' :data="model1" v-if="flag1"></companyQuery>
+    <companyQuery @tableCompany="getCompany" @statusCompany='getCompanyStatus' :data="model1" v-if="flag1"></companyQuery>
   </div>
 </template>
 <script>
@@ -70,17 +70,13 @@ export default {
   mounted () {},
   methods: {
     queryCompany () { // 公司信息查询
-      // this.flagNum = 6
       this.flag1 = true
       this.model1 = true
     },
     getCompany (item) {
-      // console.log(item)
       this.allData.cid = item.cid
-      // this.alldata.reportOfCompanyName = item.cname
     },
     getCompanyStatus (item) {
-      // console.log(item)
       this.flag1 = item.comFlag
       this.model1 = item.commodal
     },

@@ -553,7 +553,7 @@ export default {
       userUrgent: [],
       userJobinfo: [],
       infoRecordTableObj: {
-        '工作简历': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['单位名称', 'company'], ['单位性质', 'comType'], ['担任职位', 'jobName'], ['薪资情况', 'wages'], ['离职原因', 'quitRes']],
+        '工作简历': [['开始日期', 'beginDateView'], ['结束日期', 'endDateView'], ['单位名称', 'company'], ['单位性质', 'comType'], ['担任职位', 'jobName'], ['薪资情况', 'wages'], ['离职原因', 'quitRes']],
         '培训经历': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['培训机构', 'trainName'], ['培训主题', 'trainTheme'], ['培训课程', 'trainContent'], ['证书有效期', 'certTerm'], ['备注', 'remark']],
         '教育背景': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['院校名称', 'schoolName'], ['院校性质', 'schoolType'], ['主修专业', 'major'], ['毕业类型', 'graduationType'], ['学历情况', 'education'], ['学制', 'years'], ['学位', 'educationDgree'], ['职务', 'jobName'], ['证明人', 'witness'], ['备注', 'remark']],
         '家庭关系': [['家属姓名', 'sibName'], ['与己关系', 'relationship'], ['所在单位', 'cname'], ['出生日期', 'birthdate'], ['担任职位', 'jobName'], ['电话号码', 'phone'], ['备注', 'remark']],

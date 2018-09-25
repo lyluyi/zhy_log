@@ -144,6 +144,13 @@ const router = new Router({
           component: (resolve) => require(['../components/right/usertel.vue'], resolve)
         },
         {
+          path: 'dictIndex',
+          name: 'dictIndex',
+          meta: {
+            title: '数据字典',
+            content: true
+          },
+          component: (resolve) => require(['../components/right/dictIndex.vue'], resolve)
           path: 'OAReport',
           name: 'OAReport',
           meta: {

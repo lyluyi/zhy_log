@@ -76,8 +76,8 @@ export default {
       this.model1 = true
     },
     getCompany (item) {
-      this.allData.cid = item.CID
-      this.allData.cname = item.CNAME
+      this.allData.cid = item.cid
+      this.allData.cname = item.cname
     },
     getCompanyStatus (item) {
       this.flag1 = item.comFlag
@@ -93,7 +93,7 @@ export default {
     },
     getDepartment (item) {
       // console.log(item)
-      this.allData.upDid = item.DNAME
+      this.allData.upDid = item.did
     },
     getDepartmentStatus (item) {
       // console.log(item)
