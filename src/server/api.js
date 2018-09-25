@@ -58,6 +58,8 @@ export const getSubCheck = (params) => { return fetch('FormData', 'users/findUse
 
 export const exportTableData = (params) => { return fetch('Json', 'user/exportPlus', params) } // 表格信息导出
 
+// 人员联系方法
+
 export const getLinkman = (params) => { return fetch('Json', 'user/linkmanPage', params) } // 人员联系方式
 
 export const getJobPage = (params) => { return fetch('FormData', 'job/page', params) } //  查询job
@@ -73,3 +75,8 @@ export const getDictionaries = (params) => { return fetch('FormData', 'sys/dicti
 export const postDictTypeData = (params) => { return fetch('Json', 'sys/dictType/saveDictType', params) } //  保存数据字典
 
 export const postDictionariesData = (params) => { return fetch('Json', 'sys/dictionaries/saveDictionaries', params) } //  保存数据字典项
+export const saveJob = (params) => { return fetch('Json', 'job/saveJob', params) } //  保存TJob
+
+// OA报表查询
+
+export const getOaReport = (params) => { return fetch('Json', 'costByFinish/allCostByFinish', params) } // OA报表查询

@@ -151,6 +151,13 @@ const router = new Router({
             content: true
           },
           component: (resolve) => require(['../components/right/dictIndex.vue'], resolve)
+          path: 'OAReport',
+          name: 'OAReport',
+          meta: {
+            title: 'OA报表',
+            content: true
+          },
+          component: (resolve) => require(['../components/right/OAReport.vue'], resolve)
         }
       ]
     }
