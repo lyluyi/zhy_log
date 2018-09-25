@@ -65,3 +65,11 @@ export const getJobPage = (params) => { return fetch('FormData', 'job/page', par
 export const getOptionalJobDictListByDeptId = (params) => { return fetch('FormData', 'jobDict/optionalJobDictListByDeptId', params) } //  根据部门id查询可选的职位
 
 export const saveJob = (params) => { return fetch('Json', 'job/saveJob', params) } //  保持TJob
+
+export const getDictType = (params) => { return fetch('FormData', 'sys/dictType', params) } //  查询数据字典
+
+export const getDictionaries = (params) => { return fetch('FormData', 'sys/dictionaries', params) } //  查询数据字典子项
+
+export const postDictTypeData = (params) => { return fetch('Json', 'sys/dictType/saveDictType', params) } //  保存数据字典
+
+export const postDictionariesData = (params) => { return fetch('Json', 'sys/dictionaries/saveDictionaries', params) } //  保存数据字典项
