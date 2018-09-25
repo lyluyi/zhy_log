@@ -5,9 +5,9 @@
     </div>
     <Row>
       <Col span="12">
-        <Tree :data="data1" @on-select-change="selectItem()"  ref="tree" ></Tree>
+        <Tree :data="data1" ref="tree" ></Tree>
       </Col>
-      <Col span="12">
+      <!-- <Col span="12">
         <Button type="primary" @click="openSaveJobDialog()">添加职位</Button>
         <Modal
             v-model="modal1"
@@ -29,7 +29,7 @@
         </Modal>
         <Table border :columns="columns" :sortable="true" :data="jobs"></Table>
         <Page :total="pageInfo.totalRow" :current="pageInfo.pageNumber" :page-size="pageInfo.pageSize" @on-change="changePageNumber" show-total  class="mt20" />
-      </Col>
+      </Col> -->
     </Row>
   </div>
 </template>
@@ -121,24 +121,24 @@ export default {
     },
     cancelSaveJob () {
     },
-    selectItem () {
-      let item = this.$refs.tree.getSelectedNodes()
-      if (item.length === 1) {
-        if (item[0].type === 'dept') {
-          var deptId = item[0].id
-          let params = {pageNumber: 1, pageInfo: 10, did: deptId}
-          this.jobPage(params)
-        } else if (item[0].type === 'com') {
-          this.jobs = []
-          this.pageInfo = {
-            pageNumber: 1,
-            pageSize: 10,
-            totalPage: 0,
-            totalRow: 0
-          }
-        }
-      }
-    },
+    // selectItem () {
+    //   let item = this.$refs.tree.getSelectedNodes()
+    //   if (item.length === 1) {
+    //     if (item[0].type === 'dept') {
+    //       var deptId = item[0].id
+    //       let params = {pageNumber: 1, pageInfo: 10, did: deptId}
+    //       this.jobPage(params)
+    //     } else if (item[0].type === 'com') {
+    //       this.jobs = []
+    //       this.pageInfo = {
+    //         pageNumber: 1,
+    //         pageSize: 10,
+    //         totalPage: 0,
+    //         totalRow: 0
+    //       }
+    //     }
+    //   }
+    // },
     jobPage (params) {
       getJobPage(params).then((res) => {
         this.jobs = res.list
@@ -205,7 +205,7 @@ export default {
 .ivu-btn-primary{
     margin-bottom: 5px;
 }
-.ivu-modal-body {
+.companyStruct .ivu-modal-body {
   min-height: 350px;
 }
 </style>

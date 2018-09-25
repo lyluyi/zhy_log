@@ -40,7 +40,7 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ { opacity: 0; }
 .col_flex { display: flex !important;}
 
- /* iview.css 样式覆盖 */
+ /* iview.css 样式*/
 .ivu-layout-header { background: #fff !important; box-shadow: 0 2px 1px 1px hsla(0,0%,39%,.1) !important; z-index: 999; }
 .ivu-menu-dark { background: #fff; }
 .layout-logo { background: #fff; }
@@ -56,7 +56,7 @@ export default {
 .ivu-select-single .ivu-select-selection .ivu-select-placeholder, .ivu-select-single .ivu-select-selection .ivu-select-selected-value { font-size: 14px; }
 .ivu-radio-wrapper { font-size: 14px; vertical-align: -9px; }
 .ivu-transfer { margin: 0 auto; }
-.ivu-transfer-list { width: 300px; height: 340px; font-size: 14px; }
+.ivu-transfer-list { width: 300px !important; height: 340px !important; font-size: 14px !important; }
 .ivu-transfer-list-content-item { font-size: 14px !important; }
 .ivu-tree-title { padding: 4px 24px 4px 20px; font-size: 14px; margin-left: 10px;}
 .ivu-icon-md-arrow-dropright:before { content: "\F341"; font-size: 29px; }
