@@ -454,7 +454,7 @@ export default {
         page: 1,
         pageSize: 10,
         queryItem: [
-          { name: 'userName', option: 'like', value1: '王晶', value2: '', linkOption: 'or', timeType: false, des: '用户名' }
+          // { name: 'userName', option: 'like', value1: '王晶', value2: '', linkOption: 'or', timeType: false, des: '用户名' }
           // {name:'age', option:'eq', value1:'30', value2:'20', linkOption:'or', timeType:false }
         ]
       },
@@ -468,7 +468,17 @@ export default {
       highCheckTypeValue: {},
       exportHighData: {},
       isCheckValueTime: false,
-      timeType: ['birthdate', 'workType'], // 时间类型字段
+      timeType: [
+        'birthdate',
+        'workType',
+        'beWorkDate',
+        'startworkdata',
+        'idcardkindid',
+        'lastworkdate',
+        'toBeWorkDate',
+        'healhDate',
+        'beginWorkDate'
+      ], // 时间类型字段
       baseInfo: [
         { key: 'userName', value: '姓名' },
         { key: 'cname', value: '公司' },
