@@ -55,7 +55,7 @@
                 </Col>
               </Row>
             </Col>
-            <Col class="upload_img" span="8">
+            <!-- <Col class="upload_img" span="8">
               <Upload
                   :show-upload-list="true"
                   :on-success="handleSuccess"
@@ -71,7 +71,7 @@
                       <Icon type="ios-camera" size="20"></Icon>
                       点击上传图像
                     </div>
-                    <img style="width:100%;height:100%;" src="../../assets/logo.png" alt="" v-if="true">
+                    <img style="width:100%;height:100%;" src="../../assets/logo.png" alt="" v-if="true"> -->
                     <!-- <Progress v-if="uploadList.showProgress" :percent="uploadList.percentage" hide-info></Progress> -->
                     <!-- <div class="person_upload_list" v-for="item in uploadList" :key="item.name">
                       <template v-if="item.status==='finished'">
@@ -81,11 +81,11 @@
                         </div>
                       </template>
                     </div> -->
-                  </div>
+                  <!-- </div>
               </Upload>
               <Modal title="View Image" v-model="visible">
                 <img :src="'../../assets' + imgName + '/large'" v-if="visible" style="width: 100%">
-              </Modal>
+              </Modal> -->
             </Col>
           </Row>
           <Row :gutter="16">
@@ -1062,6 +1062,7 @@ export default {
       let params = this.allData
       postPersonData(params).then((res) => {
         console.log(res)
+        this.$router.go(0)
       })
     },
     timeFormatting () {
