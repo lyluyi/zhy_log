@@ -143,6 +143,8 @@ export default {
       this.allData.userList = this.data6
       let params = this.allData
       postUserAdminList(params).then((res) => {
+        this.$Message.info('保存成功！')
+        this.$router.go(0)
         console.log(res)
       })
     }
