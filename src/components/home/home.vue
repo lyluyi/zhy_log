@@ -22,6 +22,17 @@
               Item 4
             </MenuItem> -->
           </div>
+            <Dropdown style="margin-left:20px;float:right;" @on-click="checkUserInfo">
+              <a href="javascript:void(0)">
+                个人中心
+                <Icon type="md-arrow-dropdown" />
+              </a>
+              <DropdownMenu slot="list">
+                <DropdownItem name="个人信息">个人信息</DropdownItem>
+                <DropdownItem name="修改密码">修改密码</DropdownItem>
+                <DropdownItem name="修改密码">退出登录</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
         </Menu>
       </Header>
       <Layout>
@@ -55,13 +66,23 @@
           </Layout>
       </Layout>
     </Layout>
+    <userInfoModel :userInfoModel="userInfoModel" v-if="flagUserInfo" @statusUserInfo='getUserInfoStatus'></userInfoModel>
+    <revisePassWordModel :revisePassWordModel="revisePassWordModel" v-if="flagRevisePassWord" @statusRevisePassWord='getRevisepassWordStatus'></revisePassWordModel>
   </div>
 </template>
 
 <script>
+
+import userInfoModel from '@/common/userInfoModel'
+import revisePassWordModel from '@/common/revisePassWordModel'
+
 export default {
   data () {
     return {
+      userInfoModel: false,
+      revisePassWordModel: false,
+      flagUserInfo: false,
+      flagRevisePassWord: false,
       menuData: [],
       prefix: '/home/' // router prefix
     }
@@ -76,18 +97,42 @@ export default {
       // let token = this.compileStr('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLlvKDmtpsiLCJyb2xlcyI6InVzZXIiLCJpYXQiOjE1MzY0MDA2OTgsImV4cCI6MTUzODEwNTczMH0.6KpBNsDiybdyfBaulndvhshGMH4b4oA7m3Ku_qoY5r0')
       let token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLlvKDmtpsiLCJyb2xlcyI6InVzZXIiLCJpYXQiOjE1MzY0MDA2OTgsImV4cCI6MTUzODEwNTczMH0.6KpBNsDiybdyfBaulndvhshGMH4b4oA7m3Ku_qoY5r0'
       if (e === 'ZHYOA') {
-        window.open(`http://localhost:8055/#/login?userId=${userId}&token=${token}`)
+        window.open(`http://172.30.30.104:8080/#/login?userId=${userId}&token=${token}`)
         return
       }
       this.$router.push(this.prefix + e)
     },
-    compileStr (code) { // 对字符串进行加密
+    compileStr (code) { // 对字符串进行编码
       var c = String.fromCharCode(code.charCodeAt(0) + code.length)
       for (var i = 1; i < code.length; i++) {
         c += String.fromCharCode(code.charCodeAt(i) + code.charCodeAt(i - 1))
       }
       return escape(c)
+    },
+    checkUserInfo (item) {
+      if (item === '个人信息') {
+        this.userInfoModel = true
+        this.flagUserInfo = true
+      }
+      if (item === '修改密码') {
+        this.revisePassWordModel = true
+        this.flagRevisePassWord = true
+      }
+    },
+    getUserInfoStatus (item) {
+      console.log(item)
+      this.userInfoModel = item.flag
+      this.flagUserInfo = item.model
+    },
+    getRevisepassWordStatus (item) {
+      console.log(item)
+      this.flagRevisePassWord = item.flag
+      this.revisePassWordModel = item.model
     }
+  },
+  components: {
+    userInfoModel,
+    revisePassWordModel
   }
 }
 </script>

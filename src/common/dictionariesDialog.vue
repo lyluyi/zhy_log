@@ -1,18 +1,18 @@
 <template>
     <div>
-        <Modal v-model="isOpenDictionariesDialog"  :title="title"   :closable="false" :mask-closable="false" >
+        <Modal v-model="isOpenDictionariesDialog" :title="title" :closable="false" :mask-closable="false" >
             <div>
               <Row class="mb20">
                 <Col span="24 col_flex">
-                  <Button class="wd mr10 tr mb10" type="text">字典项key:</Button>
+                  <Button class="wd mr10 tr mb10" type="text">字典项key：</Button>
                   <Input v-model="dictKey" placeholder="数据字典key"/>
                 </Col>
                 <Col span="24 col_flex">
-                  <Button class="wd mr10 tr mb10" type="text">字典项value:</Button>
+                  <Button class="wd mr10 tr mb10" type="text">字典项value：</Button>
                   <Input v-model="dictValue" placeholder="数据字典名称"/>
                 </Col>
                 <Col span="24 col_flex">
-                  <Button class="wd mr10 tr mb10" type="text">字典项描述:</Button>
+                  <Button class="wd mr10 tr" type="text">字典项描述：</Button>
                   <Input v-model="description" placeholder="数据字典描述"/>
                 </Col>
               </Row>

@@ -641,12 +641,12 @@ export default {
     },
     addHighCheckType () { // 添加查询项
       let item = { name: this.highCheckTypeValue.value, option: '', value1: '', value2: '', linkOption: '', timeType: this.isCheckValueTime, des: this.highCheckTypeValue.label }
-      let length = this.highCheck.queryItem.length
-      for (let i = 0; i < length; i++) {
-        if (item.name === this.highCheck.queryItem[i].name) {
-          return
-        }
-      }
+      // let length = this.highCheck.queryItem.length
+      // for (let i = 0; i < length; i++) {
+      //   if (item.name === this.highCheck.queryItem[i].name) {
+      //     return
+      //   }
+      // }
       this.highCheck.queryItem.push(item)
     },
     // queryInfo (num) { // 信息查询

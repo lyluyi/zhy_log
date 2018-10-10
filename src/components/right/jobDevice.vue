@@ -10,6 +10,7 @@
       <Col span="12">
         <Button type="primary" @click="openSaveJobDialog()">添加职位</Button>
         <Modal
+            class="jobDevice_Modal"
             v-model="modal1"
             title="添加职位"
             @on-ok="saveJob"
@@ -20,9 +21,9 @@
                 <Input v-model="Tjob.description" placeholder="Enter something..." style="width: 300px" readonly />
               </Col>
             </Row>
-            <Row>
+            <Row style="minHeight:340px !important;">
               <Button class="wd mr10 tr" type="text">职位名称：</Button>
-              <Select v-model="Tjob.jobName" style="width:200px">
+              <Select v-model="Tjob.jobName" filterable style="width:200px">
                 <Option v-for="item in optionalJobDictList" :value="item.name" :key="item.name">{{ item.name }}</Option>
               </Select>
             </Row>
@@ -205,7 +206,7 @@ export default {
 .ivu-btn-primary{
     margin-bottom: 5px;
 }
-.jobDevice .ivu-modal-body {
-  min-height: 350px;
+.jobDevice_Modal .ivu-modal-body {
+  min-height: 340px !important;
 }
 </style>
