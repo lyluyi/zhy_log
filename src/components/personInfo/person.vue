@@ -15,16 +15,16 @@
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
-                <Col class="col_flex" span="12">
+                <!-- <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">一级部门：</Button>
                   <Input  placeholder=""  v-model="allData.isDept01"/>
-                </Col>
+                </Col> -->
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">职位名称：</Button>
                   <Input  placeholder="" v-model="allData.jobId" />
                 </Col>
               </Row>
-              <Row :gutter="16" class="mb10">
+              <!-- <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">部门全称：</Button>
                   <Input  placeholder=""  v-model="allData.dname"/>
@@ -33,7 +33,7 @@
                   <Button  class="wd mr10 tr" type="text">部门层级：</Button>
                   <Input  placeholder="" v-model="allData.dLevle"/>
                 </Col>
-              </Row>
+              </Row> -->
               <Row :gutter="16" class="mb10">
                 <!-- <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">主职位：</Button>
@@ -174,8 +174,8 @@
               <DatePicker type="date" placeholder="Select date"  placement="bottom" v-model="allData.beWorkDate"></DatePicker>
             </Col>
             <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">目前住址：</Button>
-              <Input type="text" placeholder="" v-model="allData.location" />
+              <Button class="wd mr10 tr" type="text">健康证到期日：</Button>
+              <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.healhDate "></DatePicker>
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -190,8 +190,8 @@
               </Select>
             </Col>
             <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">公司工龄：</Button>
-              <Input type="text" placeholder="" v-model="allData.workYears" />
+              <Button class="wd mr10 tr" type="text">所属区域：</Button>
+              <Input type="text" placeholder=""  v-model="allData.area"/>
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -216,12 +216,12 @@
               <Input type="text" placeholder="" v-model="allData.email" />
             </Col>
             <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">邮政编码：</Button>
-              <Input type="text" placeholder="" v-model="allData.postalcode" />
+              <Button class="wd mr10 tr" type="text">员工状态：</Button>
+              <Input type="text" placeholder=""  v-model="allData.healhstayus"/>
             </Col>
             <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">外服年限：</Button>
-              <Input type="text" placeholder="" v-model="allData.worktypeid" />
+              <Button class="wd mr10 tr" type="text">职等：</Button>
+              <Input type="text" placeholder="" v-model="allData.jobLevle"/>
             </Col>
           </Row>
           <Row :gutter="16" class="mt20">
@@ -246,8 +246,8 @@
               </Select>
             </Col>
             <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">健康证到期日：</Button>
-              <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.healhDate "></DatePicker>
+              <Button class="wd mr10 tr" type="text">目前住址：</Button>
+              <Input type="text" placeholder="" v-model="allData.location" />
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -260,8 +260,8 @@
               <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.lastworkdate"></DatePicker>
             </Col>
             <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">所属区域：</Button>
-              <Input type="text" placeholder=""  v-model="allData.area"/>
+              <Button class="wd mr10 tr" type="text">公司工龄：</Button>
+              <Input type="text" placeholder="" v-model="allData.workYears" />
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -275,8 +275,8 @@
               <Input type="text" placeholder=""  v-model="allData.inneruser"/>
             </Col>
             <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">员工状态：</Button>
-              <Input type="text" placeholder=""  v-model="allData.healhstayus"/>
+              <Button class="wd mr10 tr" type="text">邮政编码：</Button>
+              <Input type="text" placeholder="" v-model="allData.postalcode" />
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -285,8 +285,8 @@
               <Input type="text" placeholder="" v-model="allData.address"/>
             </Col>
             <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">职等：</Button>
-              <Input type="text" placeholder="" v-model="allData.jobLevle"/>
+              <Button class="wd mr10 tr" type="text">外服年限：</Button>
+              <Input type="text" placeholder="" v-model="allData.worktypeid" />
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">社保账号：</Button>
