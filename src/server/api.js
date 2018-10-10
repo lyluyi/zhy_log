@@ -77,3 +77,6 @@ export const saveJob = (params) => { return fetch('Json', 'job/saveJob', params)
 
 // OA报表查询
 export const getOaReport = (params) => { return fetch('Json', 'costByFinish/allCostByFinish', params) } // OA报表查询
+
+// 个人中心
+export const postCheckPassWord = (params) => { return fetch('FormData', 'user/resetPwd', params) } // 修改密码

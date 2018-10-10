@@ -160,6 +160,51 @@ const router = new Router({
             content: true
           },
           component: (resolve) => require(['../components/right/OAReport.vue'], resolve)
+        },
+        {
+          path: 'dimission',
+          name: 'dimission',
+          meta: {
+            title: '离职',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/dimission.vue'], resolve)
+        },
+        {
+          path: 'fullMember',
+          name: 'fullMember',
+          meta: {
+            title: '转正',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/fullMember.vue'], resolve)
+        },
+        {
+          path: 'jobChange',
+          name: 'jobChange',
+          meta: {
+            title: '岗位变动',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/jobChange.vue'], resolve)
+        },
+        {
+          path: 'reEmploy',
+          name: 'reEmploy',
+          meta: {
+            title: '回聘',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/reEmploy.vue'], resolve)
+        },
+        {
+          path: 'transfer',
+          name: 'transfer',
+          meta: {
+            title: '转编',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/transfer.vue'], resolve)
         }
       ]
     }
