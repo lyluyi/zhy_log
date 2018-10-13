@@ -532,10 +532,14 @@ export default {
         { key: 'inneruserdept', value: '内部推荐人部门' }
       ],
       checkCondition: [
-        { key: 'like', value: '包含' },
-        { key: 'lt', value: '小于' },
+        { key: 'eq', value: '等于' },
+        { key: 'notEq', value: '不等于' },
         { key: 'gt', value: '大于' },
-        { key: 'eq', value: '等于' }
+        { key: 'lt', value: '小于' },
+        { key: 'gtOReq', value: '大于等于' },
+        { key: 'ltOReq', value: '小于等于' },
+        { key: 'like', value: '包含' },
+        { key: 'between', value: '两者值之间' }
       ],
       logicConditionValue: '',
       logicCondition: [
