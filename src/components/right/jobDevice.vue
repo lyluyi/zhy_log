@@ -45,7 +45,9 @@ export default {
         jobName: '',
         description: '',
         did: '',
-        jobId: ''
+        jobId: '',
+        jobLevel: '',
+        jobType: ''
       },
       modal1: false,
       data1: [],
@@ -85,7 +87,10 @@ export default {
         if (item[0].type === 'dept') {
           let params = {'deptId': item[0].id}
           getOptionalJobDictListByDeptId(params).then((res) => {
+            debugger
             this.optionalJobDictList = res.data
+            // console.log(this.optionalJobDictList)
+            // console.log(this.optionalJobDictList.length)
           })
           this.Tjob.description = item[0].name
           this.Tjob.did = item[0].id
@@ -100,6 +105,8 @@ export default {
       for (let item of this.optionalJobDictList) {
         if (item.name === this.Tjob.jobName) {
           this.Tjob.jobId = item.id
+          this.Tjob.jobLevel = item.jobLevel
+          this.Tjob.jobType = item.jobType
         }
       }
       if (!(!this.Tjob.jobName && !this.Tjob.description && !this.Tjob.did && !this.Tjob.jobId)) {
@@ -113,7 +120,9 @@ export default {
             jobName: '',
             description: '',
             did: '',
-            jobId: ''
+            jobId: '',
+            jobLevel: '',
+            jobType: ''
           }
         })
       } else {
