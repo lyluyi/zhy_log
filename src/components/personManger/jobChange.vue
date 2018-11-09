@@ -8,137 +8,301 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">工号：</Button>
-          <Input placeholder="" search enter-button />
+          <Input placeholder="" search enter-button @on-search="queryId" v-model="oldData.userId" />
         </Col>
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">姓名：</Button>
-          <Input placeholder=""/>
-        </Col>
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">英文名：</Button>
-          <Input placeholder="" />
+          <Button class="wd mr10 tr" type="text" >姓名：</Button>
+          <Input placeholder="" v-model="oldData.userName" readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">性别：</Button>
-          <Input placeholder="" />
+          <Button class="wd mr10 tr" type="text" >性别：</Button>
+          <Input placeholder="" v-model="oldData.sex" readonly />
         </Col>
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">年龄：</Button>
-          <Input placeholder=""/>
+          <Button class="wd mr10 tr" type="text" >年龄：</Button>
+          <Input placeholder="" v-model="oldData.age" readonly />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">学历：</Button>
-          <Input placeholder=""/>
+          <Input placeholder="" v-model="oldData.education" readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">所属公司：</Button>
-          <Input placeholder="" />
+          <Input placeholder="" v-model="oldData.cname" readonly  />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">部门：</Button>
-          <Input placeholder=""/>
+          <Input placeholder="" v-model="oldData.dname" readonly />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">职位：</Button>
-          <Input placeholder=""/>
+          <Input placeholder="" v-model="oldData.userType" readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
-        <Col class="col_flex" span="8">
+        <!-- <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">成本中心：</Button>
-          <Input placeholder="" />
-        </Col>
+          <Input placeholder=""  />
+        </Col> -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">直接主管：</Button>
-          <Input placeholder=""/>
+          <Input placeholder="" v-model="oldData.upHeader" readonly />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">入司日期：</Button>
-          <Input placeholder=""/>
+          <Input placeholder="" v-model="oldData.startworkdataView" readonly />
+        </Col>
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">员工状态：</Button>
+          <Input placeholder="" v-model="oldData.userStatus" readonly />
         </Col>
       </Row>
       <Divider orientation="left">职位变动申请</Divider>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">变更类型：</Button>
-          <Input placeholder="" />
+          <Select v-model="allData.changeType">
+            <Option v-for="item in changeTypeDic" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
         </Col>
-        <Col class="col_flex" span="8">
+        <!-- <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">申请日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom"></DatePicker>
+          <DatePicker type="date" placeholder="Select date" placement="bottom" ></DatePicker>
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">生效日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom"></DatePicker>
-        </Col>
+          <DatePicker type="date" placeholder="Select date" placement="bottom" ></DatePicker>
+        </Col> -->
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">新公司：</Button>
+          <Input search enter-button  placeholder=""  v-model="allData.cnameNew" @on-search="queryCompany"/>
+        </Col>
+        <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新部门：</Button>
-          <Input placeholder="" />
+          <Input search enter-button  placeholder="" v-model="allData.dnameNew"  @on-search="queryDepartment"/>
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新职位：</Button>
-          <Input placeholder=""/>
+          <Input  placeholder="" search enter-button v-model="allData.jobNameNew" @on-search="queryJob" />
         </Col>
-        <Col class="col_flex" span="8">
+        <!-- <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新成本中心：</Button>
-          <Input placeholder=""/>
-        </Col>
+          <Input placeholder="" />
+        </Col> -->
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新所属区域：</Button>
-          <Input placeholder="" />
+          <Input placeholder="" v-model="allData.area" readonly />
         </Col>
-        <Col class="col_flex" span="8">
+        <!-- <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新所属厂区：</Button>
-          <Input placeholder=""/>
-        </Col>
-        <Col class="col_flex" span="8">
+          <Input placeholder="" v-model="" />
+        </Col> -->
+        <!-- <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新工号：</Button>
-          <Input placeholder=""/>
-        </Col>
+          <Input placeholder="" />
+        </Col> -->
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新直接主管：</Button>
-          <Input placeholder="" />
+          <Input placeholder="" v-model="allData.upHeaderNew" search enter-button @on-search="queryUpHeader" />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">见习转正日期：</Button>
-          <Input placeholder=""/>
-        </Col>
-      </Row>
-       <Row :gutter="16" class="mt20">
-        <Col class="col_flex tr" span="24">
-          <Button class="wd mr10 tr" type="text">备注：</Button>
-          <Input type="textarea" placeholder=""/>
+          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.toBeWorkDate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="24">
-          <Button type="primary" size="large" style="margin:auto;width:128px;">保存</Button>
+          <Button class="wd mr10 tr" type="text">备注：</Button>
+          <Input type="textarea" placeholder="" />
+        </Col>
+      </Row>
+      <Row :gutter="16" class="mt20">
+        <Col class="col_flex tr" span="24">
+          <Button type="primary" size="large" style="margin:auto;width:128px;" @click="save">保存</Button>
         </Col>
       </Row>
     </div>
+    <userIdQuery @tableUserId="getUserId" @statusUserId='getUserIdStatus' :data="modal6" v-if="flag6"></userIdQuery>
+    <departmentQuery @tableDepartment="getDepartment" @statusDepartment='getDepartmentStatus' :data="model2" v-if="flag2" :cid="allData.cid"></departmentQuery>
+    <companyQuery @tableCompany="getCompany" @statusCompany='getCompanyStatus' :data="model1" v-if="flag1"></companyQuery>
+    <jobQuery @tableJob="getJob" @statusJob='getJobStatus' :data="model3" v-if="flag3" :did="allData.didNew"></jobQuery>
   </div>
 </template>
 <script>
+
+import departmentQuery from '@/common/departmentQuery'
+import companyQuery from '@/common/companyQuery'
+import jobQuery from '@/common/jobQuery'
+import userIdQuery from '@/common/userIdQuery'
+
+import { currentTime } from '@/util/common'
+
+import { postJobChange } from '@/server/api'
+import getDic from '@/server/apiDic'
+
 export default {
   data () {
     return {
+      changeTypeDic: [],
+      flag1: false,
+      model1: false,
+      flag2: false,
+      model2: false,
+      flag3: false,
+      model3: false,
+      modal6: false,
+      flag6: false,
+      userIdFlag: 0,
+      oldData: {
+        userId: '',
+        cnameOld: '',
+        dnameOld: '',
+        userName: '',
+        sex: '',
+        age: '',
+        startworkdataView: '',
+        education: '',
+        inneruser: '',
+        userStatus: ''
+      },
+      allData: {
+        did: '',
+        appDate: '', // 审批时间
+        approverId: '', // 审批人ID
+        cidNew: '', // 新公司ID
+        cidOld: '', // 公司id
+        cnameNew: '', // 新公司名称
+        cnameOld: '', // 公司名称
+        didNew: '', // 新部门ID
+        didOld: '', // 部门id
+        dnameNew: '', // 新部门名称
+        dnameOld: '', // 部门名称
+        changeType: '', // 变更类型
+        id: '', // id
+        jobnameNew: '', // 新职位
+        jobnameOld: '', // 职位
+        joindate: '', // 入司时间 beginWorkDateView
+        operDate: '', // 操作时间
+        operatorId: '', // 操作人ID
+        upHeaderNew: '', // 新直接主管
+        userStatue: '', // 员工状态
+        userId: '', // 人员编号
+        userName: '', // 姓名
+        sex: '', // 性别
+        age: '', // 年龄
+        education: '', // 学历
+        upHeader: '', // 主管
+        areaNew: '', // 新所属区域
+        toBeWorkDate: ''
+      }
     }
   },
-  created () {},
+  created () {
+    getDic('UserCdChangeChangeType').then((res) => {
+      this.changeTypeDic = res.data
+    })
+  },
   mounted () {},
   methods: {
+    queryCompany () { // 公司信息查询
+      this.flag1 = true
+      this.model1 = true
+    },
+    getCompany (item) {
+      this.allData.cidNew = item.cid
+      this.allData.cnameNew = item.cname
+      this.allData.area = item.area
+    },
+    getCompanyStatus (item) {
+      this.flag1 = item.comFlag
+      this.model1 = item.commodal
+    },
+    queryDepartment () { // 部门信息查询
+      if (!this.allData.cidNew) {
+        this.$Message.info({ content: '请先输入所属公司' })
+      } else {
+        this.flag2 = true
+        this.model2 = true
+      }
+    },
+    getDepartment (item) {
+      // console.log(item)
+      this.allData.didNew = item.did
+      this.allData.dnameNew = item.dname
+    },
+    getDepartmentStatus (item) {
+      // console.log(item)
+      this.flag2 = item.comFlag
+      this.model2 = item.commodal
+    },
+    queryJob () { // 公司信息查询
+      if (this.allData.didNew) {
+        this.flag3 = true
+        this.model3 = true
+        this.userIdFlag = 0
+      } else {
+        this.$Message.info('请先选择部门！')
+        return false
+      }
+    },
+    getJob (item) {
+      this.allData.jobIdNew = item.jobId
+      this.allData.jobNameNew = item.jobName
+    },
+    getJobStatus (item) {
+      this.flag3 = item.comFlag
+      this.model3 = item.commodal
+    },
+    queryUpHeader () {
+      this.modal6 = true
+      this.flag6 = true
+      this.userIdFlag = 1
+    },
+    queryId () {
+      this.modal6 = true
+      this.flag6 = true
+      this.userIdFlag = 0
+    },
+    getUserId (item) {
+      if (this.userIdFlag) {
+        this.allData.upHeaderNew = item.userName
+      } else {
+        this.oldData = item
+      }
+    },
+    getUserIdStatus (item) {
+      this.flag6 = item.comFlag
+      this.modal6 = item.commodal
+    },
+    save () {
+      this.allData.toBeWorkDate = currentTime(this.allData.toBeWorkDate)
+      this.allData.userId = this.oldData.userId
+      let params = Object.assign({}, this.allData, this.oldData)
+      postJobChange(params).then((res) => {
+        if (res.code === 200) {
+          this.$Message.success(res.msg)
+          // this.$router.go(0)
+        } else {
+          this.$Message.warning(res.msg)
+        }
+      })
+    }
   },
   components: {
+    userIdQuery,
+    departmentQuery,
+    companyQuery,
+    jobQuery
   }
 }
 </script>

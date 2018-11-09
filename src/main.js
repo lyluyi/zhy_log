@@ -17,18 +17,30 @@ Vue.config.productionTip = false
 // title匹配 mobile
 
 // router.beforeEach((to, from, next) => {
-//   /* 路由发生变化修改页面meta */
-//   if (to.meta.content) {
-//     let head = document.getElementsByTagName('head')
-//     let meta = document.createElement('meta')
-//     meta.content = to.meta.content
-//     head[0].appendChild(meta)
+//   if (to.name !== 'login') {
+//     let menuArr = JSON.parse(localStorage.getItem('menuList'))
+//     let checkArr = []
+//     menuArr.forEach((item) => {
+//       item.children.forEach((item) => {
+//         checkArr.push(item.menu_URL)
+//       })
+//       console.log(checkArr)
+//       return checkArr
+//     })
+//     // console.log(to)
+//     // console.log(checkArr.indexOf(to.name))
+//     // console.log(checkArr.indexOf(to.name))
+//     debugger
+//     checkArr.forEach((item) => {
+//       if (item === to.name) { // 因为默认进去的是company 所以没有正确匹配的
+//         next()
+//       } else {
+//         return false
+//       }
+//     })
+//   } else {
+//     next()
 //   }
-//   /* 路由发生变化修改页面title */
-//   if (to.meta.title) {
-//     document.title = to.meta.title
-//   }
-//   next()
 // })
 
 /* eslint-disable no-new */

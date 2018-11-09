@@ -73,6 +73,7 @@ export const getDictionaries = (params) => { return fetch('FormData', 'sys/dicti
 export const postDictTypeData = (params) => { return fetch('Json', 'sys/dictType/saveDictType', params) } //  保存数据字典
 
 export const postDictionariesData = (params) => { return fetch('Json', 'sys/dictionaries/saveDictionaries', params) } //  保存数据字典项
+
 export const saveJob = (params) => { return fetch('Json', 'job/saveJob', params) } //  保存TJob
 
 // OA报表查询
@@ -80,3 +81,26 @@ export const getOaReport = (params) => { return fetch('Json', 'costByFinish/allC
 
 // 个人中心
 export const postCheckPassWord = (params) => { return fetch('FormData', 'user/resetPwd', params) } // 修改密码
+
+// 岗位变动
+export const getUserIdJobChange = (params) => { return fetch('Json', 'user/page', params) } // 工号查询
+
+// 转编
+
+export const getTransferList = (params) => { return fetch('Json', 'user/page', params) } // 待转编人员列表
+
+export const postTransfer = (params) => { return fetch(('json'), 'userOrganization', params) } // 保存转编人员信息
+
+// 职位
+export const postJob = (params) => { return fetch('FormData', 'jobDict/page', params) } // 职位录入
+
+// 保存职位
+export const postSaveJob = (params) => { return fetch('Json', 'jobDict', params) } // 职位保存
+
+// 职位
+
+export const getJobId = (params) => { return fetch('FormData', 'job/page', params) } // 查询职位
+
+// 岗位变动
+
+export const postJobChange = (params) => { return fetch(('json'), 'userCdChange', params) } // 保存岗位变动信息
