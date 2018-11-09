@@ -11,37 +11,24 @@
                 </Col>
                 <Col class="col_flex" span="12">
                   <Button  class="wd mr10 tr" type="text">部门：</Button>
-                  <Input search enter-button  placeholder="" v-model="allData.did"  @on-search="queryDepartment"/>
+                  <Input search enter-button  placeholder="" v-model="allData.dname"  @on-search="queryDepartment"/>
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
-                <!-- <Col class="col_flex" span="12">
-                  <Button class="wd mr10 tr" type="text">一级部门：</Button>
-                  <Input  placeholder=""  v-model="allData.isDept01"/>
-                </Col> -->
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">职位名称：</Button>
-                  <Input  placeholder="" v-model="allData.jobId" />
+                  <Input  placeholder="" search enter-button v-model="allData.jobName" @on-search="queryJob" />
+                </Col>
+                <!-- ？？？？？？？？？？？？？ -->
+                <Col class="col_flex" span="12">
+                  <Button class="wd mr10 tr" type="text">职等：</Button>
+                  <Input type="text" placeholder="" readonly v-model="allData.jobLevel"/>
                 </Col>
               </Row>
-              <!-- <Row :gutter="16" class="mb10">
-                <Col class="col_flex" span="12">
-                  <Button class="wd mr10 tr" type="text">部门全称：</Button>
-                  <Input  placeholder=""  v-model="allData.dname"/>
-                </Col>
-                <Col class="col_flex" span="12">
-                  <Button  class="wd mr10 tr" type="text">部门层级：</Button>
-                  <Input  placeholder="" v-model="allData.dLevle"/>
-                </Col>
-              </Row> -->
               <Row :gutter="16" class="mb10">
-                <!-- <Col class="col_flex" span="12">
-                  <Button class="wd mr10 tr" type="text">主职位：</Button>
-                  <Input  placeholder="" v-model="allData.cname" />
-                </Col> -->
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">直接主管：</Button>
-                  <Input  placeholder="" v-model="allData.upHeader" />
+                  <Input search enter-button  placeholder="" v-model="allData.upHeader" @on-search="queryId" />
                 </Col>
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">姓名：</Button>
@@ -52,6 +39,11 @@
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">工号：</Button>
                   <Input  placeholder="" v-model="allData.userId" readonly />
+                </Col>
+                <!-- ？？？？？？？？？？？？？？ -->
+                <Col class="col_flex" span="12">
+                  <Button class="wd mr10 tr" type="text">职务：</Button>
+                  <Input  placeholder="" readonly v-model="allData.jobType" />
                 </Col>
               </Row>
             </Col>
@@ -117,7 +109,7 @@
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">出生日期：</Button>
-              <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.birthdate"></DatePicker>
+              <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.birthdate"  @on-change="changeBirthDate" ></DatePicker>
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">性别：</Button>
@@ -133,17 +125,21 @@
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">手机号码：</Button>
-              <Input type="text" placeholder="" v-model="allData.mobilphone" />
+              <Input type="text" placeholder="" v-model="allData.mobilphone" @on-blur="telValidate" />
+            </Col>
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">员工状态：</Button>
+              <Select v-model="allData.userStatus"  placement="bottom">
+                <Option v-for="item in emloyType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
+              <!-- <Input type="text" placeholder=""  v-model="allData.healhstayus"/> -->
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">员工属性：</Button>
-              <Input type="text" placeholder="" v-model="allData.userType" />
-            </Col>
-            <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">直/间接：</Button>
-              <Select v-model="allData.hrType1"  placement="bottom">
-                <Option v-for="item in hrType1Array" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              <Select v-model="allData.userType"  placement="bottom">
+                <Option v-for="item in emloyAttr" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
+              <!-- <Input type="text" placeholder="" v-model="allData.userType" /> -->
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -167,7 +163,7 @@
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">入司日期：</Button>
-              <DatePicker type="date" placeholder="Select date"  placement="bottom" v-model="allData.startworkdata"></DatePicker>
+              <DatePicker type="date" placeholder="Select date"  placement="bottom" v-model="allData.startworkdata" @on-change="joinTime"></DatePicker>
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">预计转正日期：</Button>
@@ -181,7 +177,9 @@
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">民族：</Button>
-              <Input type="text" placeholder="" v-model="allData.nationid" />
+              <Select v-model="allData.nationid"  placement="bottom">
+                <Option v-for="item in nationidType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">户口性质：</Button>
@@ -195,10 +193,10 @@
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
-            <Col class="col_flex" span="8">
+            <!-- <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">联系电话：</Button>
               <Input type="text" placeholder="" v-model="allData.telephone" />
-            </Col>
+            </Col> -->
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">是否负责人：</Button>
               <Select v-model="allData.isHeader"  placement="bottom">
@@ -216,12 +214,14 @@
               <Input type="text" placeholder="" v-model="allData.email" />
             </Col>
             <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">员工状态：</Button>
-              <Input type="text" placeholder=""  v-model="allData.healhstayus"/>
+              <Button class="wd mr10 tr" type="text">直/间接：</Button>
+              <Select v-model="allData.hrType1"  placement="bottom">
+                <Option v-for="item in hrType1Array" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
             </Col>
             <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">职等：</Button>
-              <Input type="text" placeholder="" v-model="allData.jobLevle"/>
+              <Button class="wd mr10 tr" type="text">年龄：</Button>
+              <Input type="text" placeholder="" v-model="allData.age" readonly />
             </Col>
           </Row>
           <Row :gutter="16" class="mt20">
@@ -236,7 +236,7 @@
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">是否储备人才：</Button>
               <Select v-model="allData.isreserveid"  placement="bottom">
-                  <Option v-for="item in ynType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                <Option v-for="item in ynType" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </Col>
             <Col class="col_flex" span="8">
@@ -255,31 +255,29 @@
               <Button class="wd mr10 tr" type="text">工龄开始日期：</Button>
               <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.beginWorkDate"></DatePicker>
             </Col>
-            <Col class="col_flex" span="8">
+            <!-- <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">最后工作日：</Button>
               <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.lastworkdate"></DatePicker>
-            </Col>
-            <Col class="col_flex" span="8">
+            </Col> -->
+            <!-- <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">公司工龄：</Button>
               <Input type="text" placeholder="" v-model="allData.workYears" />
-            </Col>
-          </Row>
-          <Row :gutter="16" class="mb10">
+            </Col> -->
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">人员来源：</Button>
               <Input type="text" placeholder=""  v-model="allData.source"/>
             </Col>
-            <!-- ??? -->
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">内部推荐人：</Button>
-              <Input type="text" placeholder=""  v-model="allData.inneruser"/>
-            </Col>
-            <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">邮政编码：</Button>
-              <Input type="text" placeholder="" v-model="allData.postalcode" />
+              <Input type="text" placeholder="" search enter-button  v-model="allData.inneruser" @on-search="queryInneruser"/>
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
+            <!-- ??? -->
+            <!-- <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">邮政编码：</Button>
+              <Input type="text" placeholder="" v-model="allData.postalcode" />
+            </Col> -->
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">户口所在地：</Button>
               <Input type="text" placeholder="" v-model="allData.address"/>
@@ -296,7 +294,7 @@
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">内推人部门：</Button>
-              <Input type="text" placeholder="" v-model="allData.inneruserdept"/>
+              <Input type="text" placeholder="" readonly  v-model="allData.inneruserdept" />
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">公积金账号：</Button>
@@ -307,6 +305,26 @@
               <Select v-model="allData.isLabour"  placement="bottom">
                   <Option v-for="item in ynType" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
+            </Col>
+          </Row>
+          <Row :gutter="16" class="mb10">
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">健康：</Button>
+              <Input type="text" placeholder=""  v-model="allData.healhstayus"/>
+            </Col>
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">身高：</Button>
+              <Input type="text" placeholder="" v-model="allData.height" />
+            </Col>
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">体重：</Button>
+              <Input type="text" placeholder="" v-model="allData.weight" />
+            </Col>
+          </Row>
+          <Row :gutter="16" class="mb10">
+            <Col class="col_flex" span="24">
+              <Button class="wd mr10 tr" type="text">评测结果：</Button>
+              <Input type="textarea" placeholder="" v-model="allData.evaluates"/>
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -442,10 +460,6 @@
                   <Button class="wd mr10 tr" type="text">学制：</Button>
                   <Input type="text" placeholder="" v-model="userStudyhis.years" />
                 </Col>
-                <Col class="col_flex" span="8">
-                  <Button class="wd mr10 tr" type="text">职务：</Button>
-                  <Input type="text" placeholder="" v-model="userStudyhis.jobName" />
-                </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
@@ -479,10 +493,10 @@
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
-                <Col class="col_flex" span="8">
+                <!-- <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">出生日期：</Button>
                   <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userFamily.birthdate"></DatePicker>
-                </Col>
+                </Col> -->
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">担任职位：</Button>
                   <Input type="text" placeholder="" v-model="userFamily.jobName" />
@@ -585,7 +599,7 @@
                   <DatePicker type="date" placeholder="Select date" placement="bottom"  v-model="userJobinfo.getDate"></DatePicker>
                 </Col>
                 <Col class="col_flex" span="8">
-                  <Button class="wd mr10 tr" type="text">所在学校：</Button>
+                  <Button class="wd mr10 tr" type="text">所在单位：</Button>
                   <Input type="text" placeholder="" v-model="userJobinfo.company" />
                 </Col>
               </Row>
@@ -607,17 +621,25 @@
     </Tabs>
     <departmentQuery @tableDepartment="getDepartment" @statusDepartment='getDepartmentStatus' :data="model2" v-if="flag2" :cid="allData.cid"></departmentQuery>
     <companyQuery @tableCompany="getCompany" @statusCompany='getCompanyStatus' :data="model1" v-if="flag1"></companyQuery>
+    <jobQuery @tableJob="getJob" @statusJob='getJobStatus' :data="model3" v-if="flag3" :did="allData.did"></jobQuery>
+    <userIdQuery @tableUserId="getUserId" @statusUserId='getUserIdStatus' :data="modal6" v-if="flag6"></userIdQuery>
+  </div>
   </div>
 </template>
 <script>
 
 import departmentQuery from '@/common/departmentQuery'
 import companyQuery from '@/common/companyQuery'
+import jobQuery from '@/common/jobQuery'
+import userIdQuery from '@/common/userIdQuery'
 
 import ip from '@/config'
 
-import { currentTime } from '@/util/common'
-import { getAvatraJson, postPersonData, getUserId } from '@/server/api'
+import { currentTime, ageCalculate, isPoneAvailable, threeMonth } from '@/util/common'
+
+import { postPersonData, getUserId } from '@/server/api'
+
+// import getDic from '@/server/apiDic'
 
 export default {
   data () {
@@ -627,6 +649,11 @@ export default {
       model1: false,
       flag2: false,
       model2: false,
+      flag3: false,
+      model3: false,
+      flag6: false,
+      model6: false,
+      userIdFlag: 0,
       imgName: '',
       visible: false,
       uploadList: [],
@@ -653,9 +680,10 @@ export default {
         { value: '离异', label: '离异' }
       ],
       hukouTypeType: [
-        { value: '城市户口', label: '城市户口' },
-        { value: '城镇户口', label: '城镇户口' },
-        { value: '农业户口', label: '农业户口' }
+        { value: '本地城镇户口', label: '本地城镇户口' },
+        { value: '本地农业户口', label: '本地农业户口' },
+        { value: '外地城镇户口', label: '外地城镇户口' },
+        { value: '外地农业户口', label: '外地农业户口' }
       ],
       ynType: [
         { value: '是', label: '是' },
@@ -675,6 +703,7 @@ export default {
         { value: '男', label: '男' },
         { value: '女', label: '女' }
       ],
+      nationidType: [],
       infoRecordType: [ // 性别
         { value: '工作简历', label: '工作简历' },
         { value: '培训经历', label: '培训经历' },
@@ -693,6 +722,25 @@ export default {
         '紧急联系人': [['联系人', 'urgentName'], ['与己关系', 'urgentType'], ['联系电话', 'phone'], ['E-mail', 'email'], ['邮政编码', 'code'], ['联系地址', 'addr'], ['备注', 'remark']],
         '职称信息': [['职称信息', 'jobinfo'], ['获得日期', 'getDate'], ['所在学校', 'company'], ['职位描述', 'description'], ['备注', 'remark']]
       },
+      emloyAttr: [
+        { value: '实习生', label: '实习生' },
+        { value: '见习生', label: '见习生' },
+        { value: '员工', label: '员工' },
+        { value: '退休返聘', label: '退休返聘' },
+        { value: '劳务人员', label: '劳务人员' },
+        { value: '临时工', label: '临时工' },
+        { value: '兼职员工', label: '兼职员工' }
+      ],
+      emloyType: [
+        { value: '实习生', label: '实习生' },
+        { value: '兼职员工', label: '兼职员工' },
+        { value: '劳务员工', label: '劳务员工' },
+        { value: '试用员工', label: '试用员工' },
+        { value: '正式员工', label: '正式员工' },
+        { value: '离职员工', label: '离职员工' },
+        { value: '退休员工', label: '退休员工' },
+        { value: '留职停薪员工', label: '留职停薪员工' }
+      ],
       columns1: [],
       data1: [],
       infoTemplate: '工作简历',
@@ -772,10 +820,11 @@ export default {
       allData: {
         userName: '', // 姓名
         userId: '', // 工号
-        did: '', // 部门
+        did: '', // 部门ID
+        dname: '', // 部门name
         sex: '', // 性别
         birthdate: '', // 出生日期
-        // age: '', // 年龄
+        age: '', // 年龄
         education: '', // 学历
         major: '', // 主修专业
         userType: '', // 员工属性
@@ -784,6 +833,8 @@ export default {
         beWorkDate: '', // 转正日期
         upHeader: '', // 直接主管
         jobId: '', // 职位名称
+        jobLevle: '', // 职等
+        jobType: '', // 职务
         startworkdata: '', // 入司日期
         workYears: '', // 公司工龄
         isHeader: '', // 是否负责人
@@ -811,7 +862,6 @@ export default {
         lastworkdate: '', // 最后工作日
         isDept01: '', // 一级部门
         dLevle: '', // 部门层级
-        dname: '', // 部门全称
         beginWorkDate: '', // 计工龄开始日期
         remark: '', // 备注
         healhstayus: '', // 员工状态
@@ -819,9 +869,13 @@ export default {
         archivesId: '', // 档案编号
         shebaoId: '', // 社保帐号
         fundid: '', // 公积金账号
-        jobLevle: '', // 职等
+        jobLevel: '', // 职等
         inneruserdept: '', // 内部推荐人部门
         photo: '', // 员工照片
+        userStatus: '', // 员工状态
+        evaluates: '', // 评测结果
+        height: '', // 身高
+        weight: '', // 体重
         userWorkhis: [], // 工作简历
         userTrainhis: [], // 培训经历
         userStudyhis: [], // 教育背景
@@ -833,12 +887,32 @@ export default {
     }
   },
   created () {
-    this.getByUserId()
-    this.createInfoRecordTh()
+    this.getByUserId() // 生成工号
+    this.createInfoRecordTh() // 创建表格
+    // getDic(9).then(res => this.nationidType = res.data)
   },
   mounted () {
   },
   methods: {
+    joinTime () {
+      this.allData.beginWorkDate = this.allData.startworkdata
+      this.allData.beWorkDate = threeMonth(this.allData.startworkdata)
+    },
+    telValidate () {
+      if (isPoneAvailable(this.allData.mobilphone)) {
+        return true
+      } else {
+        this.$Message.info('手机号码格式输入有误！')
+      }
+    },
+    changeBirthDate () {
+      let age = ageCalculate(currentTime(this.allData.birthdate))
+      if (age <= 0) {
+        this.$Message.info('请正确选择出生日期！')
+      } else {
+        this.allData.age = age
+      }
+    },
     getByUserId () {
       getUserId().then((res) => {
         this.allData.userId = res.userId
@@ -873,12 +947,55 @@ export default {
     },
     getDepartment (item) {
       // console.log(item)
-      this.allData.did = item.dname
+      this.allData.did = item.did
+      this.allData.dname = item.dname
     },
     getDepartmentStatus (item) {
       // console.log(item)
       this.flag2 = item.comFlag
       this.model2 = item.commodal
+    },
+    queryJob () { // 公司信息查询
+      if (this.allData.did) {
+        this.flag3 = true
+        this.model3 = true
+      } else {
+        this.$Message.info('请先选择部门！')
+        return false
+      }
+    },
+    getJob (item) {
+      this.allData.jobId = item.jobId
+      this.allData.jobName = item.jobName
+      this.allData.jobType = item.jobType
+      this.allData.jobLevel = item.jobLevel
+    },
+    getJobStatus (item) {
+      this.flag3 = item.comFlag
+      this.model3 = item.commodal
+    },
+    queryInneruser () {
+      this.modal6 = true
+      this.flag6 = true
+      this.userIdFlag = 1
+    },
+    queryId () {
+      this.modal6 = true
+      this.flag6 = true
+      this.userIdFlag = 0
+    },
+    getUserId (item) {
+      console.log(item)
+      if (this.userIdFlag) {
+        this.allData.inneruser = item.userName
+        this.allData.inneruserdept = item.dname
+      } else {
+        this.allData.upHeader = item.userName
+      }
+    },
+    getUserIdStatus (item) {
+      this.flag6 = item.comFlag
+      this.modal6 = item.commodal
     },
     handleView (name) {
       // console.log(name)
@@ -887,33 +1004,33 @@ export default {
     },
     handleRemove (file) {
     },
-    handleSuccess (res, file) {
-      // console.log(res)
-      // console.log(file)
-      file.url = '../../assets/logo.png'
-      file.name = 'logo.png'
-      // this.uploadList.push(file)
-      // console.log(this.uploadList)
-      let params = {
-        bonusId: 'LLH18816215744372',
-        url: 'LLH18816215744372_' + file.name
-      }
-      getAvatraJson(params).then((res) => {
-        // console.log(res)
-      })
-    },
-    handleFormatError (file) {
-      this.$Notice.warning({
-        title: 'The file format is incorrect',
-        desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
-      })
-    },
-    handleMaxSize (file) {
-      this.$Notice.warning({
-        title: 'Exceeding file size limit',
-        desc: 'File  ' + file.name + ' is too large, no more than 2M.'
-      })
-    },
+    // handleSuccess (res, file) {
+    //   // console.log(res)
+    //   // console.log(file)
+    //   file.url = '../../assets/logo.png'
+    //   file.name = 'logo.png'
+    //   // this.uploadList.push(file)
+    //   // console.log(this.uploadList)
+    //   let params = {
+    //     bonusId: 'LLH18816215744372',
+    //     url: 'LLH18816215744372_' + file.name
+    //   }
+    //   // getAvatraJson(params).then((res) => {
+    //     // console.log(res)
+    //   // })
+    // },
+    // handleFormatError (file) {
+    //   this.$Notice.warning({
+    //     title: 'The file format is incorrect',
+    //     desc: 'File format of ' + file.name + ' is incorrect, please select jpg or png.'
+    //   })
+    // },
+    // handleMaxSize (file) {
+    //   this.$Notice.warning({
+    //     title: 'Exceeding file size limit',
+    //     desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+    //   })
+    // },
     infoRecordChange (val) { // 选择创建表格的类型以及相应输入
       this.infoTemplate = val
       this.data1 = []
@@ -1061,23 +1178,29 @@ export default {
       this.timeFormatting()
       let params = this.allData
       postPersonData(params).then((res) => {
-        console.log(res)
-        this.$router.go(0)
+        if (res.code === 200) {
+          this.$Message.success(res.msg)
+          this.$router.go(0)
+        } else {
+          this.$Message.warning(res.msg)
+        }
       })
     },
     timeFormatting () {
-      this.allData.idcardkindid = currentTime(this.allData.idcardkindid)
-      this.allData.birthdate = currentTime(this.allData.birthdate)
-      this.allData.startworkdata = currentTime(this.allData.startworkdata)
-      this.allData.beWorkDate = currentTime(this.allData.beWorkDate)
-      this.allData.healhDate = currentTime(this.allData.healhDate)
-      this.allData.beginWorkDate = currentTime(this.allData.beginWorkDate)
-      this.allData.lastworkdate = currentTime(this.allData.lastworkdate)
+      this.allData.idcardkindid ? this.allData.idcardkindid = currentTime(this.allData.idcardkindid) : this.allData.idcardkindid = ''
+      this.allData.birthdate ? this.allData.birthdate = currentTime(this.allData.birthdate) : this.allData.birthdate = ''
+      this.allData.startworkdata ? this.allData.startworkdata = currentTime(this.allData.startworkdata) : this.allData.startworkdata = ''
+      this.allData.beWorkDate ? this.allData.beWorkDate = currentTime(this.allData.beWorkDate) : this.allData.beWorkDate = ''
+      this.allData.healhDate ? this.allData.healhDate = currentTime(this.allData.healhDate) : this.allData.healhDate = ''
+      this.allData.beginWorkDate ? this.allData.beginWorkDate = currentTime(this.allData.beginWorkDate) : this.allData.beginWorkDate = ''
+      this.allData.lastworkdate ? this.allData.lastworkdate = currentTime(this.allData.lastworkdate) : this.allData.lastworkdate = ''
     }
   },
   components: {
     departmentQuery,
-    companyQuery
+    companyQuery,
+    jobQuery,
+    userIdQuery
   }
 }
 </script>
@@ -1087,7 +1210,7 @@ export default {
   height: 100%;
 }
 .person_tabpane {
-  min-height: 400px;
+  min-height: 780px;
   height: 100%;
   padding: 10px 10px;
 }

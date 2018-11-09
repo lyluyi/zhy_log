@@ -130,18 +130,6 @@
           <Input placeholder="" />
         </Col>
       </Row>
-      <Row :gutter="16" class="mb10">
-        <Col class="col_flex" span="24">
-          <Button class="wd mr10 tr" type="text">HR部门意见：</Button>
-          <Input placeholder="" />
-        </Col>
-      </Row>
-      <Row :gutter="16" class="mb10">
-        <Col class="col_flex" span="24">
-          <Button class="wd mr10 tr" type="text">HR部门意见：</Button>
-          <Input type="textarea" placeholder=""/>
-        </Col>
-      </Row>
       <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="24">
           <Button class="wd mr10 tr" type="text">备注：</Button>

@@ -5,40 +5,45 @@
     </div>
     <div class="company_inputGroup">
       <Row :gutter="16" class="mb10">
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">公司名称：</Button>
-          <Input placeholder="" v-model="allData.cname"/>
+        <Col  span="6">
+          <Tree :data="data1" ref="tree" ></Tree>
         </Col>
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">注册地址：</Button>
-          <Input placeholder="" v-model="allData.registeredAddress" />
-        </Col>
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">注册时间：</Button>
-          <DatePicker type="date" placeholder="Select date" v-model="allData.createtime"  placement="bottom"></DatePicker>
-        </Col>
-      </Row>
-      <Row :gutter="16" class="mb10">
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">法人：</Button>
-          <Input placeholder="" v-model="allData.comHeader" />
-        </Col>
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">公司状态：</Button>
-          <Input placeholder="" v-model="allData.status"/>
-        </Col>
-        <!-- <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">最后修改时间：</Button>
-          <DatePicker type="date" placeholder="Select date" style="width: 200px" placement="right-end"></DatePicker>
-        </Col> -->
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">上级公司ID：</Button>
-          <Input search enter-button placeholder="" v-model="allData.cid" @on-search="queryCompany" readonly />
-        </Col>
-      </Row>
-      <Row :gutter="16" class="mt20">
-        <Col class="col_flex tr" span="24">
-          <Button type="primary" @click="save" size="large" style="margin:auto;width:128px;">保存</Button>
+        <Col  span="18">
+          <Row :gutter="16" class="mb10">
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">公司名称：</Button>
+              <Input placeholder="" v-model="allData.cname"/>
+            </Col>
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">注册地址：</Button>
+              <Input placeholder="" v-model="allData.registeredAddress" />
+            </Col>
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">注册时间：</Button>
+              <DatePicker type="date" placeholder="Select date" v-model="allData.createtime"  placement="bottom"></DatePicker>
+            </Col>
+          </Row>
+          <Row :gutter="16" class="mb10">
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">法人：</Button>
+              <Input placeholder="" v-model="allData.comHeader" />
+            </Col>
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">上级公司ID：</Button>
+              <Input search enter-button placeholder="" v-model="allData.upCid" @on-search="queryCompany" readonly />
+            </Col>
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">区域：</Button>
+              <Select v-model="allData.area"  placement="bottom">
+                <Option v-for="item in areaType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
+            </Col>
+          </Row>
+          <Row :gutter="16" class="mt20">
+            <Col class="col_flex tr" span="24">
+              <Button type="primary" @click="save" size="large" style="margin:auto;width:128px;">保存</Button>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </div>
@@ -47,13 +52,16 @@
 </template>
 <script>
 import companyQuery from '@/common/companyQuery'
-import { postCompanyData } from '@/server/api.js'
+import { postCompanyData, getCompanyTree } from '@/server/api.js'
+import getDic from '@/server/apiDic'
 import { currentTime } from '@/util/common.js'
 export default {
   data () {
     return {
       model1: false,
       flag1: false,
+      data1: [],
+      areaType: [],
       allData: {
         cname: '',
         registeredAddress: '',
@@ -62,11 +70,20 @@ export default {
         createtime: '',
         lastmodifytime: '',
         upCid: '',
-        cid: ''
+        cid: '',
+        area: ''
       }
     }
   },
-  created () {},
+  created () {
+    getCompanyTree().then((res) => {
+      console.log(res)
+      this.data1 = res
+    })
+    getDic('area').then((res) => {
+      this.areaType = res.data
+    })
+  },
   mounted () {},
   methods: {
     queryCompany () { // 公司信息查询
@@ -74,7 +91,7 @@ export default {
       this.model1 = true
     },
     getCompany (item) {
-      this.allData.cid = item.cid
+      this.allData.upCid = item.cid
     },
     getCompanyStatus (item) {
       this.flag1 = item.comFlag
@@ -86,9 +103,12 @@ export default {
       let params = this.allData
       postCompanyData(params).then((res) => {
         this.$Spin.hide()
-        this.$Message.success({ content: '保存成功！' })
-        this.clearData()
-        // console.log(res)
+        if (res.code === 200) {
+          this.$Message.success(res.msg)
+          this.clearData()
+        } else {
+          this.$Message.warning(res.msg)
+        }
       }).catch((err) => {
         this.$Spin.hide()
         this.$Message.error({ content: '保存失败！' })

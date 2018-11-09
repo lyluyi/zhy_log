@@ -5,38 +5,39 @@
     </div>
     <div class="department_inputGroup">
       <Row :gutter="16" class="mb10">
-        <!-- <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">部门编号：</Button>
-          <Select v-model="allData.idTypeModel" style="width:200px" placement="top">
-              <Option v-for="item in idType" :value="item.value" :key="item.value">{{ item.label }}</Option>
-          </Select>
-        </Col> -->
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">部门名称：</Button>
-          <Input placeholder="" v-model="allData.dname"/>
+        <Col  span="6" class="border">
+          <Tree :data="data1" ref="tree" ></Tree>
         </Col>
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">所属公司：</Button>
-          <Input search enter-button placeholder="" v-model="allData.cname" @on-search="queryCompany" />
-        </Col>
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">上级部门：</Button>
-          <Input search enter-button  @on-search="queryDepartment" v-model="allData.upDid" placeholder="" />
-        </Col>
-      </Row>
-      <Row :gutter="16" class="mb10">
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">部门层级：</Button>
-          <InputNumber number  :max="3" :min="1" v-model="allData.dLevel"></InputNumber>
-        </Col>
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">描述：</Button>
-          <Input placeholder="" v-model="allData.description" />
-        </Col>
-      </Row>
-      <Row :gutter="16" class="mt20">
-        <Col class="col_flex tr" span="24">
-          <Button type="primary" size="large" style="margin:auto;width:128px;" @click="save">保存</Button>
+        <Col  span="18">
+          <Row :gutter="16" class="mb10">
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">部门名称：</Button>
+              <Input placeholder="" v-model="allData.dname"/>
+            </Col>
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">所属公司：</Button>
+              <Input search enter-button placeholder="" v-model="allData.cname" @on-search="queryCompany" />
+            </Col>
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">上级部门：</Button>
+              <Input search enter-button  @on-search="queryDepartment" v-model="allData.upDid" placeholder="" />
+            </Col>
+          </Row>
+          <Row :gutter="16" class="mb10">
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">部门层级：</Button>
+              <InputNumber number  :max="3" :min="1" v-model="allData.dLevel"></InputNumber>
+            </Col>
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">描述：</Button>
+              <Input placeholder="" v-model="allData.description" />
+            </Col>
+          </Row>
+          <Row :gutter="16" class="mt20">
+            <Col class="col_flex tr" span="24">
+              <Button type="primary" size="large" style="margin:auto;width:128px;" @click="save">保存</Button>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </div>
@@ -49,7 +50,7 @@
 import departmentQuery from '@/common/departmentQuery'
 import companyQuery from '@/common/companyQuery'
 
-import { postDepartmentData } from '@/server/api.js'
+import { postDepartmentData, getCompanyTree } from '@/server/api.js'
 
 export default {
   data () {
@@ -58,6 +59,7 @@ export default {
       model1: false,
       flag2: false,
       model2: false,
+      data1: [],
       allData: {
         dname: '',
         cname: '',
@@ -68,7 +70,12 @@ export default {
       }
     }
   },
-  created () {},
+  created () {
+    getCompanyTree().then((res) => {
+      console.log(res)
+      this.data1 = res
+    })
+  },
   mounted () {},
   methods: {
     queryCompany () { // 公司信息查询
@@ -101,17 +108,19 @@ export default {
       this.model2 = item.commodal
     },
     save () {
-      this.$Spin.show()
+      // this.$Spin.show()
       let params = this.allData
       postDepartmentData(params).then((res) => {
-        this.$Spin.hide()
-        this.$Message.success({ content: '保存成功！' })
-        this.clearData()
-        // console.log(res)
+        if (res.code === 200) {
+          this.$Message.success(res.msg)
+          this.$router.go(0)
+        } else {
+          this.$Message.warning(res.msg)
+        }
       }).catch((err) => {
-        this.$Spin.hide()
-        this.$Message.error({ content: '保存失败！' })
-        this.clearData()
+        // this.$Spin.hide()
+        // this.$Message.error({ content: '保存失败！' })
+        // this.clearData()
         console.log(err)
       })
     },
@@ -137,4 +146,5 @@ export default {
 .department{ height: 100%;padding: 10px 10px;font-size: 14px;font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","\5FAE\8F6F\96C5\9ED1",Arial,sans-serif;-webkit-font-smoothing: antialiased;min-height: 400px; }
 .department_title{ background: #2d8cf0;width: 100%;text-align: left;color: #fff;line-height: 36px;height: 36px;padding-left: 10px;}
 .department_inputGroup{}
+/* .border{ border-right: 1px solid #e8eaec !important; } */
 </style>
