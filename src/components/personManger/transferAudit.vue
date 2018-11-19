@@ -1,7 +1,7 @@
 <template>
   <div class="transfer">
     <div class="transfer_title mb20">
-      转编申请
+      转编申请审核
     </div>
     <div class="transfer_inputGroup">
       <Divider orientation="left">员工基本信息</Divider>
@@ -65,31 +65,35 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">员工状态：</Button>
-          <Select v-model="userOrganization.userStatus">
-            <Option v-for="item in userStatusDic" :value="item.value" :key="item.value">{{ item.label }}</Option>
-          </Select>
+          <Input placeholder="" v-model="userOrganization.userStatus" readonly />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">试用日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userOrganization.startworkdate"></DatePicker>
+          <Input placeholder="" v-model="userOrganization.startworkdateView" readonly />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">转正日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userOrganization.toBeWorkDate"></DatePicker>
+          <Input placeholder="" v-model="userOrganization.toBeWorkDateView" readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="24">
           <Button class="wd mr10 tr" type="text">备注：</Button>
-          <Input type="textarea" placeholder="" v-model="userOrganization.remark"/>
+          <Input type="textarea" placeholder="" v-model="userOrganization.remark" readonly />
         </Col>
       </Row>
-      <Divider orientation="left">待转正员工</Divider>
-      <Table :columns="columns1" :data="data1" @on-row-click="tableClick"></Table>
-      <Page :total="pageInfo.totalRow" :current="pageInfo.pageNumber" :page-size="pageInfo.pageSize" @on-change="changePageNumber" show-total  class="mt20" />
       <Row :gutter="16" class="mt20">
-        <Col class="col_flex tr" span="24">
-          <Button type="primary" size="large" style="margin:auto;width:128px;" @click="save">保存</Button>
+        <Col class="col_flex tr" span="6">
+          <Button type="primary" size="large" style="margin:auto;width:128px;" @click="approvalAndApproval"  v-if="auditStatus == '审批中'">审批通过</Button>
+        </Col>
+        <Col class="col_flex tr" span="6">
+          <Button type="primary" size="large" style="margin:auto;width:128px;" @click="approvalNotApproved"  v-if="auditStatus == '审批中'">审批不通过</Button>
+        </Col>
+        <Col class="col_flex tr" span="6">
+          <Button type="primary" size="large" style="margin:auto;width:128px;" @click="approvalAndRetreat"  v-if="auditStatus == '审批中'">回退</Button>
+        </Col>
+        <Col class="col_flex tr" span="6">
+          <Button type="primary" size="large" style="margin:auto;width:128px;" @click="approvalDisable"  v-if="auditStatus == '审批中'">审批作废</Button>
         </Col>
       </Row>
     </div>
@@ -97,21 +101,13 @@
 </template>
 <script>
 
-import { getTransferList, postTransfer } from '@/server/api'
-import getDic from '@/server/apiDic'
-
-import { currentTime } from '@/util/common'
+import { getUserAudit, getUserAuditOldUser, getUserOrganizationApply, userAudit } from '@/server/api'
 
 export default {
   data () {
     return {
-      userStatusDic: [],
-      pageInfo: {
-        pageNumber: 1,
-        pageSize: 10,
-        totalPage: 0,
-        totalRow: 0
-      },
+      auditId: '',
+      auditStatus: '',
       oldData: {
         userId: '',
         cname: '',
@@ -128,7 +124,7 @@ export default {
         userStatus: '',
         beWorkDate: '',
         remark: '',
-        toBeWorkDate: '', // 转编日期
+        toBeWorkDate: '',
         appDate: '', // 审批时间
         approverId: '', // 审批人Id
         approverName: '', // 审批人姓名
@@ -145,95 +141,74 @@ export default {
         opinion: '', // 转正意见
         startworkdate: '', // 入司时间
         userId: '', // 员工编号
-        userName: '' // 员工姓名
-      },
-      columns1: [
-        {
-          title: '工号',
-          key: 'userId'
-        },
-        {
-          title: '姓名',
-          key: 'userName'
-        },
-        {
-          title: '公司',
-          key: 'cname'
-        },
-        {
-          title: '部门',
-          key: 'dname'
-        },
-        {
-          title: '职位',
-          key: 'userType'
-        },
-        {
-          title: '入司日期',
-          key: 'startworkdataView'
-        },
-        {
-          title: '员工状态',
-          key: 'userStatus'
-        },
-        {
-          title: '备注',
-          key: 'remark'
-        }
-      ],
-      data1: []
+        userName: ''// 员工姓名
+      }
     }
   },
   created () {
-    let params = {
-      userStatus: '实习生'
-    }
-    getTransferList(params).then((res) => {
-      this.data1 = res.list
-      this.pageInfo = { ...res }
+    let params = {entityId: this.$route.params.entityId}
+    getUserAuditOldUser(params).then((res) => {
+      let user = res.data
+      this.oldData = user
     })
-    getDic('userStatus').then((res) => {
-      this.userStatusDic = res.data
-    })
-  },
-  mounted () {
-  },
-  methods: {
-    changePageNumber (num) {
-      this.pageInfo.pageNumber = num
-      let params = {
-        userStatus: '实习生',
-        pageNumber: num
-      }
-      getTransferList(params).then((res) => {
-        this.data1 = res.list
+    getUserAudit({id: this.$route.params.id}).then((res) => {
+      // 变更类型
+      params = {id: res.data.applyId}
+      this.auditId = res.data.id
+      this.auditStatus = res.data.auditStatus
+      getUserOrganizationApply(params).then((res) => {
+        this.userOrganization = res.data
       })
-    },
-    tableClick (item, index) {
-      this.oldData = item
-    },
-    save () {
-      this.userOrganization.beWorkDate = currentTime(this.userOrganization.beWorkDate)
-      this.userOrganization.toBeWorkDate = currentTime(this.userOrganization.toBeWorkDate)
-      this.userOrganization.userId = this.oldData.userId
-      let userStatus = this.userOrganization.userStatus
-      let toBeWorkDate = this.userOrganization.toBeWorkDate
-      let params = Object.assign({}, this.userOrganization, this.oldData)
-      params.remark = this.userOrganization.remark
-      params.userStatus = userStatus
-      params.toBeWorkDate = toBeWorkDate
-      params.operatorId = localStorage.getItem('userId')
-      postTransfer(params).then((res) => {
+    })
+  },
+  mounted () {},
+  methods: {
+    approvalAndApproval () {
+      let params = {}
+      params.auditId = this.auditId
+      params.userAuditType = '员工转编申请'
+      params.userAuditStatus = '审批通过'
+      params.approverId = localStorage.getItem('userId')
+      userAudit(params).then((res) => {
         if (res.code === 200) {
           this.$Message.success(res.msg)
-          this.$router.go(0)
+          this.$router.go(-1)
+        } else {
+          this.$Message.warning(res.msg)
+        }
+      })
+    },
+    approvalNotApproved () {
+      let params = {}
+      params.auditId = this.auditId
+      params.userAuditType = '员工转编申请'
+      params.userAuditStatus = '审批不通过'
+      params.approverId = localStorage.getItem('userId')
+      userAudit(params).then((res) => {
+        if (res.code === 200) {
+          this.$Message.success(res.msg)
+          this.$router.go(-1)
+        } else {
+          this.$Message.warning(res.msg)
+        }
+      })
+    },
+    approvalAndRetreat () {},
+    approvalDisable () {
+      let params = {}
+      params.auditId = this.auditId
+      params.userAuditType = '员工转编申请'
+      params.userAuditStatus = '作废'
+      params.approverId = localStorage.getItem('userId')
+      userAudit(params).then((res) => {
+        if (res.code === 200) {
+          this.$Message.success(res.msg)
+          this.$router.go(-1)
         } else {
           this.$Message.warning(res.msg)
         }
       })
     }
-  },
-  components: {
   }
 }
 </script>

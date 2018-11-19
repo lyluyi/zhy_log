@@ -171,6 +171,24 @@ const router = new Router({
           component: (resolve) => require(['../components/personManger/dimission.vue'], resolve)
         },
         {
+          path: 'dimissionAudit',
+          name: 'dimissionAudit',
+          meta: {
+            title: '离职',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/dimissionAudit.vue'], resolve)
+        },
+        {
+          path: 'dimissionView',
+          name: 'dimissionView',
+          meta: {
+            title: '离职',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/dimissionView.vue'], resolve)
+        },
+        {
           path: 'fullMember',
           name: 'fullMember',
           meta: {
@@ -178,6 +196,24 @@ const router = new Router({
             content: true
           },
           component: (resolve) => require(['../components/personManger/fullMember.vue'], resolve)
+        },
+        {
+          path: 'fullMemberAudit',
+          name: 'fullMemberAudit',
+          meta: {
+            title: '转正审批',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/fullMemberAudit.vue'], resolve)
+        },
+        {
+          path: 'fullMemberView',
+          name: 'fullMemberView',
+          meta: {
+            title: '转正审批',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/fullMemberView.vue'], resolve)
         },
         {
           path: 'jobChange',
@@ -189,6 +225,24 @@ const router = new Router({
           component: (resolve) => require(['../components/personManger/jobChange.vue'], resolve)
         },
         {
+          path: 'jobChangeAudit',
+          name: 'jobChangeAudit',
+          meta: {
+            title: '岗位变动审批',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/jobChangeAudit.vue'], resolve)
+        },
+        {
+          path: 'jobChangeView',
+          name: 'jobChangeView',
+          meta: {
+            title: '岗位变动审批查看',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/jobChangeView.vue'], resolve)
+        },
+        {
           path: 'reEmploy',
           name: 'reEmploy',
           meta: {
@@ -198,6 +252,24 @@ const router = new Router({
           component: (resolve) => require(['../components/personManger/reEmploy.vue'], resolve)
         },
         {
+          path: 'reEmployAudit',
+          name: 'reEmployAudit',
+          meta: {
+            title: '回聘审批',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/reEmployAudit.vue'], resolve)
+        },
+        {
+          path: 'reEmployView',
+          name: 'reEmployView',
+          meta: {
+            title: '回聘审批查看',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/reEmployView.vue'], resolve)
+        },
+        {
           path: 'transfer',
           name: 'transfer',
           meta: {
@@ -205,6 +277,42 @@ const router = new Router({
             content: true
           },
           component: (resolve) => require(['../components/personManger/transfer.vue'], resolve)
+        },
+        {
+          path: 'transferAudit',
+          name: 'transferAudit',
+          meta: {
+            title: '转编审批',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/transferAudit.vue'], resolve)
+        },
+        {
+          path: 'transferView',
+          name: 'transferView',
+          meta: {
+            title: '转编审批查看',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/transferView.vue'], resolve)
+        },
+        {
+          path: 'useraudit',
+          name: 'useraudit',
+          meta: {
+            title: '人员变动审核',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/userAudit.vue'], resolve)
+        },
+        {
+          path: 'userAuditView',
+          name: 'userAuditView',
+          meta: {
+            title: '人员变动审核查看',
+            content: true
+          },
+          component: (resolve) => require(['../components/personManger/userAuditView.vue'], resolve)
         }
       ]
     }
