@@ -87,7 +87,7 @@ export const getUserIdJobChange = (params) => { return fetch('Json', 'user/page'
 
 // 转编
 
-export const getTransferList = (params) => { return fetch('Json', 'user/page', params) } // 待转编人员列表
+export const getTransferList = (params) => { return fetch('Json', 'userOrganization/selectUserpage', params) } // 待转编人员列表
 
 export const postTransfer = (params) => { return fetch(('json'), 'userOrganization', params) } // 保存转编人员信息
 
@@ -103,4 +103,56 @@ export const getJobId = (params) => { return fetch('FormData', 'job/page', param
 
 // 岗位变动
 
-export const postJobChange = (params) => { return fetch(('json'), 'userCdChange', params) } // 保存岗位变动信息
+export const postJobChange = (params) => { return fetch('json', 'userCdChange', params) } // 保存岗位变动信息
+
+// 查询岗位变动信息
+
+export const getJobChangeApply = (params) => { return fetch('FormData', 'userCdChange/findUserCdChangeById', params) }
+
+// 用户审批分页
+
+export const getUserAuditList = (params) => { return fetch('FormData', 'userAudit/page', params) }
+
+// 查询审批备份 User
+
+export const getUserAuditOldUser = (params) => { return fetch('FormData', 'userAudit/userAudit/oldUser', params) }
+
+// 查询人员审批详细信息
+
+export const getUserAudit = (params) => { return fetch('FormData', 'userAudit/findUserAuditById', params) }
+
+// 人员审批
+
+export const userAudit = (params) => { return fetch('FormData', 'userAudit/audit', params) }
+
+// 保存人员回聘信息
+
+export const postUserReturn = (params) => { return fetch('json', 'userReturn', params) }
+
+// 查询回聘详细信息
+
+export const getUserReturnApply = (params) => { return fetch('FormData', 'userReturn/findUserReturnById', params) }
+
+// 保存离职信息
+
+export const postUserQuit = (params) => { return fetch('json', 'userQuit', params) }
+
+// 查询离职信息
+
+export const getUserQuitApply = (params) => { return fetch('FormData', 'userQuit/findUserQuitById', params) }
+
+// 查询转编申请信息
+
+export const getUserOrganizationApply = (params) => { return fetch('FormData', 'userOrganization/findUserOrganizationById', params) }
+
+// 查询待转正员工
+
+export const getCanUserFormalUser = (params) => { return fetch('json', 'userFormal/selectUserPage', params) }
+
+// 保存员工转正信息
+
+export const postUserFormal = (params) => { return fetch('json', 'userFormal', params) }
+
+// 查询转编信息
+
+export const getUserFormalApply = (params) => { return fetch('FormData', 'userFormal/findUserFormalById', params) }
