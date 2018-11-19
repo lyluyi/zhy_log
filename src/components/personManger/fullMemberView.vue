@@ -1,7 +1,7 @@
 <template>
   <div class="fullMember">
     <div class="fullMember_title mb20">
-      转正管理申请
+      转正管理查看
     </div>
     <div class="fullMember_inputGroup">
 
@@ -63,33 +63,28 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">转正日期：</Button>
+          <!--
           <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userFormal.toBeWorkDate"></DatePicker>
+          -->
+          <Input placeholder="" v-model="userFormal.toBeWorkDateView" readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="24">
           <Button class="wd mr10 tr" type="text">转正意见：</Button>
-          <Input type="textarea" placeholder="" v-model="userFormal.opinion" />
+          <Input type="textarea" placeholder="" v-model="userFormal.opinion" readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="24">
           <Button class="wd mr10 tr" type="text">签核意见：</Button>
-          <Input type="textarea" v-model="userFormal.signTheOpinion" placeholder=""/>
+          <Input type="textarea" placeholder="" v-model="userFormal.signTheOpinion"  readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="24">
           <Button class="wd mr10 tr" type="text">备注：</Button>
-          <Input type="textarea" placeholder="" v-model="userFormal.remark"  />
-        </Col>
-      </Row>
-      <Divider orientation="left">待转正员工</Divider>
-      <Table :columns="columns1" :data="data1" @on-row-click="tableClick"></Table>
-      <Page :total="pageInfo.totalRow" :current="pageInfo.pageNumber" :page-size="pageInfo.pageSize" @on-change="changePageNumber" show-total  class="mt20" />
-      <Row :gutter="16" class="mt20">
-        <Col class="col_flex tr" span="24">
-          <Button type="primary" size="large" style="margin:auto;width:128px;" @click="save">保存</Button>
+          <Input type="textarea" placeholder="" v-model="userFormal.remark" readonly  />
         </Col>
       </Row>
     </div>
@@ -97,7 +92,7 @@
 </template>
 <script>
 
-import { getCanUserFormalUser, postUserFormal } from '@/server/api'
+import { getUserAudit, getUserAuditOldUser, getUserFormalApply } from '@/server/api'
 
 export default {
   data () {
@@ -125,89 +120,25 @@ export default {
       },
       oldData: {
 
-      },
-      columns1: [
-        {
-          title: '工号',
-          key: 'userId'
-        },
-        {
-          title: '姓名',
-          key: 'userName'
-        },
-        {
-          title: '公司',
-          key: 'cname'
-        },
-        {
-          title: '部门',
-          key: 'dname'
-        },
-        {
-          title: '职位',
-          key: 'jobName'
-        },
-        {
-          title: '入司日期',
-          key: 'startworkdataView'
-        },
-        {
-          title: '员工状态',
-          key: 'userStatus'
-        },
-        {
-          title: '备注',
-          key: 'remark'
-        }
-      ],
-      data1: []
+      }
     }
   },
   created () {
-    let params = {
-      userStatus: '试用员工'
-    }
-    getCanUserFormalUser(params).then((res) => {
-      this.data1 = res.list
-      this.pageInfo = { ...res }
+    let params = {entityId: this.$route.params.entityId}
+    getUserAuditOldUser(params).then((res) => {
+      let user = res.data
+      this.oldData = user
+    })
+    getUserAudit({id: this.$route.params.id}).then((res) => {
+      // 变更类型
+      params = {id: res.data.applyId}
+      getUserFormalApply(params).then((res) => {
+        this.userFormal = res.data
+      })
     })
   },
   mounted () {},
-  methods: {
-    changePageNumber (num) {
-      this.pageInfo.pageNumber = num
-      let params = {
-        userStatus: '试用员工',
-        pageNumber: num
-      }
-      getCanUserFormalUser(params).then((res) => {
-        this.data1 = res.list
-      })
-    },
-    tableClick (item, index) {
-      this.oldData = item
-      this.userFormal.toBeWorkDate = item.toBeWorkDateView
-      this.userFormal.userId = item.userId
-      this.userFormal.userName = item.userName
-      this.userFormal.cname = item.cname
-      this.userFormal.dname = item.dname
-      this.userFormal.jobName = item.jobName
-      this.userFormal.cid = item.cid
-      this.userFormal.did = item.did
-    },
-    save () {
-      let params = this.userFormal
-      params.operatorId = localStorage.getItem('userId')
-      postUserFormal(params).then((res) => {
-        if (res.code === 200) {
-          this.$Message.success(res.msg)
-          this.$router.go(0)
-        } else {
-          this.$Message.warning(res.msg)
-        }
-      })
-    }
-  },
+  methods: {},
   components: {
   }
 }
