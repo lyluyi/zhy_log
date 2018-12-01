@@ -99,7 +99,7 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">证件号码：</Button>
-              <Input  placeholder="" v-model="allData.idcardno" />
+              <Input  placeholder="" v-model="allData.idcardno" @on-blur="changeIdcardno" />
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">证件到期日期：</Button>
@@ -109,7 +109,7 @@
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">出生日期：</Button>
-              <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.birthdate"  @on-change="changeBirthDate" ></DatePicker>
+              <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.birthdate" readonly ></DatePicker>
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">性别：</Button>
@@ -265,7 +265,9 @@
             </Col> -->
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">人员来源：</Button>
-              <Input type="text" placeholder=""  v-model="allData.source"/>
+              <Select v-model="allData.source"  placement="bottom">
+                <Option v-for="item in sourceType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">内部推荐人：</Button>
@@ -635,11 +637,11 @@ import userIdQuery from '@/common/userIdQuery'
 
 import ip from '@/config'
 
-import { currentTime, ageCalculate, isPoneAvailable, threeMonth } from '@/util/common'
+import { currentTime, isPoneAvailable, threeMonth, idCardCheck } from '@/util/common'
 
 import { postPersonData, getUserId } from '@/server/api'
 
-// import getDic from '@/server/apiDic'
+import getDic from '@/server/apiDic'
 
 export default {
   data () {
@@ -704,6 +706,7 @@ export default {
         { value: '女', label: '女' }
       ],
       nationidType: [],
+      sourceType: [],
       infoRecordType: [ // 性别
         { value: '工作简历', label: '工作简历' },
         { value: '培训经历', label: '培训经历' },
@@ -890,6 +893,12 @@ export default {
     this.getByUserId() // 生成工号
     this.createInfoRecordTh() // 创建表格
     // getDic(9).then(res => this.nationidType = res.data)
+    getDic('NATIONID').then((res) => {
+      this.nationidType = res.data
+    })
+    getDic('SOURCE').then((res) => {
+      this.sourceType = res.data
+    })
   },
   mounted () {
   },
@@ -905,13 +914,10 @@ export default {
         this.$Message.info('手机号码格式输入有误！')
       }
     },
-    changeBirthDate () {
-      let age = ageCalculate(currentTime(this.allData.birthdate))
-      if (age <= 0) {
-        this.$Message.info('请正确选择出生日期！')
-      } else {
-        this.allData.age = age
-      }
+    changeIdcardno () {
+      let strData = idCardCheck(this.allData.idcardno)
+      this.allData.age = strData.age
+      this.allData.birthdate = strData.birthDay
     },
     getByUserId () {
       getUserId().then((res) => {

@@ -16,7 +16,9 @@ import { getCompanyTree } from '@/server/api.js'
 
 export default {
   data () {
-    return {}
+    return {
+      data1: []
+    }
   },
   created () {
     getCompanyTree().then((res) => {

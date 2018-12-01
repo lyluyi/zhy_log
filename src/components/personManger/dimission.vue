@@ -94,7 +94,9 @@
       <Row :gutter="16" class="mt20">
         <Col class="col_flex" span="24">
           <Button class="wd mr10 tr" type="text">离退原因：</Button>
-          <Input type="textarea" placeholder="" v-model="userQuit.reasons" />
+          <Select v-model="userQuit.reasons">
+            <Option v-for="item in reasonsType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
         </Col>
         <!--
         <Col class="col_flex" span="8">
@@ -137,6 +139,7 @@ export default {
   data () {
     return {
       quitTypeDict: [],
+      reasonsType: [],
       flag1: false,
       model1: false,
       flag2: false,
@@ -176,6 +179,9 @@ export default {
   created () {
     getDic('quitType').then((res) => {
       this.quitTypeDict = res.data
+    })
+    getDic('quitReason').then((res) => {
+      this.reasonsType = res.data
     })
   },
   mounted () {},

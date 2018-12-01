@@ -18,6 +18,64 @@ const router = new Router({
       component: (resolve) => require(['../components/login/login.vue'], resolve)
     },
     {
+      path: '/ZHYFF',
+      meta: {
+        title: '费控'
+      },
+      component: (resolve) => require(['../components/ZHYFF/ZHYFF.vue'], resolve),
+      children: [
+        {
+          path: '/',
+          redirect: { name: 'companyBudget' }
+        },
+        {
+          path: 'exchangeManegement',
+          name: 'exchangeManegement',
+          meta: {
+            title: '汇率管理',
+            content: true
+          },
+          component: (resolve) => require(['../components/ZHYFF/components/exchangeManegement.vue'], resolve)
+        },
+        {
+          path: 'BPCVersions',
+          name: 'BPCVersions',
+          meta: {
+            title: 'BPC版本管理',
+            content: true
+          },
+          component: (resolve) => require(['../components/ZHYFF/components/BPCVersions.vue'], resolve)
+        },
+        {
+          path: 'areaBudget',
+          name: 'areaBudget',
+          meta: {
+            title: '片区预算',
+            content: true
+          },
+          component: (resolve) => require(['../components/ZHYFF/components/areaBudget.vue'], resolve)
+        },
+        {
+          path: 'companyBudget',
+          name: 'companyBudget',
+          meta: {
+            title: '公司预算',
+            content: true
+          },
+          component: (resolve) => require(['../components/ZHYFF/components/companyBudget.vue'], resolve)
+        },
+        {
+          path: 'departmentBudget',
+          name: 'departmentBudget',
+          meta: {
+            title: '部门预算',
+            content: true
+          },
+          component: (resolve) => require(['../components/ZHYFF/components/departmentBudget.vue'], resolve)
+        }
+      ]
+    },
+    {
       path: '/home',
       name: 'home',
       meta: {

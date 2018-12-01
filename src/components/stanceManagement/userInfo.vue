@@ -30,6 +30,14 @@
             <Input type="text" placeholder="" v-model="lowCheck.dname" />
           </Col>
         </Row>
+        <Row :gutter="16" class="mb10">
+          <Col class="col_flex" span="8">
+            <Button class="wd mr10 tr" type="text">员工状态：</Button>
+            <Select v-model="lowCheck.userStatus" filterable>
+              <Option v-for="item in userStatusType" :value="item.value" :key="item.value">{{ item.value }}</Option>
+            </Select>
+          </Col>
+        </Row>
       </div>
       <div v-show="!checkType">
         <Row :gutter="16" class="mb10">
@@ -101,7 +109,7 @@
           <Button class="wd tc" type="primary" style="margin: 0 auto;" @click="queryInfo(type = (checkType ? 'lowCheck' : 'highCheck'), num = null)">查询</Button>
         </Col>
       </Row>
-      <Table border :columns="columns2" :sortable="true" :data="data4"></Table>
+      <Table border :columns="columns2" :sortable="true" :highlight-row="true" :data="data4"></Table>
       <Page :total="pageInfo.totalRow" :current="pageInfo.pageNumber" :page-size="pageInfo.pageSize" @on-change="changePageNumber" show-total  class="mt20" />
       <Divider orientation="left">
       </Divider>
@@ -123,7 +131,7 @@
           <Button type="error" long  @click="delItem">删除</Button>
         </div>
       </Modal>
-      <Table stripe :columns="columns1" :data="data1" class="mt20"></Table>
+      <Table stripe :columns="columns1" :data="data1" class="mt20" :highlight-row="true" ></Table>
       <companyQuery @tableCompany="getCompany" @statusCompany='getCompanyStatus' :data="model1" v-if="flag1"></companyQuery>
       <departmentQuery @tableDepartment="getDepartment" @statusDepartment='getDepartmentStatus' :data="model2" v-if="flag2"></departmentQuery>
     </div>
@@ -135,6 +143,7 @@ import companyQuery from '@/common/companyQuery.vue'
 import departmentQuery from '@/common/departmentQuery.vue'
 
 import { getInfoCheck, getSubCheck } from '@/server/api.js'
+import getDic from '@/server/apiDic.js'
 
 export default {
   data () {
@@ -461,8 +470,10 @@ export default {
       lowCheck: {
         userName: '',
         cname: '',
-        dname: ''
+        dname: '',
+        userStatus: ''
       },
+      userStatusType: [],
       checkCname: '',
       checkDname: '',
       highCheckTypeValue: {},
@@ -494,7 +505,7 @@ export default {
         { key: 'area', value: '所属区域' },
         { key: 'beWorkDate', value: '转正日期' },
         { key: 'upHeader', value: '直接主管' },
-        { key: 'jobId', value: '职位名称' },
+        { key: 'jobName', value: '职位名称' },
         { key: 'startworkdata', value: '入司日期' },
         { key: 'workYears', value: '公司工龄' },
         { key: 'isHeader', value: '是否负责人' },
@@ -581,6 +592,9 @@ export default {
   },
   created () {
     this.infoRecordChange(this.infoRecordTypeValue.value)
+    getDic('userStatus').then((res) => {
+      this.userStatusType = res.data
+    })
   },
   mounted () {},
   methods: {
@@ -922,5 +936,9 @@ export default {
 .infoItem{
   padding-left: 8px;
   padding-right: 8px;
+}
+
+.userInfo .ivu-table-row-highlight td, .ivu-table-stripe .ivu-table-body tr.ivu-table-row-highlight:nth-child(2n) td, .ivu-table-stripe .ivu-table-fixed-body tr.ivu-table-row-highlight:nth-child(2n) td, tr.ivu-table-row-highlight.ivu-table-row-hover td {
+  background-color:#dfe2e4 !important;
 }
 </style>

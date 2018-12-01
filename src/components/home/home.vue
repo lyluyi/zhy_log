@@ -35,8 +35,8 @@
             </Dropdown>
         </Menu>
       </Header>
-      <Layout>
-        <Sider hide-trigger :style="{background: '#fff',overflow: 'auto'}">
+      <Layout style="min-height: 0;">
+        <Sider hide-trigger :style="{background: '#fff',overflow: 'auto !important', minHeight: '0'}">
           <Menu active-name="company" theme="light" width="auto" :open-names="['personInfo']" @on-select="routerTo">
             <Submenu v-for="(group, index) in menuData" :name="group.menu_URL" :key="index" >
               <template slot="title">
@@ -98,6 +98,10 @@ export default {
       let token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLlvKDmtpsiLCJyb2xlcyI6InVzZXIiLCJpYXQiOjE1MzY0MDA2OTgsImV4cCI6MTUzODEwNTczMH0.6KpBNsDiybdyfBaulndvhshGMH4b4oA7m3Ku_qoY5r0'
       if (e === 'ZHYOA') {
         window.open(`http://172.30.30.104:8080/#/login?userId=${userId}&token=${token}`)
+        return
+      }
+      if (e === 'ZHYFF') { // 费控方案
+        this.$router.push('/' + e)
         return
       }
       this.$router.push(this.prefix + e)

@@ -26,6 +26,8 @@
     <div class="login-footer">
       The platform system of Zhy
     </div>
+    <!-- less编译 -->
+    <!-- <div class="aaa">231312</div> -->
   </div>
 </template>
 
