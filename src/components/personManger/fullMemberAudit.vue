@@ -100,18 +100,22 @@
         <Col class="col_flex tr" span="6">
           <Button type="primary" size="large" style="margin:auto;width:128px;" @click="approvalDisable"  v-if="auditStatus == '审批中'">审批作废</Button>
         </Col>
+        <Col class="col_flex tr" span="6">
+          <Button type="primary" size="large" style="margin:auto;width:128px;" @click="approvalRollback"  v-if="auditStatus == '审批通过'">撤销</Button>
+        </Col>
       </Row>
     </div>
   </div>
 </template>
 <script>
 
-import { getUserAudit, getUserAuditOldUser, getUserFormalApply, userAudit } from '@/server/api'
+import { getUserAudit, getUserAuditOldUser, getUserFormalApply, userAudit, postUserAuditRollback } from '@/server/api'
 
 export default {
   data () {
     return {
       auditId: '',
+      applyCode: '',
       auditStatus: '',
       pageInfo: {
         pageNumber: 1,
@@ -148,6 +152,7 @@ export default {
     getUserAudit({id: this.$route.params.id}).then((res) => {
       // 变更类型
       this.auditId = res.data.id
+      this.applyCode = res.data.applyCode
       this.auditStatus = res.data.auditStatus
       params = {id: res.data.applyId}
       getUserFormalApply(params).then((res) => {
@@ -195,6 +200,17 @@ export default {
       params.userAuditStatus = '作废'
       params.approverId = localStorage.getItem('userId')
       userAudit(params).then((res) => {
+        if (res.code === 200) {
+          this.$Message.success(res.msg)
+          this.$router.go(-1)
+        } else {
+          this.$Message.warning(res.msg)
+        }
+      })
+    },
+    approvalRollback () {
+      let params = { auditId: this.auditId, applyCode: this.applyCode, operatorId: localStorage.userId }
+      postUserAuditRollback(params).then((res) => {
         if (res.code === 200) {
           this.$Message.success(res.msg)
           this.$router.go(-1)

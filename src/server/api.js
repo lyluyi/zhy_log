@@ -156,3 +156,6 @@ export const postUserFormal = (params) => { return fetch('json', 'userFormal', p
 // 查询转编信息
 
 export const getUserFormalApply = (params) => { return fetch('FormData', 'userFormal/findUserFormalById', params) }
+
+// 人员移动人员回退
+export const postUserAuditRollback = (params) => { return fetch('FormData', 'userAudit/rollback', params) }
