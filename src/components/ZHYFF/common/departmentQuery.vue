@@ -1,13 +1,13 @@
 <template>
   <div>
-    <Modal v-model="showDep" @on-ok="okDep" @on-cancel="cancelDep" title="上级部门查询">
+    <Modal v-model="showDep" @on-ok="okDep" @on-cancel="cancelDep" title="部门查询">
         <Row class="row-line">
           <Col span="18">
             <div class="un-input">
-              <!-- <Button type="text">公司ID编号</Button>
-              <Input  placeholder="请输入..." v-model="selectData.cid"></Input> -->
-              <Button type="text">部门ID编号</Button>
-              <Input  placeholder="请输入..." v-model="selectData.dname"></Input>
+              <Button type="text">部门ID</Button>
+              <Input  placeholder="请输入..." v-model="selectData.bpc_deptId"></Input>
+              <Button type="text">部门</Button>
+              <Input  placeholder="请输入..." v-model="selectData.bpc_deptName"></Input>
             </div>
           </Col>
           <Col span="5" offset="1">
@@ -16,15 +16,16 @@
             </div>
           </Col>
         </Row>
-        <list-view v-if="showList" @tableitem="getTable" :data="comdata"  @pageInfo="getPageInfo" :pageInfo="pageData" ></list-view>
+        <listView v-if="showList" @tableitem="getTable" :data="comdata" :pageInfo="pageData" ></listView>
     </Modal>
   </div>
 </template>
 
 <script>
-import listView from '@/common/listview'
 
-import { getDepartmentLevel } from '@/server/api.js'
+import listView from '@/components/ZHYFF/common/listview'
+
+import { getBpcDepartmentId } from '@/components/ZHYFF/server/api.js'
 
 export default {
   props: {
@@ -40,6 +41,7 @@ export default {
   },
   data () {
     return {
+      bpc_comId: this.cid,
       showDep: this.data,
       showList: false,
       hideCom: {
@@ -47,8 +49,8 @@ export default {
         commodal: false
       },
       selectData: {
-        cid: this.cid,
-        dname: ''
+        bpc_deptId: '',
+        bpc_deptName: ''
       },
       pageData: {},
       comdata: {
@@ -56,12 +58,12 @@ export default {
         pagesize: 4,
         column: [
           {
-            title: '公司ID',
-            key: 'cid'
+            title: '部门ID',
+            key: 'bpc_deptId'
           },
           {
-            title: '上级部门',
-            key: 'dname'
+            title: '部门',
+            key: 'bpc_deptName'
           }
         ]
       }
@@ -75,10 +77,10 @@ export default {
     getDepartment () {
       this.showList = false
       this.$Loading.start()
-      let params = { cid: this.cid }
-      getDepartmentLevel(params).then((res) => {
+      let params = { bpc_comId: this.bpc_comId }
+      getBpcDepartmentId(params).then((res) => {
         this.pageData = res
-        this.comdata.process = res.list
+        this.comdata.process = res.correspondList
         this.showList = true
         this.$Loading.finish()
       })
@@ -103,31 +105,14 @@ export default {
         this.showDep = false
       }
     },
-    getPageInfo (item) {
-      console.log(item)
-      let params = {
-        pageNumber: item.pageNumber,
-        ...this.selectData
-      }
-      this.showList = false
-      this.$Loading.start()
-      getDepartmentLevel(params).then((res) => {
-        this.$Loading.finish()
-        this.pageData = res
-        this.comdata.pagesize = item.pageNumber
-        this.comdata.process = res.list
-        console.log(this.comdata.process)
-        this.showList = true
-      })
-    },
     selectDep () {
       this.showList = false
       this.$Loading.start()
       let params = this.selectData
       // let params = { unDid: this.selectData.upDid }
-      getDepartmentLevel(params).then((res) => {
+      getBpcDepartmentId(params).then((res) => {
         this.pageData = res
-        this.comdata.process = res.list
+        this.comdata.process = res.correspondList
         this.showList = true
         this.$Loading.finish()
       })

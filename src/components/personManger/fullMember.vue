@@ -85,6 +85,25 @@
         </Col>
       </Row>
       <Divider orientation="left">待转正员工</Divider>
+      <Row :gutter="16" class="mb10">
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">工号：</Button>
+          <Input placeholder="" search enter-button @on-search="queryUser" v-model="userId" />
+        </Col>
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">公司名称：</Button>
+          <Input placeholder="" search enter-button v-model="cname" @on-search="queryCompany" />
+        </Col>
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">部门名称：</Button>
+          <Input placeholder="" search enter-button v-model="dname" @on-search="queryDepartment" />
+        </Col>
+      </Row>
+      <Row type="flex" class="mb10" justify="center">
+        <Col class="col_flex">
+          <Button type="primary" style="text-align: center;" class="wd mr10 tr" @click="queryFullMember">查询</Button>
+        </Col>
+      </Row>
       <Table :columns="columns1" :data="data1" @on-row-click="tableClick"></Table>
       <Page :total="pageInfo.totalRow" :current="pageInfo.pageNumber" :page-size="pageInfo.pageSize" @on-change="changePageNumber" show-total  class="mt20" />
       <Row :gutter="16" class="mt20">
@@ -93,15 +112,34 @@
         </Col>
       </Row>
     </div>
+    <userIdQuery @tableUserId="getUserId" @statusUserId='getUserIdStatus' :data="modal6" v-if="openSelectUserDialog"></userIdQuery>
+    <companyQuery @tableCompany="getCompany" @statusCompany='getCompanyStatus' :data="model1" v-if="flag1"></companyQuery>
+    <departmentQuery @tableDepartment="getDepartment" @statusDepartment='getDepartmentStatus' :data="model2" v-if="flag2" :cid="cid"></departmentQuery>
   </div>
 </template>
 <script>
+
+import companyQuery from '@/common/companyQuery'
+import departmentQuery from '@/common/departmentQuery'
+import userIdQuery from '@/common/userIdQuery'
 
 import { getCanUserFormalUser, postUserFormal } from '@/server/api'
 
 export default {
   data () {
     return {
+      flag1: false,
+      model1: false,
+      flag2: false,
+      model2: false,
+      modal6: false,
+      openSelectUserDialog: false,
+      userId: '',
+      userName: '',
+      dname: '',
+      did: '',
+      cname: '',
+      cid: '',
       pageInfo: {
         pageNumber: 1,
         pageSize: 10,
@@ -165,7 +203,10 @@ export default {
   },
   created () {
     let params = {
-      userStatus: '试用员工'
+      userStatus: '试用员工',
+      userId: this.userId,
+      cid: this.cid,
+      dname: this.dname
     }
     getCanUserFormalUser(params).then((res) => {
       this.data1 = res.list
@@ -174,6 +215,49 @@ export default {
   },
   mounted () {},
   methods: {
+    queryUser () {
+      this.modal6 = true
+      this.openSelectUserDialog = true
+      this.userIdFlag = 0
+    },
+    getUserIdStatus (item) {
+      this.openSelectUserDialog = item.comFlag
+      this.modal6 = item.commodal
+    },
+    getUserId (item) {
+      this.userId = item.userId
+      this.userName = item.userName
+    },
+    queryCompany () { // 公司信息查询
+      this.flag1 = true
+      this.model1 = true
+    },
+    getCompany (item) {
+      this.cname = item.cname
+      this.cid = item.cid
+    },
+    getCompanyStatus (item) {
+      this.flag1 = item.comFlag
+      this.model1 = item.commodal
+    },
+    queryDepartment () { // 部门信息查询
+      if (!this.cname) {
+        this.$Message.info({ content: '请先输入所属公司' })
+      } else {
+        this.flag2 = true
+        this.model2 = true
+      }
+    },
+    getDepartment (item) {
+      // console.log(item)
+      this.dname = item.dname
+      this.did = item.did
+    },
+    getDepartmentStatus (item) {
+      // console.log(item)
+      this.flag2 = item.comFlag
+      this.model2 = item.commodal
+    },
     changePageNumber (num) {
       this.pageInfo.pageNumber = num
       let params = {
@@ -182,6 +266,19 @@ export default {
       }
       getCanUserFormalUser(params).then((res) => {
         this.data1 = res.list
+      })
+    },
+    queryFullMember () {
+      let params = {
+        userStatus: '试用员工',
+        userId: this.userId,
+        cid: this.cid,
+        dname: this.dname,
+        did: this.did
+      }
+      getCanUserFormalUser(params).then((res) => {
+        this.data1 = res.list
+        this.pageInfo = { ...res }
       })
     },
     tableClick (item, index) {
@@ -209,6 +306,9 @@ export default {
     }
   },
   components: {
+    userIdQuery,
+    departmentQuery,
+    companyQuery
   }
 }
 </script>

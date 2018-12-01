@@ -1,13 +1,13 @@
 <template>
   <div>
-    <Modal v-model="showCom" @on-ok="okcom" @on-cancel="cancelcom" title="上级公司ID查询">
+    <Modal v-model="showCom" @on-ok="okcom" @on-cancel="cancelcom" title="公司ID查询">
         <Row class="row-line">
           <Col span="18">
             <div class="un-input">
               <Button type="text">公司ID编号：</Button>
-              <Input  placeholder="请输入..." v-model="selectData.cid"></Input>
+              <Input  placeholder="请输入..." v-model="selectData.bpc_comId"></Input>
               <Button type="text">公司名称：</Button>
-              <Input  placeholder="请输入..." v-model="selectData.cname"></Input>
+              <Input  placeholder="请输入..." v-model="selectData.bpc_comName"></Input>
             </div>
           </Col>
           <Col span="5" offset="1">
@@ -16,15 +16,17 @@
             </div>
           </Col>
         </Row>
-        <list-view v-if="showList" @tableitem="getTable" :data="comdata" @pageInfo="getPageInfo" :pageInfo="pageData"></list-view>
+        <list-view v-if="showList" @tableitem="getTable" :data="comdata" :pageInfo="pageData"></list-view>
     </Modal>
   </div>
 </template>
 
 <script>
-import listView from '@/common/listview'
 
-import { getCompanyId } from '@/server/api.js'
+import listView from '../common/listview'
+
+import { getBpcCompanyId } from '@/components/ZHYFF/server/api.js'
+
 export default {
   props: {
     data: {
@@ -44,8 +46,8 @@ export default {
         commodal: false
       },
       selectData: {
-        cid: '',
-        cname: ''
+        bpc_comId: '',
+        bpc_comName: ''
       },
       pageData: {},
       comdata: {
@@ -54,27 +56,27 @@ export default {
         column: [
           {
             title: '公司代号',
-            key: 'cid'
+            key: 'bpc_comId'
           },
           {
             title: '公司名称',
-            key: 'cname'
+            key: 'bpc_comName'
           }
         ]
       }
     }
   },
   created () {
-    this.getCompany()
+    this.getBpcCompanyId()
   },
   methods: {
-    getCompany () {
+    getBpcCompanyId () {
       this.showList = false
       this.$Loading.start()
-      getCompanyId().then((res) => {
+      getBpcCompanyId({}).then((res) => {
         // console.log(res)
         this.pageData = res
-        this.comdata.process = res.list
+        this.comdata.process = res.correspondList
         this.showList = true
         this.$Loading.finish()
       })
@@ -99,31 +101,14 @@ export default {
         this.showCom = false
       }
     },
-    getPageInfo (item) {
-      console.log(item)
-      let params = {
-        pageNumber: item.pageNumber,
-        ...this.selectData
-      }
-      this.showList = false
-      this.$Loading.start()
-      getCompanyId(params).then((res) => {
-        this.$Loading.finish()
-        this.pageData = res
-        this.comdata.pagesize = item.pageNumber
-        this.comdata.process = res.list
-        console.log(this.comdata.process)
-        this.showList = true
-      })
-    },
     selectCom () {
       this.showList = false
       this.$Loading.start()
       let params = this.selectData
-      getCompanyId(params).then((res) => {
+      getBpcCompanyId(params).then((res) => {
         this.$Loading.finish()
         this.pageData = res
-        this.comdata.process = res.list
+        this.comdata.process = res.correspondList
         this.showList = true
       })
       // axios.post(this.ip + 'common/findComp.do', qs.stringify(selectData), {

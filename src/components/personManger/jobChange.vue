@@ -113,15 +113,11 @@
           <Button class="wd mr10 tr" type="text">新直接主管：</Button>
           <Input placeholder="" v-model="userCdChange.upheaderNewName" search enter-button @on-search="queryUpHeader" />
         </Col>
-      </Row>
-      <!--
-      <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">见习转正日期：</Button>
           <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.toBeWorkDate"></DatePicker>
         </Col>
       </Row>
-      -->
       <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="24">
           <Button class="wd mr10 tr" type="text">备注：</Button>
@@ -135,7 +131,7 @@
       </Row>
     </div>
     <userIdQuery @tableUserId="getUserId" @statusUserId='getUserIdStatus' :data="modal6" v-if="flag6"></userIdQuery>
-    <departmentQuery @tableDepartment="getDepartment" @statusDepartment='getDepartmentStatus' :data="model2" v-if="flag2" :cid="userCdChange.cid"></departmentQuery>
+    <departmentQuery @tableDepartment="getDepartment" @statusDepartment='getDepartmentStatus' :data="model2" v-if="flag2" :cid="userCdChange.cidNew"></departmentQuery>
     <companyQuery @tableCompany="getCompany" @statusCompany='getCompanyStatus' :data="model1" v-if="flag1"></companyQuery>
     <jobQuery @tableJob="getJob" @statusJob='getJobStatus' :data="model3" v-if="flag3" :did="userCdChange.didNew"></jobQuery>
   </div>
@@ -206,7 +202,7 @@ export default {
         education: '', // 学历
         upHeader: '', // 主管
         areaNew: '', // 新所属区域
-        // toBeWorkDate: '',
+        toBeWorkDate: '', // 预计转正日期
         jobIdNew: '', // 新职位id
         remark: '' // 备注
       }
@@ -297,7 +293,7 @@ export default {
       this.userCdChange.userId = this.oldData.userId
       let remark = this.userCdChange.remark
       // let toBeWorkDate = this.userCdChange.toBeWorkDate
-      let params = Object.assign({}, this.userCdChange, this.oldData)
+      let params = Object.assign({}, this.oldData, this.userCdChange)
       params.remark = remark
       params.operatorId = localStorage.getItem('userId')
       // params.toBeWorkDate = toBeWorkDate
