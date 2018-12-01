@@ -65,7 +65,7 @@ export const threeMonth = (date) => {
   d.setMonth((d.getMonth()) + 3)
   var yy1 = d.getFullYear()
   var mm1 = d.getMonth() + 1
-  var dd1 = d.getDate()
+  var dd1 = d.getDate() - 1
   if (mm1 < 10) {
     mm1 = '0' + mm1
   }
@@ -73,4 +73,23 @@ export const threeMonth = (date) => {
     dd1 = '0' + dd1
   }
   return (yy1 + '/' + mm1 + '/' + dd1)
+}
+
+export const idCardCheck = (idCard) => {
+  let year = idCard.substring(6, 10) // 截取身份证上的年
+  let months = idCard.substring(10, 12) // 截取身份证上的月
+  let days = idCard.substring(12, 14) // 截取身份证上的日
+  let birthDay = year + '-' + months + '-' + days
+  let myDate = new Date()
+  let month = myDate.getMonth() + 1
+  let day = myDate.getDate()
+  var age = myDate.getFullYear() - year - 1
+  if (((parseInt(months) < parseInt(month)) || (months === month)) && days <= day) {
+    age = age + 1
+  }
+  let strData = {
+    age,
+    birthDay
+  }
+  return strData
 }

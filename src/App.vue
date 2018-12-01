@@ -1,7 +1,11 @@
 <template>
   <div id="app">
-    <router-view/>
-    <!-- <button type="primary"></button> -->
+    <transition name="fade" mode="out-in">
+      <!-- 组件重复渲染的情况下，可以应用缓存 -->
+      <!-- <keep-alive>  -->
+      <router-view/>
+      <!-- </keep-alive>   -->
+    </transition>
   </div>
 </template>
 
@@ -60,5 +64,6 @@ export default {
 .ivu-transfer-list-content-item { font-size: 14px !important; }
 .ivu-tree-title { padding: 4px 24px 4px 20px !important; font-size: 14px; margin-left: 10px !important;}
 .ivu-icon-md-arrow-dropright:before { content: "\F341"; font-size: 29px; }
+/* .ivu-input-group { width: 75% !important; } */
 /* .ivu-select-dropdown { top: 44px !important; } */
 </style>

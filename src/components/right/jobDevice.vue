@@ -87,7 +87,6 @@ export default {
         if (item[0].type === 'dept') {
           let params = {'deptId': item[0].id}
           getOptionalJobDictListByDeptId(params).then((res) => {
-            debugger
             this.optionalJobDictList = res.data
             // console.log(this.optionalJobDictList)
             // console.log(this.optionalJobDictList.length)

@@ -145,6 +145,6 @@ export default {
 <style>
 .department{ height: 100%;padding: 10px 10px;font-size: 14px;font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","\5FAE\8F6F\96C5\9ED1",Arial,sans-serif;-webkit-font-smoothing: antialiased;min-height: 400px; }
 .department_title{ background: #2d8cf0;width: 100%;text-align: left;color: #fff;line-height: 36px;height: 36px;padding-left: 10px;}
-.department_inputGroup{}
+.department .ivu-input-group{ width: 65% !important;}
 /* .border{ border-right: 1px solid #e8eaec !important; } */
 </style>

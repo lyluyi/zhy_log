@@ -1,0 +1,233 @@
+<template>
+  <div class="exchangeManegement">
+    <div class="exchangeManegement_title mb20">
+      <span>职能部门预算使用表</span>
+    </div>
+    <div class="structWrap pl10 pr10">
+      <Row :gutter="16" class="mb10">
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">片区：</Button>
+          <Input search enter-button  placeholder=""  v-model="allData.controlNumName" @on-search="queryArea"/>
+        </Col>
+        <Col class="col_flex" span="8">
+          <Button  class="wd mr10 tr" type="text">部门：</Button>
+          <Input search enter-button  placeholder="" v-model="allData.bpc_deptName"  @on-search="queryDepartment"/>
+        </Col>
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">费用类型：</Button>
+          <Input  placeholder="" search enter-button v-model="allData.bpc_costTypeName" @on-search="queryBpcCostType" />
+        </Col>
+      </Row>
+      <Row :gutter="16" class="mb20 mt20 pt20">
+        <Col class="col_flex" span="24">
+          <Button class="wd tc" type="primary" style="margin: 0 auto;" @click="query">查询</Button>
+        </Col>
+      </Row>
+      <Row :gutter="16" class="mb10">
+        <Table border :columns="columns7" :data="data6" class="mb20"></Table>
+        <Page :total="this.listLength" show-total @on-change="changPageSize" />
+      </Row>
+    </div>
+    <bpcCostTypeQuery @tableBpcCostType="getBpcCostType" @statusBpcCostType='getBpcCostTypeStatus' :data="model3" v-if="flag3"></bpcCostTypeQuery>
+    <areaQuery @tableArea="getArea" @statusArea='getAreaStatus' :data="model1" v-if="flag1"></areaQuery>
+    <departmentQuery @tableDepartment="getDepartment" @statusDepartment='getDepartmentStatus' :data="model2" v-if="flag2" :cid="allData.bpc_comId"></departmentQuery>
+  </div>
+  </div>
+</template>
+<script>
+
+import areaQuery from '@/components/ZHYFF/common/areaQuery'
+
+import departmentQuery from '@/components/ZHYFF/common/departmentQuery'
+
+import bpcCostTypeQuery from '@/components/ZHYFF/common/bpcCostTypeQuery'
+
+import { getBpcDepartment } from '@/components/ZHYFF/server/api.js'
+
+export default {
+  data () {
+    return {
+      flag1: false,
+      model1: false,
+      flag2: false,
+      model2: false,
+      model3: false,
+      flag3: false,
+      allData: {
+        controlNum: '',
+        controlNumName: '',
+        bpc_deptId: '',
+        bpc_deptName: '',
+        bpc_costType: '',
+        bpc_costTypeName: '',
+        page: '1'
+      },
+      data6: [],
+      listLength: 0,
+      columns7: [
+        {
+          title: '预算版本',
+          key: 'b28_s_vvd38ti'
+        },
+        {
+          title: '年月',
+          key: 'b28_s_vvdokk5'
+        },
+        {
+          title: '片区',
+          key: 'controlNumName'
+        },
+        {
+          title: '费用类型编码',
+          key: 'bpc_costType'
+        },
+        {
+          title: '费用类型',
+          key: 'bpc_costTypeName'
+        },
+        {
+          title: '部门ID',
+          key: 'bpc_deptId'
+        },
+        {
+          title: '部门',
+          key: 'bpc_deptName'
+        },
+        {
+          title: '原始总预算',
+          key: 'tot_bud'
+        },
+        {
+          title: '架构代码',
+          key: 'controlNum'
+        },
+        {
+          title: '已冻结',
+          key: 'tot_clo'
+        },
+        {
+          title: '已消耗',
+          key: 'tot_cum'
+        },
+        {
+          title: '调整预算',
+          key: 'tot_exe'
+        },
+        {
+          title: '剩余可用预算(CNY)',
+          key: 'tot_luse_cny'
+        }
+      ]
+    }
+  },
+  created () {
+    let params = this.allData
+    getBpcDepartment(params).then((res) => {
+      this.data6 = res.budgetUsageList
+      this.listLength = res.budgetUsageListSize
+    })
+  },
+  mounted () {},
+  methods: {
+    queryArea () { // 片区信息查询
+      this.flag1 = true
+      this.model1 = true
+    },
+    getArea (item) {
+      console.log(item)
+      this.allData.controlNum = item.controlNum
+      this.allData.controlNumName = item.controlNumName
+    },
+    getAreaStatus (item) {
+      this.flag1 = item.comFlag
+      this.model1 = item.commodal
+    },
+    queryDepartment () { // 部门信息查询
+      if (!this.allData.controlNum) {
+        this.$Message.info({ content: '请先输入所属公司' })
+      } else {
+        this.flag2 = true
+        this.model2 = true
+      }
+    },
+    getDepartment (item) {
+      // console.log(item)
+      this.allData.bpc_deptId = item.bpc_deptId
+      this.allData.bpc_deptName = item.bpc_deptName
+    },
+    getDepartmentStatus (item) {
+      // console.log(item)
+      this.flag2 = item.comFlag
+      this.model2 = item.commodal
+    },
+    queryBpcCostType () { // 费用类型查询
+      this.flag3 = true
+      this.model3 = true
+    },
+    getBpcCostType (item) {
+      this.allData.bpc_costType = item.bpc_costType
+      this.allData.bpc_costTypeName = item.bpc_costTypeName
+    },
+    getBpcCostTypeStatus (item) {
+      this.flag1 = item.comFlag
+      this.model1 = item.commodal
+    },
+    changPageSize (item) {
+      this.allData.page = item + ''
+      let params = this.allData
+      getBpcDepartment(params).then((res) => {
+        this.data6 = res.budgetUsageList
+      })
+    },
+    query () {
+      let params = this.allData
+      getBpcDepartment(params).then((res) => {
+        this.data6 = res.budgetUsageList
+      })
+    }
+  },
+  components: {
+    areaQuery,
+    departmentQuery,
+    bpcCostTypeQuery
+  }
+}
+</script>
+
+<style>
+.exchangeManegement{
+  height: 100%;
+  padding: 10px 10px;
+  font-size: 14px;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","\5FAE\8F6F\96C5\9ED1",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.exchangeManegement_title{
+  height: 36px;
+  padding-left: 10px;
+  background: transparent;
+  text-align: left;
+  line-height: 36px;
+  color: #fff;
+  position: relative;
+}
+.exchangeManegement_title span{
+  display: inline-block;
+  width: 144px;
+  height: 36px;
+  background: #2d8cf0;
+  text-align: center
+}
+.exchangeManegement_title:after {
+    content: '';
+    display: block;
+    width: 98.4%;
+    height: 3px;
+    background: #dcdee2;
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    background: #2d8cf0;
+    margin: 0 auto;
+}
+</style>
