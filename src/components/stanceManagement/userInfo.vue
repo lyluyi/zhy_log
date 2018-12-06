@@ -236,7 +236,7 @@ export default {
         {
           title: '职位名称',
           width: 200,
-          key: 'jobId'
+          key: 'jobName'
         },
         {
           title: '入司日期',
