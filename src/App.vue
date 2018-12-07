@@ -46,7 +46,7 @@ export default {
 
  /* iview.css 样式*/
 .ivu-layout-header { background: #fff !important; box-shadow: 0 2px 1px 1px hsla(0,0%,39%,.1) !important; z-index: 999; }
-.ivu-menu-dark { background: #fff; }
+/* .ivu-menu-dark { background: #fff; } */
 .layout-logo { background: #fff; }
 .ivu-layout { background: transparent; }
 .ivu-menu-horizontal.ivu-menu-light:after { display: none !important; }
@@ -66,4 +66,6 @@ export default {
 .ivu-icon-md-arrow-dropright:before { content: "\F341"; font-size: 29px; }
 /* .ivu-input-group { width: 75% !important; } */
 /* .ivu-select-dropdown { top: 44px !important; } */
+.ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item:hover { background: #8fa2cc !important;  }
+.ivu-breadcrumb>span:last-child { font-weight:normal;  }
 </style>

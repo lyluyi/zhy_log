@@ -36,8 +36,8 @@
         </Menu>
       </Header>
       <Layout style="min-height: 0;">
-        <Sider hide-trigger :style="{background: '#fff',overflow: 'auto !important', minHeight: '0'}">
-          <Menu active-name="company" theme="light" width="auto" :open-names="['personInfo']" @on-select="routerTo">
+        <Sider hide-trigger theme="dark" :style="{overflow: 'auto !important', minHeight: '0'}">
+          <Menu active-name="company" theme="dark" width="auto" :open-names="['personInfo']" @on-select="routerTo">
             <Submenu v-for="(group, index) in menuData" :name="group.menu_URL" :key="index" >
               <template slot="title">
                 <Icon type="ios-navigate"></Icon>
@@ -50,15 +50,16 @@
           </Menu>
         </Sider>
           <Layout :style="{padding: '0 24px 24px'}">
-            <Breadcrumb :style="{margin: '16px 0'}">
-              <!-- <BreadcrumbItem>Home</BreadcrumbItem>
-              <BreadcrumbItem>Components</BreadcrumbItem>
-              <BreadcrumbItem>Layout</BreadcrumbItem> -->
+            <Breadcrumb :style="{margin: '16px 0'}" separator="">
+              <BreadcrumbItem v-for="(item, index) in levelList" :key="item.el.path" v-if="item.el.meta.title"  >
+                <Tag type="dot" class="tagItem" :name="item.el.name" :color="item.colorType ? 'primary' : 'defalut' " closable  @click.native="handleTag(item.el.name, index)" >{{item.el.meta.title}}</Tag>
+                <!-- {{ item.meta.title }} -->
+              </BreadcrumbItem>
             </Breadcrumb>
             <Content id="content" :style="{padding: '24px', background: '#fff' }">
               <transition name="fade" mode="out-in">
                 <!-- 组件重复渲染的情况下，可以应用缓存 -->
-                <!-- <keep-alive>  -->
+                <!-- <keep-alive> -->
                   <router-view/>
                 <!-- </keep-alive>   -->
               </transition>
@@ -79,6 +80,7 @@ import revisePassWordModel from '@/common/revisePassWordModel'
 export default {
   data () {
     return {
+      levelList: [],
       userInfoModel: false,
       revisePassWordModel: false,
       flagUserInfo: false,
@@ -89,7 +91,13 @@ export default {
   },
   created () {
     this.menuData = JSON.parse(localStorage.getItem('menuList'))
-    console.log(this.menuData)
+    this.getBreadcrumb()
+    // console.log(this.menuData)
+  },
+  watch: {
+    $route () { // 监听$route对象
+      this.getBreadcrumb()
+    }
   },
   methods: {
     routerTo (e) {
@@ -101,9 +109,11 @@ export default {
         return
       }
       if (e === 'ZHYFF') { // 费控方案
+        localStorage.setItem('routeType', 'home')
         this.$router.push('/' + e)
         return
       }
+      localStorage.setItem('routeType', 'home')
       this.$router.push(this.prefix + e)
     },
     compileStr (code) { // 对字符串进行编码
@@ -132,6 +142,37 @@ export default {
       console.log(item)
       this.flagRevisePassWord = item.flag
       this.revisePassWordModel = item.model
+    },
+    getBreadcrumb () {
+      if (localStorage.getItem('routeType') === 'tag') {
+        return null
+      } else {
+        let matched = this.$route.matched
+        let bool = false
+        // let matched = this.$route.matched.filter(item => item.name) // $route.matched 将会是一个包含从上到下的所有对象 (副本)。
+        this.levelList.forEach((item, index) => {
+          this.levelList[index].colorType = false
+          if (item.el.name === matched[1].name) {
+            this.levelList[index].colorType = true
+            bool = true
+            return null
+          }
+        })
+        if (!bool) {
+          this.levelList.push({
+            colorType: true,
+            el: matched[1]
+          })
+        }
+      }
+    },
+    handleTag (name, index) {
+      this.levelList.forEach((item, el) => {
+        this.levelList[el].colorType = false
+      })
+      this.levelList[index].colorType = true
+      localStorage.setItem('routeType', 'tag')
+      this.$router.push(name)
     }
   },
   components: {
@@ -195,4 +236,5 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+.TagActive { font-weight: 800; }
 </style>

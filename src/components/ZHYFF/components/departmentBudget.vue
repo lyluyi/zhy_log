@@ -70,8 +70,12 @@ export default {
           key: 'b28_s_vvd38ti'
         },
         {
-          title: '年月',
-          key: 'b28_s_vvdokk5'
+          title: '年',
+          key: 'year'
+        },
+        {
+          title: '月',
+          key: 'month'
         },
         {
           title: '片区',
@@ -100,6 +104,10 @@ export default {
         {
           title: '架构代码',
           key: 'controlNum'
+        },
+        {
+          title: '总合计预算',
+          key: 'tot_tot'
         },
         {
           title: '已冻结',

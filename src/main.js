@@ -15,33 +15,19 @@ Vue.use(iView)
 Vue.config.productionTip = false
 
 // title匹配 mobile
-
-// router.beforeEach((to, from, next) => {
-//   if (to.name !== 'login') {
-//     let menuArr = JSON.parse(localStorage.getItem('menuList'))
-//     let checkArr = []
-//     menuArr.forEach((item) => {
-//       item.children.forEach((item) => {
-//         checkArr.push(item.menu_URL)
-//       })
-//       console.log(checkArr)
-//       return checkArr
-//     })
-//     // console.log(to)
-//     // console.log(checkArr.indexOf(to.name))
-//     // console.log(checkArr.indexOf(to.name))
-//     debugger
-//     checkArr.forEach((item) => {
-//       if (item === to.name) { // 因为默认进去的是company 所以没有正确匹配的
-//         next()
-//       } else {
-//         return false
-//       }
-//     })
-//   } else {
-//     next()
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  console.log(to)
+  console.log(from)
+  if (to.matched.some(record => record.meta.requireAuth)) { // 判断该路由是否需要登录权限
+    if (localStorage.getItem('userId')) { // 判断当前的token是否存在
+      next()
+    } else {
+      next('/login') // 将跳转的路由path作为参数，登录成功后跳转到该路由
+    }
+  } else {
+    next()
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({
