@@ -397,7 +397,7 @@ export default {
         {
           title: '员工状态',
           width: 200,
-          key: 'healhstayus'
+          key: 'userStatus'
         },
         {
           title: '健康证到期日',
@@ -540,7 +540,7 @@ export default {
         { key: 'isDept01', value: '一级部门' },
         { key: 'beginWorkDate', value: '计工龄开始日期' },
         { key: 'remark', value: '备注' },
-        { key: 'healhstayus', value: '员工状态' },
+        { key: 'userStatus', value: '员工状态' },
         { key: 'healhDate', value: '健康证到期日' },
         { key: 'archivesId', value: '档案编号' },
         { key: 'shebaoId', value: '社保帐号' },
