@@ -72,11 +72,9 @@ export default {
     }
   },
   created () {
-    this.$Spin.show()
     getCompanyTree().then((res) => {
       console.log(res)
       this.data1 = res
-      this.$Spin.hide()
     })
   },
   mounted () {},

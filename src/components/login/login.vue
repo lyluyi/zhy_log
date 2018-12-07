@@ -8,14 +8,14 @@
       <FormItem prop="name" class="mb30">
         <Input v-model="form.name" size="large" placeholder="">
           <span slot="prepend">
-            <Icon :size="16" type="person"></Icon>
+            <Icon type="md-person"  :size="16"/>
           </span>
         </Input>
       </FormItem>
       <FormItem prop="word" class="mb30">
         <Input type="password" v-model="form.pass" size="large" placeholder="请输入密码">
           <span slot="prepend">
-            <Icon :size="14" type="locked"></Icon>
+            <Icon type="md-lock" />
           </span>
         </Input>
       </FormItem>

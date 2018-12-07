@@ -20,7 +20,8 @@ const router = new Router({
     {
       path: '/ZHYFF',
       meta: {
-        title: '费控'
+        title: '费控',
+        requireAuth: true
       },
       component: (resolve) => require(['../components/ZHYFF/ZHYFF.vue'], resolve),
       children: [
@@ -33,7 +34,8 @@ const router = new Router({
           name: 'exchangeManegement',
           meta: {
             title: '汇率管理',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/ZHYFF/components/exchangeManegement.vue'], resolve)
         },
@@ -42,7 +44,8 @@ const router = new Router({
           name: 'BPCVersions',
           meta: {
             title: 'BPC版本管理',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/ZHYFF/components/BPCVersions.vue'], resolve)
         },
@@ -51,7 +54,8 @@ const router = new Router({
           name: 'areaBudget',
           meta: {
             title: '片区预算',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/ZHYFF/components/areaBudget.vue'], resolve)
         },
@@ -60,7 +64,8 @@ const router = new Router({
           name: 'companyBudget',
           meta: {
             title: '公司预算',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/ZHYFF/components/companyBudget.vue'], resolve)
         },
@@ -69,7 +74,8 @@ const router = new Router({
           name: 'departmentBudget',
           meta: {
             title: '部门预算',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/ZHYFF/components/departmentBudget.vue'], resolve)
         }
@@ -80,7 +86,8 @@ const router = new Router({
       name: 'home',
       meta: {
         title: '首页',
-        content: true
+        content: true,
+        requireAuth: true
       },
       component: (resolve) => require(['../components/home/home.vue'], resolve),
       children: [
@@ -89,7 +96,8 @@ const router = new Router({
           name: 'person',
           meta: {
             title: '人员',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personInfo/person.vue'], resolve)
         },
@@ -98,7 +106,8 @@ const router = new Router({
           name: 'company',
           meta: {
             title: '公司',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personInfo/company.vue'], resolve)
         },
@@ -107,7 +116,8 @@ const router = new Router({
           name: 'department',
           meta: {
             title: '部门',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personInfo/department.vue'], resolve)
         },
@@ -116,7 +126,8 @@ const router = new Router({
           name: 'job',
           meta: {
             title: '职位',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personInfo/job.vue'], resolve)
         },
@@ -125,7 +136,8 @@ const router = new Router({
           name: 'contract',
           meta: {
             title: '合同',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personInfo/contract.vue'], resolve)
         },
@@ -134,7 +146,8 @@ const router = new Router({
           name: 'companyStruct',
           meta: {
             title: '公司组织',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/stanceManagement/companyStruct.vue'], resolve)
         },
@@ -143,7 +156,8 @@ const router = new Router({
           name: 'userLog',
           meta: {
             title: '日志',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/stanceManagement/userLog.vue'], resolve)
         },
@@ -152,7 +166,8 @@ const router = new Router({
           name: 'userInfo',
           meta: {
             title: '人员信息',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/stanceManagement/userInfo.vue'], resolve)
         },
@@ -161,7 +176,8 @@ const router = new Router({
           name: 'role',
           meta: {
             title: '角色菜单',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/right/role.vue'], resolve)
         },
@@ -170,7 +186,8 @@ const router = new Router({
           name: 'roleAdmin',
           meta: {
             title: '角色管理',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/right/roleAdmin.vue'], resolve)
         },
@@ -179,7 +196,8 @@ const router = new Router({
           name: 'userAdmin',
           meta: {
             title: '用户管理',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/right/userAdmin.vue'], resolve)
         },
@@ -188,7 +206,8 @@ const router = new Router({
           name: 'jobDevice',
           meta: {
             title: '职位配置',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/right/jobDevice.vue'], resolve)
         },
@@ -197,7 +216,8 @@ const router = new Router({
           name: 'usertel',
           meta: {
             title: '人员联系方式',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/right/usertel.vue'], resolve)
         },
@@ -206,7 +226,8 @@ const router = new Router({
           name: 'dictIndex',
           meta: {
             title: '数据字典',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/right/dictIndex.vue'], resolve)
         },
@@ -215,7 +236,8 @@ const router = new Router({
           name: 'OAReport',
           meta: {
             title: 'OA报表',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/right/OAReport.vue'], resolve)
         },
@@ -224,7 +246,8 @@ const router = new Router({
           name: 'dimission',
           meta: {
             title: '离职',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/dimission.vue'], resolve)
         },
@@ -233,7 +256,8 @@ const router = new Router({
           name: 'dimissionAudit',
           meta: {
             title: '离职',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/dimissionAudit.vue'], resolve)
         },
@@ -242,7 +266,8 @@ const router = new Router({
           name: 'dimissionView',
           meta: {
             title: '离职',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/dimissionView.vue'], resolve)
         },
@@ -251,7 +276,8 @@ const router = new Router({
           name: 'fullMember',
           meta: {
             title: '转正',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/fullMember.vue'], resolve)
         },
@@ -260,7 +286,8 @@ const router = new Router({
           name: 'fullMemberAudit',
           meta: {
             title: '转正审批',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/fullMemberAudit.vue'], resolve)
         },
@@ -269,7 +296,8 @@ const router = new Router({
           name: 'fullMemberView',
           meta: {
             title: '转正审批',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/fullMemberView.vue'], resolve)
         },
@@ -278,7 +306,8 @@ const router = new Router({
           name: 'jobChange',
           meta: {
             title: '岗位变动',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/jobChange.vue'], resolve)
         },
@@ -287,7 +316,8 @@ const router = new Router({
           name: 'jobChangeAudit',
           meta: {
             title: '岗位变动审批',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/jobChangeAudit.vue'], resolve)
         },
@@ -296,7 +326,8 @@ const router = new Router({
           name: 'jobChangeView',
           meta: {
             title: '岗位变动审批查看',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/jobChangeView.vue'], resolve)
         },
@@ -305,7 +336,8 @@ const router = new Router({
           name: 'reEmploy',
           meta: {
             title: '回聘',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/reEmploy.vue'], resolve)
         },
@@ -314,7 +346,8 @@ const router = new Router({
           name: 'reEmployAudit',
           meta: {
             title: '回聘审批',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/reEmployAudit.vue'], resolve)
         },
@@ -323,7 +356,8 @@ const router = new Router({
           name: 'reEmployView',
           meta: {
             title: '回聘审批查看',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/reEmployView.vue'], resolve)
         },
@@ -332,7 +366,8 @@ const router = new Router({
           name: 'transfer',
           meta: {
             title: '转编',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/transfer.vue'], resolve)
         },
@@ -341,7 +376,8 @@ const router = new Router({
           name: 'transferAudit',
           meta: {
             title: '转编审批',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/transferAudit.vue'], resolve)
         },
@@ -350,7 +386,8 @@ const router = new Router({
           name: 'transferView',
           meta: {
             title: '转编审批查看',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/transferView.vue'], resolve)
         },
@@ -359,7 +396,8 @@ const router = new Router({
           name: 'useraudit',
           meta: {
             title: '人员变动审核',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/userAudit.vue'], resolve)
         },
@@ -368,7 +406,8 @@ const router = new Router({
           name: 'userAuditView',
           meta: {
             title: '人员变动审核查看',
-            content: true
+            content: true,
+            requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/userAuditView.vue'], resolve)
         }
