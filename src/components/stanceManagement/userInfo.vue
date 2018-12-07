@@ -165,7 +165,13 @@ export default {
         {
           title: '姓名',
           key: 'userName',
-          width: 200,
+          width: 100,
+          fixed: 'left'
+        },
+        {
+          title: '工号',
+          key: 'userId',
+          width: 100,
           fixed: 'left'
         },
         {
