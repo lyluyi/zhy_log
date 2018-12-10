@@ -72,6 +72,10 @@
           -->
           <Input v-model="userCdChange.changeType" readonly />
         </Col>
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">异动日期：</Button>
+          <Date-picker placement="bottom" v-model="userCdChange.changeDate" readonly />
+        </Col>
         <!-- <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">申请日期：</Button>
           <DatePicker type="date" placeholder="Select date" placement="bottom" ></DatePicker>
@@ -213,7 +217,8 @@ export default {
         areaNew: '', // 新所属区域
         toBeWorkDate: '',
         jobIdNew: '', // 新职位id
-        remark: '' // 备注
+        remark: '', // 备注
+        changeDate: ''
       }
     }
   },
