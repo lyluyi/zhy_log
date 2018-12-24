@@ -1,6 +1,6 @@
 <template>
-    <div class="userAudit">
-      <div class="userAudit_title mb20">
+    <div class="userAuditView">
+      <div class="userAuditView_title mb20">
         人员变动审核查看
       </div>
       <div class="userAudit_inputGroup">
@@ -32,7 +32,7 @@
         </Row>
         <Row>
           <Col span="24" class="dict_col">
-            <Table highlight-row border :columns="userAuditColumns" :sortable="true" :data="userAuditData"  ref="dictTypeTable" @on-row-click="selectUserAudit" ></Table>
+            <Table highlight-row border :columns="userAuditColumns" :sortable="true" :data="userAuditData"  @on-row-click="selectUserAudit" ></Table>
             <Page :total="userAuditPageInfo.totalRow" :current="userAuditPageInfo.pageNumber" :page-size="userAuditPageInfo.pageSize" @on-change="changeUserAuditPageNumber" show-total  class="mt20" />
           </Col>
         </Row>
@@ -186,7 +186,7 @@ export default {
 </script>
 
 <style>
-.userAudit{
+.userAuditView{
   height: 100%;
   padding: 10px 10px;
   font-size: 14px;
@@ -194,7 +194,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   min-height: 400px;
 }
-.userAudit_title{
+.userAuditView_title{
   background: #2d8cf0;
   width: 100%;
   text-align: left;
@@ -208,4 +208,6 @@ export default {
   font-weight: bolder;
   color:#2d8cf0;
 }
+
+/* .userAuditView .ivu-input-group { width: 60% !important; } */
 </style>

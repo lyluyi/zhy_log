@@ -4,7 +4,7 @@
 <template>
   <div class="login-container">
     <Form ref="loginForm" class="login-form" :model="form" :rules="rules">
-      <h3 class="login-form-title">Zhy 平台系统</h3>
+      <h3 class="login-form-title">信息化平台系统</h3>
       <FormItem prop="name" class="mb30">
         <Input v-model="form.name" size="large" placeholder="">
           <span slot="prepend">
@@ -15,7 +15,7 @@
       <FormItem prop="word" class="mb30">
         <Input type="password" v-model="form.pass" size="large" placeholder="请输入密码">
           <span slot="prepend">
-            <Icon type="md-lock" />
+            <Icon type="md-lock" :size="16" />
           </span>
         </Input>
       </FormItem>
@@ -128,4 +128,6 @@ export default {
     text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228DFF, 0 0 35px #228DFF, 0 0 40px #228DFF, 0 0 50px #228DFF, 0 0 75px #228DFF;
   }
 }
+/*iView样式调整*/
+.login-container .ivu-input-group { display: table; }
 </style>

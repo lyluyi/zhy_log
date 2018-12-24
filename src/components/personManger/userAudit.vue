@@ -266,4 +266,6 @@ export default {
   font-weight: bolder;
   color:#2d8cf0;
 }
+
+/* .userAudit .ivu-input-group { width: 60% !important; } */
 </style>

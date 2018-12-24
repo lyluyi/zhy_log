@@ -1,9 +1,9 @@
 <template>
-  <div class="jobChange">
-    <div class="jobChange_title mb20">
+  <div class="jobChangeView">
+    <div class="jobChangeView_title mb20">
       职位变动管理查看
     </div>
-    <div class="jobChange_inputGroup">
+    <div class="jobChangeView_inputGroup">
       <Divider orientation="left">员工基本信息</Divider>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
@@ -238,7 +238,7 @@ export default {
 </script>
 
 <style>
-.jobChange{
+.jobChangeView{
   height: 100%;
   padding: 10px 10px;
   font-size: 14px;
@@ -246,7 +246,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   min-height: 400px;
 }
-.jobChange_title{
+.jobChangeView_title{
   background: #2d8cf0;
   width: 100%;
   text-align: left;

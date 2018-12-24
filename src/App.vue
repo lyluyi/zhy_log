@@ -64,7 +64,17 @@ export default {
 .ivu-transfer-list-content-item { font-size: 14px !important; }
 .ivu-tree-title { padding: 4px 24px 4px 20px !important; font-size: 14px; margin-left: 10px !important;}
 .ivu-icon-md-arrow-dropright:before { content: "\F341"; font-size: 29px; }
-/* .ivu-input-group { width: 75% !important; } */
+
+/* 处理屏幕width的问题 */
+.ivu-input-group { width: 100% !important;}
+
+/* display: table; -。-*/
+/* .ivu-input-group { display: inline-flex; } */
+.ivu-input-group-append { display: inline-flex; width: auto; }
+.ivu-input-search { bottom:2px; padding: 8px 8px!important; position: absolute;right:0; }  /* transform: translate(0, 0); */
+.ivu-input-group-append, .ivu-input-group-prepend { width: auto; }
+.ivu-input-group { position: relative;display: block; }
+
 /* .ivu-select-dropdown { top: 44px !important; } */
 .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item:hover { background: #8fa2cc !important;  }
 .ivu-breadcrumb>span:last-child { font-weight:normal;  }
