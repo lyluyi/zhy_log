@@ -336,4 +336,6 @@ export default {
   font-weight: bolder;
   color:#2d8cf0;
 }
+
+/* .fullMember .ivu-input-group { width: 60% !important; } */
 </style>

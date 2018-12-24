@@ -1,6 +1,6 @@
 <template>
-  <div class="jobChange">
-    <div class="jobChange_title mb20">
+  <div class="dimissionView">
+    <div class="dimissionView_title mb20">
       离退申请查看
     </div>
     <div class="jobChange_inputGroup">
@@ -165,7 +165,7 @@ export default {
 </script>
 
 <style>
-.jobChange{
+.dimissionView{
   height: 100%;
   padding: 10px 10px;
   font-size: 14px;
@@ -173,7 +173,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   min-height: 400px;
 }
-.jobChange_title{
+.dimissionView_title{
   background: #2d8cf0;
   width: 100%;
   text-align: left;

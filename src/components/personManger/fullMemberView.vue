@@ -1,9 +1,9 @@
 <template>
-  <div class="fullMember">
-    <div class="fullMember_title mb20">
+  <div class="fullMemberView">
+    <div class="fullMemberView_title mb20">
       转正管理查看
     </div>
-    <div class="fullMember_inputGroup">
+    <div class="fullMemberView_inputGroup">
 
       <Divider orientation="left">员工基本信息</Divider>
       <Row :gutter="16" class="mb10">
@@ -145,7 +145,7 @@ export default {
 </script>
 
 <style>
-.fullMember{
+.fullMemberView{
   height: 100%;
   padding: 10px 10px;
   font-size: 14px;
@@ -153,7 +153,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   min-height: 400px;
 }
-.fullMember_title{
+.fullMemberView_title{
   background: #2d8cf0;
   width: 100%;
   text-align: left;
