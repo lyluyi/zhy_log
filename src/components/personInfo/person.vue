@@ -189,7 +189,7 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">所属区域：</Button>
-              <Input type="text" placeholder=""  v-model="allData.area"/>
+              <Input type="text" placeholder=""  v-model="allData.area" readonly />
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -938,6 +938,7 @@ export default {
     getCompany (item) {
       this.allData.cid = item.cid
       this.allData.cname = item.cname
+      this.allData.area = item.area
     },
     getCompanyStatus (item) {
       this.flag1 = item.comFlag
