@@ -159,3 +159,6 @@ export const getUserFormalApply = (params) => { return fetch('FormData', 'userFo
 
 // 人员移动人员回退
 export const postUserAuditRollback = (params) => { return fetch('FormData', 'userAudit/rollback', params) }
+
+// 人员信息预处理
+export const getUserAuditWill = (params) => { return fetch('FormData', 'user/userAuditWill', params) }
