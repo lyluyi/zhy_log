@@ -1265,4 +1265,6 @@ export default {
   top: -42px;
   right: -100px;
 }
+
+.person .ivu-input-group { width: 73% !important; }
 </style>

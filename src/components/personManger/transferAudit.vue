@@ -1,9 +1,9 @@
 <template>
-  <div class="transfer">
-    <div class="transfer_title mb20">
+  <div class="transferAudit">
+    <div class="transferAudit_title mb20">
       转编申请审核
     </div>
-    <div class="transfer_inputGroup">
+    <div class="transferAudit_inputGroup">
       <Divider orientation="left">员工基本信息</Divider>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
@@ -230,7 +230,7 @@ export default {
 </script>
 
 <style>
-.transfer{
+.transferAudit{
   height: 100%;
   padding: 10px 10px;
   font-size: 14px;
@@ -238,7 +238,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   min-height: 400px;
 }
-.transfer_title{
+.transferAudit_title{
   background: #2d8cf0;
   width: 100%;
   text-align: left;

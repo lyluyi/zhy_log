@@ -18,6 +18,20 @@
           <Input  placeholder="" search enter-button v-model="allData.bpc_costTypeName" @on-search="queryBpcCostType" />
         </Col>
       </Row>
+      <Row :gutter="16" class="mb10">
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">年份：</Button>
+          <Select v-model="allData.year" style="width:100%">
+            <Option v-for="item in yearType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
+        </Col>
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">月份：</Button>
+          <Select v-model="allData.month" style="width:100%">
+            <Option v-for="item in monthType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
+        </Col>
+      </Row>
       <Row :gutter="16" class="mb20 mt20 pt20">
         <Col class="col_flex" span="24">
           <Button class="wd tc" type="primary" style="margin: 0 auto;" @click="query">查询</Button>
@@ -42,7 +56,7 @@ import departmentQuery from '@/components/ZHYFF/common/departmentQuery'
 
 import bpcCostTypeQuery from '@/components/ZHYFF/common/bpcCostTypeQuery'
 
-import { getBpcDepartment } from '@/components/ZHYFF/server/api.js'
+import { getBpcDepartment, getBPCYear } from '@/components/ZHYFF/server/api.js'
 
 export default {
   data () {
@@ -63,6 +77,21 @@ export default {
         page: '1'
       },
       data6: [],
+      yearType: [],
+      monthType: [
+        { label: '01', value: '01' },
+        { label: '02', value: '02' },
+        { label: '03', value: '03' },
+        { label: '04', value: '04' },
+        { label: '05', value: '05' },
+        { label: '06', value: '06' },
+        { label: '07', value: '07' },
+        { label: '08', value: '08' },
+        { label: '09', value: '09' },
+        { label: '10', value: '10' },
+        { label: '11', value: '11' },
+        { label: '12', value: '12' }
+      ],
       listLength: 0,
       columns7: [
         {
@@ -131,8 +160,18 @@ export default {
   created () {
     let params = this.allData
     getBpcDepartment(params).then((res) => {
-      this.data6 = res.budgetUsageList
-      this.listLength = res.budgetUsageListSize
+      if (res.success) {
+        this.data6 = res.budgetUsageList
+        this.listLength = res.budgetUsageListSize
+      } else {
+        this.$Message.error('数据查询失败！')
+      }
+    }).catch(err => {
+      this.$Message.error('数据查询失败！')
+      throw err
+    })
+    getBPCYear({}).then((res) => {
+      this.yearType = res.correspondList
     })
   },
   mounted () {},
@@ -177,20 +216,36 @@ export default {
       this.allData.bpc_costTypeName = item.bpc_costTypeName
     },
     getBpcCostTypeStatus (item) {
-      this.flag1 = item.comFlag
-      this.model1 = item.commodal
+      this.flag3 = item.comFlag
+      this.model3 = item.commodal
     },
     changPageSize (item) {
       this.allData.page = item + ''
       let params = this.allData
       getBpcDepartment(params).then((res) => {
-        this.data6 = res.budgetUsageList
+        if (res.success) {
+          this.data6 = res.budgetUsageList
+          this.listLength = res.budgetUsageListSize
+        } else {
+          this.$Message.error('数据查询失败！')
+        }
+      }).catch(err => {
+        this.$Message.error('数据查询失败！')
+        throw err
       })
     },
     query () {
       let params = this.allData
       getBpcDepartment(params).then((res) => {
-        this.data6 = res.budgetUsageList
+        if (res.success) {
+          this.data6 = res.budgetUsageList
+          this.listLength = res.budgetUsageListSize
+        } else {
+          this.$Message.error('数据查询失败！')
+        }
+      }).catch(err => {
+        this.$Message.error('数据查询失败！')
+        throw err
       })
     }
   },

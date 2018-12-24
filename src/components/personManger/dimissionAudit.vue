@@ -1,9 +1,9 @@
 <template>
-  <div class="jobChange">
-    <div class="jobChange_title mb20">
+  <div class="dimissionAudit">
+    <div class="dimissionAudit_title mb20">
       离退申请审核
     </div>
-    <div class="jobChange_inputGroup">
+    <div class="dimissionAudit_inputGroup">
       <Divider orientation="left">员工基本信息</Divider>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
@@ -245,7 +245,7 @@ export default {
 </script>
 
 <style>
-.jobChange{
+.dimissionAudit{
   height: 100%;
   padding: 10px 10px;
   font-size: 14px;
@@ -253,7 +253,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   min-height: 400px;
 }
-.jobChange_title{
+.dimissionAudit_title{
   background: #2d8cf0;
   width: 100%;
   text-align: left;

@@ -4,7 +4,7 @@
       <Header>
         <div class="layout-logo">费控管理</div>
       </Header>
-      <Layout>
+      <Layout style="min-height: 0;">
         <Sider class="slider" hide-trigger :style="{background: '#fff',overflow: 'auto'}">
           <Menu theme="light" active-name="1" style="width: 100%; padding-top:24px;" @on-select="routerTo">
               <MenuGroup title="汇率管理">
@@ -13,14 +13,18 @@
                   汇率维护
                 </MenuItem>
               </MenuGroup>
-              <MenuGroup title="BPC版本维护">
-                <!-- <MenuItem name="BPCVersions">
+              <MenuGroup title="BPC版本管理">
+                <MenuItem name="BPCVersions">
                   <Icon type="md-document" />
-                  汇率维护
-                </MenuItem> -->
+                  BPC版本维护
+                </MenuItem>
               </MenuGroup>
               <MenuGroup title="统计报表管理">
                 <MenuItem name="companyBudget">
+                  <Icon type="md-document" />
+                  公司部门预算使用表
+                </MenuItem>
+                <MenuItem name="companyDeptBudget">
                   <Icon type="md-document" />
                   公司预算使用表
                 </MenuItem>
@@ -123,6 +127,12 @@ export default {
 }
 .ZHYFF .slider {
   box-shadow: 0 2px 30px 7px hsla(0,0%,39%,.1) !important;
+  width: 220px;
+  min-width: 220px;
+  max-width: 220px;
+  flex: 0 0 220px;
+  background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+  overflow: auto;
 }
 
 .ZHYFF .footer{
@@ -132,4 +142,7 @@ export default {
   top: 0;
   z-index: 10000;
 }
+
+/* .ZHYFF .ivu-input-group { width: 65% !important; } */
+
 </style>

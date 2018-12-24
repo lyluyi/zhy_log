@@ -60,10 +60,20 @@ const router = new Router({
           component: (resolve) => require(['../components/ZHYFF/components/areaBudget.vue'], resolve)
         },
         {
+          path: 'companyDeptBudget',
+          name: 'companyDeptBudget',
+          meta: {
+            title: '公司部门预算',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/ZHYFF/components/companyDeptBudget.vue'], resolve)
+        },
+        {
           path: 'companyBudget',
           name: 'companyBudget',
           meta: {
-            title: '公司预算',
+            title: '公司部门预算',
             content: true,
             requireAuth: true
           },
@@ -410,6 +420,16 @@ const router = new Router({
             requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/userAuditView.vue'], resolve)
+        },
+        {
+          path: 'userAuditWill',
+          name: 'userAuditWill',
+          meta: {
+            title: '人员信息预处理',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/personManger/userAuditWill.vue'], resolve)
         }
       ]
     }

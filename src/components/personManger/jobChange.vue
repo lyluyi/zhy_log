@@ -339,4 +339,6 @@ export default {
   font-weight: bolder;
   color:#2d8cf0;
 }
+
+/* .jobChange .ivu-input-group { width: 60% !important; } */
 </style>
