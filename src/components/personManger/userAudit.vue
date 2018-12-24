@@ -117,11 +117,11 @@ export default {
           key: 'auditType'
         },
         {
-          title: '用户id',
+          title: '员工编号',
           key: 'userId'
         },
         {
-          title: '用户姓名',
+          title: '员工姓名',
           key: 'userName'
         },
         {

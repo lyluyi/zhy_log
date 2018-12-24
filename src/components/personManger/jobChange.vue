@@ -69,11 +69,11 @@
             <Option v-for="item in changeTypeDic" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </Col>
-        <!-- <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">申请日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" ></DatePicker>
-        </Col>
         <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">异动日期：</Button>
+          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.changeDate" ></DatePicker>
+        </Col>
+        <!-- <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">生效日期：</Button>
           <DatePicker type="date" placeholder="Select date" placement="bottom" ></DatePicker>
         </Col> -->
@@ -204,7 +204,8 @@ export default {
         areaNew: '', // 新所属区域
         toBeWorkDate: '', // 预计转正日期
         jobIdNew: '', // 新职位id
-        remark: '' // 备注
+        remark: '', // 备注
+        changeDate: '' // 变动时间
       }
     }
   },
@@ -292,10 +293,17 @@ export default {
       // this.userCdChange.toBeWorkDate = currentTime(this.userCdChange.toBeWorkDate)
       this.userCdChange.userId = this.oldData.userId
       let remark = this.userCdChange.remark
+      let userName = this.oldData.userName
       // let toBeWorkDate = this.userCdChange.toBeWorkDate
       let params = Object.assign({}, this.oldData, this.userCdChange)
       params.remark = remark
       params.operatorId = localStorage.getItem('userId')
+      params.userName = userName
+      params.cnameOld = params.cname
+      params.dnameOld = params.dname
+      console.log(params)
+      // debugger
+      // return
       // params.toBeWorkDate = toBeWorkDate
       postJobChange(params).then((res) => {
         if (res.code === 200) {
