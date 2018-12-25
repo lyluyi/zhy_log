@@ -162,3 +162,18 @@ export const postUserAuditRollback = (params) => { return fetch('FormData', 'use
 
 // 人员信息预处理
 export const getUserAuditWill = (params) => { return fetch('FormData', 'user/userAuditWill', params) }
+
+// 更新岗位变动信息
+export const updateUserCdChange = (params) => { return fetch('json', 'userCdChange/updateUserCdChange', params) }
+
+// 更新员工转正信息
+export const updateUserFormal = (params) => { return fetch('json', 'userFormal/updateUserFormal', params) }
+
+// 更新员工转编信息
+export const updateUserOrganization = (params) => { return fetch('json', 'userOrganization/updateUserOrganization', params) }
+
+// 更新员工离退信息
+export const updateUserQuit = (params) => { return fetch('json', 'userQuit/updateUserQuit', params) }
+
+// 更新员工回聘信息
+export const updateUserReturn = (params) => { return fetch('json', 'userReturn/updateUserReturn', params) }

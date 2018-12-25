@@ -63,33 +63,34 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">转正日期：</Button>
-          <!--
           <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userFormal.toBeWorkDate"></DatePicker>
-          -->
+          <!--
           <Input placeholder="" v-model="userFormal.toBeWorkDateView" readonly />
+          -->
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="24">
           <Button class="wd mr10 tr" type="text">转正意见：</Button>
-          <Input type="textarea" placeholder="" v-model="userFormal.opinion" readonly />
+          <Input type="textarea" placeholder="" v-model="userFormal.opinion" />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="24">
           <Button class="wd mr10 tr" type="text">签核意见：</Button>
-          <Input type="textarea" placeholder="" v-model="userFormal.signTheOpinion" readonly />
+          <Input type="textarea" placeholder="" v-model="userFormal.signTheOpinion" />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="24">
           <Button class="wd mr10 tr" type="text">备注：</Button>
-          <Input type="textarea" placeholder="" v-model="userFormal.remark" readonly  />
+          <Input type="textarea" placeholder="" v-model="userFormal.remark"  />
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="6">
           <Button type="success" size="large" style="margin:auto;width:128px;" @click="approvalAndApproval"  v-if="auditStatus == '审批中'">审批通过</Button>
+          <Button type="success" size="large" style="margin:auto;width:128px;" @click="updateApply"  v-if="auditStatus == '审批中'">保存修改数据</Button>
         </Col>
         <Col class="col_flex tr" span="6">
           <Button type="error" size="large" style="margin:auto;width:128px;" @click="approvalNotApproved"  v-if="auditStatus == '审批中'">审批不通过</Button>
@@ -109,7 +110,7 @@
 </template>
 <script>
 
-import { getUserAudit, getUserAuditOldUser, getUserFormalApply, userAudit, postUserAuditRollback } from '@/server/api'
+import { getUserAudit, getUserAuditOldUser, getUserFormalApply, userAudit, postUserAuditRollback, updateUserFormal } from '@/server/api'
 
 export default {
   data () {
@@ -211,6 +212,18 @@ export default {
     approvalRollback () {
       let params = { auditId: this.auditId, applyCode: this.applyCode, operatorId: localStorage.userId }
       postUserAuditRollback(params).then((res) => {
+        if (res.code === 200) {
+          this.$Message.success(res.msg)
+          this.$router.go(-1)
+        } else {
+          this.$Message.warning(res.msg)
+        }
+      })
+    },
+    updateApply () {
+      let { toBeWorkDate, opinion, signTheOpinion, remark } = {...this.userFormal}
+      let params = Object.assign({}, {id: this.userFormal.id}, { toBeWorkDate, opinion, signTheOpinion, remark })
+      updateUserFormal(params).then((res) => {
         if (res.code === 200) {
           this.$Message.success(res.msg)
           this.$router.go(-1)

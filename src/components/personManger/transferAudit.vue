@@ -65,26 +65,38 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">员工状态：</Button>
+          <!--
           <Input placeholder="" v-model="userOrganization.userStatus" readonly />
+          -->
+          <Select v-model="userOrganization.userStatus">
+            <Option v-for="item in userStatusDic" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">试用日期：</Button>
+          <!--
           <Input placeholder="" v-model="userOrganization.startworkdateView" readonly />
+          -->
+          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userOrganization.startworkdate"></DatePicker>
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">转正日期：</Button>
+          <!--
           <Input placeholder="" v-model="userOrganization.toBeWorkDateView" readonly />
+          -->
+          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userOrganization.toBeWorkDate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="24">
           <Button class="wd mr10 tr" type="text">备注：</Button>
-          <Input type="textarea" placeholder="" v-model="userOrganization.remark" readonly />
+          <Input type="textarea" placeholder="" v-model="userOrganization.remark" />
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="6">
           <Button type="success" size="large" style="margin:auto;width:128px;" @click="approvalAndApproval"  v-if="auditStatus == '审批中'">审批通过</Button>
+          <Button type="success" size="large" style="margin:auto;width:128px;" @click="updateApply"  v-if="auditStatus == '审批中'">保存修改数据</Button>
         </Col>
         <Col class="col_flex tr" span="6">
           <Button type="error" size="large" style="margin:auto;width:128px;" @click="approvalNotApproved"  v-if="auditStatus == '审批中'">审批不通过</Button>
@@ -104,7 +116,9 @@
 </template>
 <script>
 
-import { getUserAudit, getUserAuditOldUser, getUserOrganizationApply, userAudit, postUserAuditRollback } from '@/server/api'
+import getDic from '@/server/apiDic'
+
+import { getUserAudit, getUserAuditOldUser, getUserOrganizationApply, userAudit, postUserAuditRollback, updateUserOrganization } from '@/server/api'
 
 export default {
   data () {
@@ -112,6 +126,7 @@ export default {
       auditId: '',
       applyCode: '',
       auditStatus: '',
+      userStatusDic: [],
       oldData: {
         userId: '',
         cname: '',
@@ -150,6 +165,9 @@ export default {
     }
   },
   created () {
+    getDic('userStatus').then((res) => {
+      this.userStatusDic = res.data
+    })
     let params = {entityId: this.$route.params.entityId}
     getUserAuditOldUser(params).then((res) => {
       let user = res.data
@@ -217,6 +235,18 @@ export default {
     approvalRollback () {
       let params = { auditId: this.auditId, applyCode: this.applyCode, operatorId: localStorage.userId }
       postUserAuditRollback(params).then((res) => {
+        if (res.code === 200) {
+          this.$Message.success(res.msg)
+          this.$router.go(-1)
+        } else {
+          this.$Message.warning(res.msg)
+        }
+      })
+    },
+    updateApply () {
+      let {userStatus, startworkdate, toBeWorkDate, remark} = {...this.userReturn}
+      let params = Object.assign({}, {id: this.userOrganization.id}, { userStatus, startworkdate, toBeWorkDate, remark })
+      updateUserOrganization(params).then((res) => {
         if (res.code === 200) {
           this.$Message.success(res.msg)
           this.$router.go(-1)
