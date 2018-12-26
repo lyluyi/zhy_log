@@ -244,7 +244,7 @@ export default {
       })
     },
     updateApply () {
-      let {userStatus, startworkdate, toBeWorkDate, remark} = {...this.userReturn}
+      let {userStatus, startworkdate, toBeWorkDate, remark} = {...this.userOrganization}
       let params = Object.assign({}, {id: this.userOrganization.id}, { userStatus, startworkdate, toBeWorkDate, remark })
       updateUserOrganization(params).then((res) => {
         if (res.code === 200) {
