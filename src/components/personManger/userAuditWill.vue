@@ -8,35 +8,36 @@
           <Col class="col_flex" span="24">
             <Button class="wd tc" type="primary" style="margin:0 16px;">查询条件</Button>
             <div>
-              <RadioGroup v-model="queryItem">
-                <Radio label="健康证"></Radio>
-                <Radio label="身份证"></Radio>
-                <Radio label="试用期"></Radio>
-                <Radio label="转编"></Radio>
-                <Radio label="生日"></Radio>
+              <RadioGroup v-model="queryType" @on-change="queryTypeChange" >
+                <Radio v-bind:key="item.value" v-for="item in queryTypeList" :label="item.title"></Radio>
               </RadioGroup>
             </div>
           </Col>
         </Row>
         <Row :gutter="16" class="mb10">
           <Col class="col_flex" span="24">
-            <Tabs value="thisMonth">
+            <Tabs value="thisMonth" @on-click="tabChange">
               <TabPane :label="tabPane.thisMonth" name="thisMonth">
-                <Table border :columns="columns6" :data="data5"></Table>
+                <Table border :columns="columns" :data="userAuditWillPageData"></Table>
+                <Page :total="userAuditWillPageParams.totalRow" :current="userAuditWillPageParams.pageNumber" :page-size="userAuditWillPageParams.pageSize" @on-change="changeUserAuditWillPageNumber" show-total  class="mt20" />
               </TabPane>
               <TabPane :label="tabPane.nextMonth" name="nextMonth">
-
+                  <Table border :columns="columns" :data="userAuditWillPageData"></Table>
+                  <Page :total="userAuditWillPageParams.totalRow" :current="userAuditWillPageParams.pageNumber" :page-size="userAuditWillPageParams.pageSize" @on-change="changeUserAuditWillPageNumber" show-total  class="mt20" />
               </TabPane>
               <TabPane :label="tabPane.threeMonth" name="threeMonth">
-
+                  <Table border :columns="columns" :data="userAuditWillPageData"></Table>
+                  <Page :total="userAuditWillPageParams.totalRow" :current="userAuditWillPageParams.pageNumber" :page-size="userAuditWillPageParams.pageSize" @on-change="changeUserAuditWillPageNumber" show-total  class="mt20" />
               </TabPane>
             </Tabs>
           </Col>
         </Row>
         <Row :gutter="16" class="mb20 mt20 pt20">
+          <!--
           <Col class="col_flex" span="24">
             <Button class="wd tc" type="primary" style="margin: 0 auto;">查询</Button>
           </Col>
+          -->
         </Row>
         <Row>
           <Col span="24" class="dict_col">
@@ -47,128 +48,168 @@
 </template>
 <script>
 
+import { getUserAuditWill } from '@/server/api'
+
 export default {
   data () {
     return {
-      a: 12,
+      queryType: '健康证',
+      currentTabName: 'thisMonth',
+      queryTypeList: [{
+        title: '健康证',
+        value: 'healhDate'
+      }, {
+        title: '身份证',
+        value: 'IDCARDKINDID'
+      }, /* {
+        title: '试用期',
+        value: ''
+      }, */{
+        title: '转正',
+        value: 'toBeWorkDate'
+      }, {
+        title: '生日',
+        value: 'birthDate'
+      }],
       tabPane: {
         thisMonth: (h) => {
           return h('div', [
-            h('span', '本月'),
-            h('Badge', {
-              props: {
-                count: this.a
-              }
-            })
+            h('span', '本月')
           ])
         },
         nextMonth: (h) => {
           return h('div', [
-            h('span', '下月'),
-            h('Badge', {
-              props: {
-                count: 3
-              }
-            })
+            h('span', '下月')
           ])
         },
         threeMonth: (h) => {
           return h('div', [
-            h('span', '三个月之内'),
-            h('Badge', {
-              props: {
-                count: 3
-              }
-            })
+            h('span', '三个月之内')
           ])
         }
       },
-      queryItem: '',
-      columns6: [
+      baseColumns: [
         {
-          title: 'Date',
-          key: 'date'
+          title: '员工编号',
+          key: 'userId'
         },
         {
-          title: 'Name',
-          key: 'name'
+          title: '员工姓名',
+          key: 'userName'
         },
         {
-          title: 'Age',
-          key: 'age',
-          filters: [
-            {
-              label: 'Greater than 25',
-              value: 1
-            },
-            {
-              label: 'Less than 25',
-              value: 2
-            }
-          ],
-          filterMultiple: false,
-          filterMethod (value, row) {
-            if (value === 1) {
-              return row.age > 25
-            } else if (value === 2) {
-              return row.age < 25
-            }
-          }
+          title: '所属公司',
+          key: 'cname'
         },
         {
-          title: 'Address',
-          key: 'address',
-          filters: [
-            {
-              label: 'New York',
-              value: 'New York'
-            },
-            {
-              label: 'London',
-              value: 'London'
-            },
-            {
-              label: 'Sydney',
-              value: 'Sydney'
-            }
-          ],
-          filterMethod (value, row) {
-            return row.address.indexOf(value) > -1
-          }
+          title: '所属部门',
+          key: 'dname'
         }
       ],
-      data5: [
-        {
-          name: 'John Brown',
-          age: 18,
-          address: 'New York No. 1 Lake Park',
-          date: '2016-10-03'
-        },
-        {
-          name: 'Jim Green',
-          age: 24,
-          address: 'London No. 1 Lake Park',
-          date: '2016-10-01'
-        },
-        {
-          name: 'Joe Black',
-          age: 30,
-          address: 'Sydney No. 1 Lake Park',
-          date: '2016-10-02'
-        },
-        {
-          name: 'Jon Snow',
-          age: 26,
-          address: 'Ottawa No. 2 Lake Park',
-          date: '2016-10-04'
-        }
-      ]
+      columns: [],
+      userAuditWillPageParams: {
+        queryType: '',
+        timeType: '',
+        pageNumber: 1,
+        pageSize: 10,
+        totalPage: 0,
+        totalRow: 0
+      },
+      userAuditWillPageData: []
     }
   },
   created () {
-    console.log(this)
+    this.createTabColumns()
+    this.queryUserAuditWillPageData()
   },
   methods: {
+    queryTypeChange () {
+      this.createTabColumns()
+    },
+    tabChange (name) {
+      if (name === 'thisMonth') {
+        this.currentTabName = 'thisMonth'
+        console.log(this.currentTabName)
+        console.log(this.getQueryTypeValue())
+        this.createTabColumns()
+      }
+      if (name === 'nextMonth') {
+        this.currentTabName = 'nextMonth'
+        console.log(this.currentTabName)
+        console.log(this.getQueryTypeValue())
+        this.createTabColumns()
+      }
+      if (name === 'threeMonth') {
+        this.currentTabName = 'threeMonth'
+        console.log(this.currentTabName)
+        console.log(this.getQueryTypeValue())
+        this.createTabColumns()
+      }
+    },
+    getQueryTypeValue () {
+      for (let index in this.queryTypeList) {
+        if (this.queryTypeList[index].title === this.queryType) {
+          return this.queryTypeList[index].value
+        }
+      }
+    },
+    copyArray (arr) {
+      var result = []
+      for (var i = 0; i < arr.length; i++) {
+        result.push(arr[i])
+      }
+      return result
+    },
+    createTabColumns () {
+      let queryTypeValue = this.getQueryTypeValue()
+      let tempColumns = this.copyArray(this.baseColumns)
+      if (queryTypeValue === 'healhDate') {
+        tempColumns.push({title: '健康证', key: 'healhDateView'})
+        this.columns = tempColumns
+      }
+      if (queryTypeValue === 'IDCARDKINDID') {
+        tempColumns.push({title: '身份证', key: 'idcardno'})
+        this.columns = tempColumns
+      }
+      if (queryTypeValue === 'toBeWorkDate') {
+        tempColumns.push({title: '转正日期', key: 'toBeWorkDateView'})
+        this.columns = tempColumns
+      }
+      if (queryTypeValue === 'birthDate') {
+        tempColumns.push({title: '生日', key: 'birthdateView'})
+        this.columns = tempColumns
+      }
+      this.queryUserAuditWillPageData()
+    },
+    queryUserAuditWillPageData () {
+      this.userAuditWillPageParams = {
+        queryType: this.getQueryTypeValue(),
+        timeType: this.currentTabName,
+        pageNumber: 1,
+        pageSize: 10,
+        totalPage: 0,
+        totalRow: 0
+      }
+      getUserAuditWill(this.userAuditWillPageParams).then((res) => {
+        this.userAuditWillPageData = res.list
+        let { pageNumber, pageSize, totalPage, totalRow } = {...res}
+        this.userAuditWillPageParams.pageNumber = pageNumber
+        this.userAuditWillPageParams.pageSize = pageSize
+        this.userAuditWillPageParams.totalPage = totalPage
+        this.userAuditWillPageParams.totalRow = totalRow
+      })
+    },
+    changeUserAuditWillPageNumber (num) {
+      this.userAuditWillPageParams.pageNumber = num
+      getUserAuditWill(this.userAuditWillPageParams).then((res) => {
+        this.userAuditWillPageData = res.list
+        let { pageNumber, pageSize, totalPage, totalRow } = {...res}
+        this.userAuditWillPageParams.pageNumber = pageNumber
+        this.userAuditWillPageParams.pageSize = pageSize
+        this.userAuditWillPageParams.totalPage = totalPage
+        this.userAuditWillPageParams.totalRow = totalRow
+      })
+    }
   },
   components: {
   }

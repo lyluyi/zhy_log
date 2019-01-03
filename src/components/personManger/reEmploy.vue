@@ -150,7 +150,7 @@
         </Col>
       </Row>
     </div>
-    <userIdQuery @tableUserId="getUserId" @statusUserId='getUserIdStatus' :data="modal6" v-if="openSelectUserDialog"></userIdQuery>
+    <userIdQueryDimission @tableUserId="getUserId" @statusUserId='getUserIdStatus' :data="modal6" v-if="openSelectUserDialog"></userIdQueryDimission>
     <companyQuery @tableCompany="getCompany" @statusCompany='getCompanyStatus' :data="model1" v-if="flag1"></companyQuery>
     <departmentQuery @tableDepartment="getDepartment" @statusDepartment='getDepartmentStatus' :data="model2" v-if="flag2" :cid="userReturn.cid"></departmentQuery>
     <jobQuery @tableJob="getJob" @statusJob='getJobStatus' :data="model3" v-if="flag3" :did="userReturn.did"></jobQuery>
@@ -161,7 +161,7 @@
 import companyQuery from '@/common/companyQuery'
 import departmentQuery from '@/common/departmentQuery'
 import jobQuery from '@/common/jobQuery'
-import userIdQuery from '@/common/userIdQuery'
+import userIdQueryDimission from '@/common/userIdQueryDimission'
 
 import { postUserReturn, getUserId } from '@/server/api'
 
@@ -324,7 +324,7 @@ export default {
     }
   },
   components: {
-    userIdQuery,
+    userIdQueryDimission,
     departmentQuery,
     companyQuery,
     jobQuery
