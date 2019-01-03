@@ -185,8 +185,10 @@ export default {
       this.$router.push(name)
     },
     closeHandleTag (name, index) { // 关闭Tag
-      this.levelList.filter((el, id) => {
-        return id !== index
+      this.levelList.forEach((el, id) => {
+        if (index === id) {
+          this.levelList.splice(index, 1)
+        }
       })
     },
     drawerHandleClick () {
