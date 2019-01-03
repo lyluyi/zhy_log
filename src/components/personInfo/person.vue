@@ -835,6 +835,7 @@ export default {
         area: '', // 所属区域
         beWorkDate: '', // 转正日期
         upHeader: '', // 直接主管
+        upHeaderId: '', // 直接主管id
         jobId: '', // 职位名称
         jobLevle: '', // 职等
         jobType: '', // 职务
@@ -998,6 +999,7 @@ export default {
         this.allData.inneruserdept = item.dname
       } else {
         this.allData.upHeader = item.userName
+        this.allData.upHeaderId = item.userId
       }
     },
     getUserIdStatus (item) {

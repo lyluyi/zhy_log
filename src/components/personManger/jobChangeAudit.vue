@@ -65,16 +65,16 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">变更类型：</Button>
-          <!--
           <Select v-model="userCdChange.changeType">
             <Option v-for="item in changeTypeDic" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
-          -->
+          <!--
           <Input v-model="userCdChange.changeType" readonly />
+          -->
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">异动日期：</Button>
-          <Date-picker placement="bottom" v-model="userCdChange.changeDate" readonly />
+          <Date-picker placement="bottom" v-model="userCdChange.changeDate" />
         </Col>
         <!-- <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">申请日期：</Button>
@@ -88,15 +88,24 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新公司：</Button>
+          <!--
           <Input   placeholder=""  v-model="userCdChange.cnameNew" readonly/>
+          -->
+          <Input search enter-button  placeholder=""  v-model="userCdChange.cnameNew" @on-search="queryCompany" readonly />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新部门：</Button>
+          <!--
           <Input   placeholder="" v-model="userCdChange.dnameNew"  readonly/>
+          -->
+          <Input search enter-button  placeholder="" v-model="userCdChange.dnameNew"  @on-search="queryDepartment" readonly/>
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新职位：</Button>
+          <!--
           <Input  placeholder=""  v-model="userCdChange.jobnameNew" readonly />
+          -->
+          <Input  placeholder="" search enter-button v-model="userCdChange.jobnameNew" @on-search="queryJob" readonly />
         </Col>
         <!-- <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新成本中心：</Button>
@@ -118,7 +127,10 @@
         </Col> -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新直接主管：</Button>
+          <!--
           <Input placeholder="" v-model="userCdChange.upheaderNewName" readonly/>
+          -->
+          <Input placeholder="" v-model="userCdChange.upheaderNewName" search enter-button @on-search="queryUpHeader" />
         </Col>
       </Row>
       <!--
@@ -132,12 +144,13 @@
       <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="24">
           <Button class="wd mr10 tr" type="text">备注：</Button>
-          <Input type="textarea" placeholder="" v-model="userCdChange.remark" readonly />
+          <Input type="textarea" placeholder="" v-model="userCdChange.remark"  />
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="6">
           <Button type="success" size="large" style="margin:auto;width:128px;" @click="approvalAndApproval"  v-if="auditStatus == '审批中'">审批通过</Button>
+          <Button type="success" size="large" style="margin:auto;width:128px;" @click="updateApply"  v-if="auditStatus == '审批中'">保存修改数据</Button>
         </Col>
         <Col class="col_flex tr" span="6">
           <Button type="error" size="large" style="margin:auto;width:128px;" @click="approvalNotApproved"  v-if="auditStatus == '审批中'">审批不通过</Button>
@@ -152,12 +165,22 @@
           <Button type="primary" size="large" style="margin:auto;width:128px;" @click="approvalRollback"  v-if="auditStatus == '审批通过'">撤销</Button>
         </Col>
       </Row>
+      <userIdQuery @tableUserId="getUserId" @statusUserId='getUserIdStatus' :data="modal6" v-if="flag6"></userIdQuery>
+      <departmentQuery @tableDepartment="getDepartment" @statusDepartment='getDepartmentStatus' :data="model2" v-if="flag2" :cid="userCdChange.cidNew"></departmentQuery>
+      <companyQuery @tableCompany="getCompany" @statusCompany='getCompanyStatus' :data="model1" v-if="flag1"></companyQuery>
+      <jobQuery @tableJob="getJob" @statusJob='getJobStatus' :data="model3" v-if="flag3" :did="userCdChange.didNew"></jobQuery>
     </div>
   </div>
 </template>
 <script>
 
-import { getUserAudit, getUserAuditOldUser, getJobChangeApply, userAudit, postUserAuditRollback } from '@/server/api'
+import departmentQuery from '@/common/departmentQuery'
+import companyQuery from '@/common/companyQuery'
+import jobQuery from '@/common/jobQuery'
+import userIdQuery from '@/common/userIdQuery'
+import getDic from '@/server/apiDic'
+
+import { getUserAudit, getUserAuditOldUser, getJobChangeApply, userAudit, postUserAuditRollback, updateUserCdChange } from '@/server/api'
 
 export default {
   data () {
@@ -223,7 +246,9 @@ export default {
     }
   },
   created () {
-    console.log(this.$route.params.entityId)
+    getDic('UserCdChangeChangeType').then((res) => {
+      this.changeTypeDic = res.data
+    })
     let params = {entityId: this.$route.params.entityId}
     getUserAuditOldUser(params).then((res) => {
       let user = res.data
@@ -317,7 +342,98 @@ export default {
           this.$Message.warning(res.msg)
         }
       })
+    },
+    updateApply () {
+      let { cidNew, cnameNew, didNew, dnameNew, jobnameNew, jobIdNew, upheaderNew, upheaderNewName, changeType, changeDate, area, remark } = {...this.userCdChange}
+      let params = Object.assign({}, {id: this.userCdChange.id}, { cidNew, cnameNew, didNew, dnameNew, jobnameNew, jobIdNew, upheaderNew, upheaderNewName, changeType, changeDate, area, remark })
+      updateUserCdChange(params).then((res) => {
+        if (res.code === 200) {
+          this.$Message.success(res.msg)
+          this.$router.go(-1)
+        } else {
+          this.$Message.warning(res.msg)
+        }
+      })
+    },
+    queryCompany () { // 公司信息查询
+      this.flag1 = true
+      this.model1 = true
+    },
+    getCompany (item) {
+      this.userCdChange.cidNew = item.cid
+      this.userCdChange.cnameNew = item.cname
+      this.userCdChange.area = item.area
+    },
+    getCompanyStatus (item) {
+      this.flag1 = item.comFlag
+      this.model1 = item.commodal
+    },
+    queryDepartment () { // 部门信息查询
+      if (!this.userCdChange.cidNew) {
+        this.$Message.info({ content: '请先输入所属公司' })
+      } else {
+        this.flag2 = true
+        this.model2 = true
+      }
+    },
+    getDepartment (item) {
+      // console.log(item)
+      this.userCdChange.didNew = item.did
+      this.userCdChange.dnameNew = item.dname
+    },
+    getDepartmentStatus (item) {
+      // console.log(item)
+      this.flag2 = item.comFlag
+      this.model2 = item.commodal
+    },
+    queryJob () { // 公司信息查询
+      if (this.userCdChange.didNew) {
+        this.flag3 = true
+        this.model3 = true
+        this.userIdFlag = 0
+      } else {
+        this.$Message.info('请先选择部门！')
+        return false
+      }
+    },
+    getJob (item) {
+      this.userCdChange.jobIdNew = item.jobId
+      this.userCdChange.jobNameNew = item.jobName
+      this.userCdChange.jobIdNew = item.jobId // 新职位id
+      this.userCdChange.jobnameNew = item.jobName // 新职位名称
+    },
+    getJobStatus (item) {
+      this.flag3 = item.comFlag
+      this.model3 = item.commodal
+    },
+    queryUpHeader () {
+      this.modal6 = true
+      this.flag6 = true
+      this.userIdFlag = 1
+    },
+    queryId () {
+      this.modal6 = true
+      this.flag6 = true
+      this.userIdFlag = 0
+    },
+    getUserId (item) {
+      if (this.userIdFlag) {
+        this.userCdChange.upheaderNew = item.userId
+        this.userCdChange.upheaderNewName = item.userName
+      } else {
+        this.oldData = item
+      }
+    },
+    getUserIdStatus (item) {
+      this.flag6 = item.comFlag
+      this.modal6 = item.commodal
     }
+  },
+  components: {
+    userIdQuery,
+    departmentQuery,
+    companyQuery,
+    jobQuery
   }
 }
 </script>
