@@ -20,7 +20,7 @@
         </Input>
       </FormItem>
       <FormItem>
-        <Button @click="onLogin" size="large" type="primary" long :loading="loading">登录</Button>
+        <Button @click="onLogin" size="large" type="primary" long :loading="loading" :disabled="isDisable">登录</Button>
       </FormItem>
     </Form>
     <div class="login-footer">
@@ -37,6 +37,7 @@ import { getLogin } from '@/server/api.js'
 export default {
   data () {
     return {
+      isDisable: false,
       loading: false,
       form: {
         name: '019799',
@@ -61,6 +62,7 @@ export default {
   },
   methods: {
     onLogin () {
+      this.isDisable = true
       this.$refs.loginForm.validate(valid => {
         if (!valid) return
         let params = {
@@ -69,11 +71,16 @@ export default {
         }
         getLogin(params).then((res) => {
           console.log(res)
+          this.isDisable = false
           localStorage.setItem('Authorization', 'Bearer ' + res.Authorization)
           localStorage.setItem('menuList', JSON.stringify(res.treeList))
           localStorage.setItem('userId', this.form.name)
           this.$Message.success({ content: '登陆成功！' })
           this.$router.push('/home/company')
+        }).catch(err => {
+          this.isDisable = false
+          this.$Message.error({ content: '登陆异常！' })
+          throw err
         })
       })
     }
