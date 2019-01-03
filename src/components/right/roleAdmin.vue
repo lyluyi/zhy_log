@@ -41,14 +41,9 @@ export default {
       }
       postRoleAdminData(params).then((res) => {
         this.$Spin.hide()
-        if (res.code === 200) {
-          this.$Message.success({ content: res.msg })
-          this.allData.roleName = ''
-        }
-        if (res.code === 500) {
-          this.$Message.error({ content: res.msg })
-        }
+        this.$Message.success({ content: '保存成功！' })
       })
+      this.allData.roleName = ''
     }
   },
   components: {

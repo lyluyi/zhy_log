@@ -31,6 +31,12 @@
             <Option v-for="item in monthType" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </Col>
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">金额计量单位：</Button>
+          <Select v-model="allData.unitMoeny" style="width:100%">
+            <Option v-for="item in moneyType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
+        </Col>
       </Row>
       <Row :gutter="16" class="mb20 mt20 pt20">
         <Col class="col_flex" span="24">
@@ -73,11 +79,30 @@ export default {
         bpc_deptId: '',
         bpc_deptName: '',
         bpc_costType: '',
+        unitMoeny: '元',
         bpc_costTypeName: '',
         page: '1'
       },
       data6: [],
       yearType: [],
+      moneyType: [
+        {
+          label: '元',
+          value: '元'
+        },
+        {
+          label: '千',
+          value: '千'
+        },
+        {
+          label: '万',
+          value: '万'
+        },
+        {
+          label: '百万',
+          value: '百万'
+        }
+      ],
       monthType: [
         { label: '01', value: '01' },
         { label: '02', value: '02' },
@@ -96,63 +121,80 @@ export default {
       columns7: [
         {
           title: '预算版本',
-          key: 'b28_s_vvd38ti'
+          key: 'b28_s_vvd38ti',
+          width: 150,
+          fixed: 'left'
         },
         {
           title: '年',
+          width: 120,
           key: 'year'
         },
         {
           title: '月',
+          width: 120,
           key: 'month'
         },
         {
           title: '片区',
+          width: 150,
           key: 'controlNumName'
         },
         {
           title: '费用类型编码',
+          width: 150,
           key: 'bpc_costType'
         },
         {
           title: '费用类型',
+          width: 150,
           key: 'bpc_costTypeName'
         },
         {
           title: '部门ID',
+          width: 150,
           key: 'bpc_deptId'
         },
         {
           title: '部门',
+          width: 150,
           key: 'bpc_deptName'
         },
         {
           title: '原始总预算',
+          width: 200,
           key: 'tot_bud'
         },
         {
           title: '架构代码',
+          width: 150,
           key: 'controlNum'
         },
         {
           title: '总合计预算',
+          width: 200,
           key: 'tot_tot'
         },
         {
           title: '已冻结',
+          width: 200,
           key: 'tot_clo'
         },
         {
           title: '已消耗',
+          width: 200,
           key: 'tot_cum'
         },
         {
           title: '调整预算',
+          width: 150,
           key: 'tot_exe'
         },
         {
           title: '剩余可用预算(CNY)',
-          key: 'tot_luse_cny'
+          width: 200,
+          key: 'tot_luse_cny',
+          fixed: 'right'
         }
       ]
     }
@@ -160,7 +202,7 @@ export default {
   created () {
     let params = this.allData
     getBpcDepartment(params).then((res) => {
-      if (res.success) {
+      if (res.success === true || res.success === 'true') {
         this.data6 = res.budgetUsageList
         this.listLength = res.budgetUsageListSize
       } else {
@@ -190,7 +232,7 @@ export default {
       this.model1 = item.commodal
     },
     queryDepartment () { // 部门信息查询
-      if (!this.allData.controlNum) {
+      if (this.allData.controlNum === '') {
         this.$Message.info({ content: '请先输入所属公司' })
       } else {
         this.flag2 = true
@@ -223,7 +265,7 @@ export default {
       this.allData.page = item + ''
       let params = this.allData
       getBpcDepartment(params).then((res) => {
-        if (res.success) {
+        if (res.success === true || res.success === 'true') {
           this.data6 = res.budgetUsageList
           this.listLength = res.budgetUsageListSize
         } else {
@@ -237,7 +279,7 @@ export default {
     query () {
       let params = this.allData
       getBpcDepartment(params).then((res) => {
-        if (res.success) {
+        if (res.success === true || res.success === 'true') {
           this.data6 = res.budgetUsageList
           this.listLength = res.budgetUsageListSize
         } else {

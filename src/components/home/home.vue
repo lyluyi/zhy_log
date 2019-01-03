@@ -1,9 +1,11 @@
 <template>
   <div class="layout">
     <Layout class="layoutWrap">
-      <Header>
-        <Menu mode="horizontal" theme="light" active-name="1">
-          <div class="layout-logo">平台系统</div>
+      <Header style="background: #2d8cf0">
+        <Menu mode="horizontal" style="background:#2d8cf0" active-name="1">
+          <div class="layout-img" :style="{backgroundImage:'url('+require('../../../static/logo.png')+')'}">
+          </div>
+          <div class="layout-logo" style="fontSize: 18px; fontWeight: border;">信息化平台系统</div>
           <div class="layout-nav">
             <!-- <MenuItem name="1">
               <Icon type="ios-navigate"></Icon>
@@ -22,8 +24,12 @@
               Item 4
             </MenuItem> -->
           </div>
-            <Dropdown style="margin-left:20px;float:right;" @on-click="checkUserInfo">
-              <a href="javascript:void(0)">
+          <div style="margin-left:20px;float:right;color:#fff;">
+            <span  style="color:#fff; margin-right:24px;display: inline-block; minHeight:48px;">
+              欢迎您
+            </span>
+            <Dropdown style="color:#fff; margin-right: 32px;" @on-click="checkUserInfo">
+              <a href="javascript:void(0)" style="color:#fff;">
                 个人中心
                 <Icon type="md-arrow-dropdown" />
               </a>
@@ -33,6 +39,10 @@
                 <DropdownItem name="修改密码">退出登录</DropdownItem>
               </DropdownMenu>
             </Dropdown>
+            <span @click="drawerHandleClick" style="color:#2d8cf0;background:#fff; display: inline-block; width:24px; height:24px; border-radius:50%;line-height:24px;text-align:center;">
+              <Icon type="md-help" />
+            </span>
+          </div>
         </Menu>
       </Header>
       <Layout style="min-height: 0;">
@@ -52,7 +62,7 @@
           <Layout :style="{padding: '0 24px 24px'}">
             <Breadcrumb :style="{margin: '16px 0'}" separator="">
               <BreadcrumbItem v-for="(item, index) in levelList" :key="item.el.path" v-if="item.el.meta.title"  >
-                <Tag type="dot" class="tagItem" :name="item.el.name" :color="item.colorType ? 'primary' : 'defalut' " closable  @click.native="handleTag(item.el.name, index)" >{{item.el.meta.title}}</Tag>
+                <Tag type="dot" class="tagItem" :name="item.el.name" :color="item.colorType ? 'primary' : 'defalut' " closable  @click.native="handleTag(item.el.name, index)" @on-close="closeHandleTag(item.el.name, index)" >{{item.el.meta.title}}</Tag>
                 <!-- {{ item.meta.title }} -->
               </BreadcrumbItem>
             </Breadcrumb>
@@ -143,7 +153,7 @@ export default {
       this.flagRevisePassWord = item.flag
       this.revisePassWordModel = item.model
     },
-    getBreadcrumb () {
+    getBreadcrumb () { // 从Slide上面访问的路由视图方法
       if (localStorage.getItem('routeType') === 'tag') {
         return null
       } else {
@@ -152,13 +162,13 @@ export default {
         // let matched = this.$route.matched.filter(item => item.name) // $route.matched 将会是一个包含从上到下的所有对象 (副本)。
         this.levelList.forEach((item, index) => {
           this.levelList[index].colorType = false
-          if (item.el.name === matched[1].name) {
+          if (item.el.name === matched[1].name) { // 当前路由视图在leveList可以匹配成功时
             this.levelList[index].colorType = true
             bool = true
             return null
           }
         })
-        if (!bool) {
+        if (!bool) { // 当前路由视图在leveList中匹配不到时 push
           this.levelList.push({
             colorType: true,
             el: matched[1]
@@ -166,13 +176,26 @@ export default {
         }
       }
     },
-    handleTag (name, index) {
+    handleTag (name, index) { // Tag change时 对应的状态改变
       this.levelList.forEach((item, el) => {
         this.levelList[el].colorType = false
       })
       this.levelList[index].colorType = true
       localStorage.setItem('routeType', 'tag')
       this.$router.push(name)
+    },
+    closeHandleTag (name, index) { // 关闭Tag
+      this.levelList.filter((el, id) => {
+        return id !== index
+      })
+    },
+    drawerHandleClick () {
+      this.$Notice.info({
+        title: '消息通知',
+        desc: '这里是消息通知！',
+        top: 12,
+        duration: 2
+      })
     }
   },
   components: {
@@ -191,7 +214,7 @@ export default {
   overflow: hidden;
 }
 .layout-logo {
-  width: 100px;
+  width: auto;
   height: 28;
   /* width: 93px; */
   padding: 10px -10px;
@@ -218,6 +241,27 @@ export default {
   width: 100%;
   height: 100%;
 }
+.layout-img {
+  width: 208px;
+  float: left;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-y: 5px;
+  position: relative;
+  /* background: url('/../../assets/logo.png') no-repeat contain; */
+}
+
+.layout-img::before {
+  display: block;
+  content: '';
+  position: absolute;
+  right: 18px;
+  width: 1px;
+  height: 40%;
+  top: 30%;
+  background: #fff;
+}
 
 .ivu-menu-horizontal.ivu-menu-light:after {
     content: '';
@@ -237,4 +281,8 @@ export default {
   opacity: 0;
 }
 .TagActive { font-weight: 800; }
+
+/* .ivu-dropdown-item:hover {
+  background: #8fa2cc;
+}          */
 </style>
