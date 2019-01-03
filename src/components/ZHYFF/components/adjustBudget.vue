@@ -1,13 +1,17 @@
 <template>
   <div class="exchangeManegement">
     <div class="exchangeManegement_title mb20">
-      <span>公司部门预算使用表</span>
+      <span>公司使用表</span>
     </div>
     <div class="structWrap pl10 pr10">
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">公司：</Button>
           <Input search enter-button  placeholder=""  v-model="allData.bpc_comName" @on-search="queryCompany"/>
+        </Col>
+        <Col class="col_flex" span="8">
+          <Button  class="wd mr10 tr" type="text">部门：</Button>
+          <Input search enter-button  placeholder="" v-model="allData.bpc_deptName"  @on-search="queryDepartment"/>
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">费用类型：</Button>
@@ -46,15 +50,18 @@
     </div>
     <bpcCostTypeQuery @tableBpcCostType="getBpcCostType" @statusBpcCostType='getBpcCostTypeStatus' :data="model3" v-if="flag3"></bpcCostTypeQuery>
     <companyQuery @tableCompany="getCompany" @statusCompany='getCompanyStatus' :data="model1" v-if="flag1"></companyQuery>
+    <departmentQuery @tableDepartment="getDepartment" @statusDepartment='getDepartmentStatus' :data="model2" v-if="flag2" :cid="allData.bpc_comId"></departmentQuery>
   </div>
 </template>
 <script>
 
 import companyQuery from '@/components/ZHYFF/common/companyQuery'
 
+import departmentQuery from '@/components/ZHYFF/common/departmentQuery'
+
 import bpcCostTypeQuery from '@/components/ZHYFF/common/bpcCostTypeQuery'
 
-import { getBpcCompanyWithoutDept, getBPCYear } from '@/components/ZHYFF/server/api.js'
+import { getBpcCompany, getBPCYear } from '@/components/ZHYFF/server/api.js'
 
 export default {
   data () {
@@ -68,28 +75,17 @@ export default {
       allData: {
         bpc_comId: '',
         bpc_comName: '',
+        bpc_deptId: '',
+        bpc_deptName: '',
         bpc_costType: '',
         bpc_costTypeName: '',
+        year: '',
+        month: '',
         unitMoeny: '元',
         page: '1'
       },
       data6: [],
       yearType: [],
-      monthType: [
-        { label: '01', value: '01' },
-        { label: '02', value: '02' },
-        { label: '03', value: '03' },
-        { label: '04', value: '04' },
-        { label: '05', value: '05' },
-        { label: '06', value: '06' },
-        { label: '07', value: '07' },
-        { label: '08', value: '08' },
-        { label: '09', value: '09' },
-        { label: '10', value: '10' },
-        { label: '11', value: '11' },
-        { label: '12', value: '12' }
-      ],
-      listLength: 0,
       moneyType: [
         {
           label: '元',
@@ -108,6 +104,21 @@ export default {
           value: '百万'
         }
       ],
+      monthType: [
+        { label: '01', value: '01' },
+        { label: '02', value: '02' },
+        { label: '03', value: '03' },
+        { label: '04', value: '04' },
+        { label: '05', value: '05' },
+        { label: '06', value: '06' },
+        { label: '07', value: '07' },
+        { label: '08', value: '08' },
+        { label: '09', value: '09' },
+        { label: '10', value: '10' },
+        { label: '11', value: '11' },
+        { label: '12', value: '12' }
+      ],
+      listLength: 0,
       columns7: [
         {
           title: '预算版本',
@@ -134,6 +145,11 @@ export default {
           title: '费用类型',
           width: 150,
           key: 'bpc_costTypeName'
+        },
+        {
+          title: '部门',
+          width: 150,
+          key: 'bpc_deptName'
         },
         {
           title: '公司',
@@ -172,7 +188,7 @@ export default {
         },
         {
           title: '剩余可用预算(CNY)',
-          width: 200,
+          width: 150,
           key: 'tot_luse_cny',
           fixed: 'right'
         }
@@ -181,9 +197,8 @@ export default {
   },
   created () {
     let params = this.allData
-    getBpcCompanyWithoutDept(params).then((res) => {
+    getBpcCompany(params).then((res) => {
       if (res.success === true || res.success === 'true') {
-        this.$Message.success('数据查询成功！')
         this.data6 = res.budgetUsageList
         this.listLength = res.budgetUsageListSize
       } else {
@@ -211,6 +226,24 @@ export default {
       this.flag1 = item.comFlag
       this.model1 = item.commodal
     },
+    queryDepartment () { // 部门信息查询
+      if (this.allData.bpc_comId === '') {
+        this.$Message.info({ content: '请先输入所属公司' })
+      } else {
+        this.flag2 = true
+        this.model2 = true
+      }
+    },
+    getDepartment (item) {
+      // console.log(item)
+      this.allData.bpc_deptId = item.bpc_deptId
+      this.allData.bpc_deptName = item.bpc_deptName
+    },
+    getDepartmentStatus (item) {
+      // console.log(item)
+      this.flag2 = item.comFlag
+      this.model2 = item.commodal
+    },
     queryBpcCostType () { // 费用类型查询
       this.flag3 = true
       this.model3 = true
@@ -226,25 +259,30 @@ export default {
     changPageSize (item) {
       this.allData.page = item + ''
       let params = this.allData
-      getBpcCompanyWithoutDept(params).then((res) => {
+      getBpcCompany(params).then((res) => {
         if (res.success === true || res.success === 'true') {
-          this.$Message.success('数据查询成功！')
           this.data6 = res.budgetUsageList
+          this.listLength = res.budgetUsageListSize
         } else {
           this.$Message.error('数据查询失败！')
         }
       }).catch(err => {
-        this.$Message.error('数据查询失败！')
+        this.$Message.error('数据查询异常！')
         throw err
       })
     },
     query () {
       let params = this.allData
-      getBpcCompanyWithoutDept(params).then((res) => {
+      if (this.allData.bpc_comId === '') {
+        this.$Message.warning('公司查询项不能为空！')
+        return
+      }
+      if (this.allData.bpc_deptId === '') {
+        this.$Message.warning('部门查询项不能为空！')
+      }
+      getBpcCompany(params).then((res) => {
         if (res.success === true || res.success === 'true') {
-          this.$Message.success('数据查询成功！')
           this.data6 = res.budgetUsageList
-          this.listLength = res.budgetUsageListSize
         } else {
           this.$Message.error('数据查询失败！')
         }
@@ -256,6 +294,7 @@ export default {
   },
   components: {
     companyQuery,
+    departmentQuery,
     bpcCostTypeQuery
   }
 }

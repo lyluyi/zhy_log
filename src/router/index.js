@@ -88,6 +88,16 @@ const router = new Router({
             requireAuth: true
           },
           component: (resolve) => require(['../components/ZHYFF/components/departmentBudget.vue'], resolve)
+        },
+        {
+          path: 'adjustBudget',
+          name: 'adjustBudget',
+          meta: {
+            title: '调整预算',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/ZHYFF/components/adjustBudget.vue'], resolve)
         }
       ]
     },

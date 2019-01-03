@@ -65,43 +65,31 @@
         -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">工号：</Button>
-          <Input placeholder="" v-model="userReturn.userId" readonly />
+          <Input placeholder="" v-model="userReturn.userId" />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">入司日期：</Button>
-          <!--
           <Input placeholder="" v-model="userReturn.startworkdateView"   readonly />
-          -->
-          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userReturn.startworkdate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">公司名称：</Button>
-          <!--
           <Input placeholder="" v-model="userReturn.cname" readonly />
-          -->
-          <Input placeholder="" search enter-button v-model="userReturn.cname" @on-search="queryCompany" />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">部门名称：</Button>
-          <!--
           <Input placeholder="" v-model="userReturn.dname"   readonly />
-          -->
-          <Input placeholder="" search enter-button v-model="userReturn.dname"   @on-search="queryDepartment" />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">职位名称：</Button>
-          <!--
           <Input placeholder="" v-model="userReturn.jobName"  readonly />
-          -->
-          <Input placeholder="" search enter-button v-model="userReturn.jobName"  @on-search="queryJob" />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">员工状态：</Button>
-          <Input placeholder="" v-model="userReturn.userStatus" readonly />
+          <Input placeholder="" v-model="userReturn.userStatus"/>
         </Col>
         <!--
         <Col class="col_flex" span="8">
@@ -117,46 +105,42 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">年资起算日期：</Button>
-          <!--
           <Input placeholder=""  v-model="userReturn.annuityStartDateView" readonly />
-          -->
-          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userReturn.annuityStartDate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="24">
           <Button class="wd mr10 tr" type="text">回聘申请：</Button>
-          <Input placeholder="" v-model="userReturn.returnAsk" />
+          <Input placeholder="" v-model="userReturn.returnAsk" readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="24">
           <Button class="wd mr10 tr" type="text">原部门意见：</Button>
-          <Input placeholder="" v-model="userReturn.dOldOpinion" />
+          <Input placeholder="" v-model="userReturn.dOldOpinion" readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="24">
           <Button class="wd mr10 tr" type="text">回聘部门意见：</Button>
-          <Input placeholder="" v-model="userReturn.dNewOpinion" />
+          <Input placeholder="" v-model="userReturn.dNewOpinion" readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="24">
           <Button class="wd mr10 tr" type="text">HR部门意见：</Button>
-          <Input placeholder="" v-model="userReturn.hrOpinion"  />
+          <Input placeholder="" v-model="userReturn.hrOpinion"  readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="24">
           <Button class="wd mr10 tr" type="text">备注：</Button>
-          <Input type="textarea" placeholder="" v-model="userReturn.remark" />
+          <Input type="textarea" placeholder="" v-model="userReturn.remark" readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="6">
           <Button type="success" size="large" style="margin:auto;width:128px;" @click="approvalAndApproval"  v-if="auditStatus == '审批中'">审批通过</Button>
-          <Button type="success" size="large" style="margin:auto;width:128px;" @click="updateApply"  v-if="auditStatus == '审批中'">保存修改数据</Button>
         </Col>
         <Col class="col_flex tr" span="6">
           <Button type="error" size="large" style="margin:auto;width:128px;" @click="approvalNotApproved"  v-if="auditStatus == '审批中'">审批不通过</Button>
@@ -172,19 +156,11 @@
         </Col>
       </Row>
     </div>
-    <companyQuery @tableCompany="getCompany" @statusCompany='getCompanyStatus' :data="model1" v-if="flag1"></companyQuery>
-    <departmentQuery @tableDepartment="getDepartment" @statusDepartment='getDepartmentStatus' :data="model2" v-if="flag2" :cid="userReturn.cid"></departmentQuery>
-    <jobQuery @tableJob="getJob" @statusJob='getJobStatus' :data="model3" v-if="flag3" :did="userReturn.did"></jobQuery>
   </div>
 </template>
 <script>
 
-import companyQuery from '@/common/companyQuery'
-import departmentQuery from '@/common/departmentQuery'
-import jobQuery from '@/common/jobQuery'
-import userIdQueryDimission from '@/common/userIdQueryDimission'
-
-import { getUserAudit, getUserAuditOldUser, getUserReturnApply, userAudit, postUserAuditRollback, updateUserReturn } from '@/server/api'
+import { getUserAudit, getUserAuditOldUser, getUserReturnApply, userAudit, postUserAuditRollback } from '@/server/api'
 
 export default {
   data () {
@@ -229,8 +205,7 @@ export default {
         jobId: '', // 职位id
         remark: '', // 备注
         annuityStartDate: '', // 年资起算日期
-        annuityStartDateView: '',
-        startworkdate: ''
+        annuityStartDateView: ''
       }
     }
   },
@@ -308,74 +283,7 @@ export default {
           this.$Message.warning(res.msg)
         }
       })
-    },
-    updateApply () {
-      let { startworkdate, cid, cname, did, jobId, returnAsk, dNewOpinion, dname, annuityStartDate, dOldOpinion, hrOpinion, jobName, remark } = {...this.userReturn}
-      let params = Object.assign({}, {id: this.userReturn.id}, { startworkdate, cid, cname, did, jobId, returnAsk, dNewOpinion, dname, annuityStartDate, dOldOpinion, hrOpinion, jobName, remark })
-      updateUserReturn(params).then((res) => {
-        if (res.code === 200) {
-          this.$Message.success(res.msg)
-          this.$router.go(-1)
-        } else {
-          this.$Message.warning(res.msg)
-        }
-      })
-    },
-    queryCompany () { // 公司信息查询
-      this.flag1 = true
-      this.model1 = true
-    },
-    getCompany (item) {
-      this.userReturn.cid = item.cid
-      this.userReturn.cname = item.cname
-    },
-    getCompanyStatus (item) {
-      this.flag1 = item.comFlag
-      this.model1 = item.commodal
-    },
-    queryDepartment () { // 部门信息查询
-      if (!this.userReturn.cid) {
-        this.$Message.info({ content: '请先输入所属公司' })
-      } else {
-        this.flag2 = true
-        this.model2 = true
-      }
-    },
-    getDepartment (item) {
-      // console.log(item)
-      this.userReturn.did = item.did
-      this.userReturn.dname = item.dname
-    },
-    getDepartmentStatus (item) {
-      // console.log(item)
-      this.flag2 = item.comFlag
-      this.model2 = item.commodal
-    },
-    queryJob () { // 公司信息查询
-      if (this.userReturn.did) {
-        this.flag3 = true
-        this.model3 = true
-      } else {
-        this.$Message.info('请先选择部门！')
-        return false
-      }
-    },
-    getJob (item) {
-      this.userReturn.jobId = item.jobId
-      this.userReturn.jobName = item.jobName
-      this.userReturn.jobType = item.jobType
-      this.userReturn.jobLevel = item.jobLevel
-    },
-    getJobStatus (item) {
-      this.flag3 = item.comFlag
-      this.model3 = item.commodal
     }
-  },
-  components: {
-    userIdQueryDimission,
-    departmentQuery,
-    companyQuery,
-    jobQuery
   }
 }
 </script>

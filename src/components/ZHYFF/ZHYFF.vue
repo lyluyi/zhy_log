@@ -34,8 +34,12 @@
                 </MenuItem>
                 <MenuItem name="areaBudget">
                   <Icon type="md-document" />
-                  片区预算使用情况表
+                  片区预算使用表
                 </MenuItem>
+                <!-- <MenuItem name="adjustBudget">
+                  <Icon type="md-document" />
+                  调整预算使用表
+                </MenuItem> -->
               </MenuGroup>
           </Menu>
         </Sider>
