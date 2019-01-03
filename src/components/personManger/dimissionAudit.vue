@@ -75,7 +75,12 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">离退类型：</Button>
+          <!--
           <Input placeholder="" v-model="userQuit.quitType" readonly />
+          -->
+          <Select v-model="userQuit.quitType">
+            <Option v-for="item in quitTypeDict" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">申请日期：</Button>
@@ -83,30 +88,34 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">预计离职日期：</Button>
-          <Input placeholder=""  v-model="userQuit.quitDateView" readonly/>
+          <!--
+          <Input placeholder=""  v-model="userQuit.quitDateView" />
+          -->
+          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userQuit.quitDate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
         <Col class="col_flex" span="24">
           <Button class="wd mr10 tr" type="text">离退原因：</Button>
-          <Input type="textarea" placeholder="" v-model="userQuit.reasons" readonly />
+          <Input type="textarea" placeholder="" v-model="userQuit.reasons" />
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="24">
           <Button class="wd mr10 tr" type="text">离退去向：</Button>
-          <Input type="textarea" placeholder="" v-model="userQuit.quitWhereToGo" readonly />
+          <Input type="textarea" placeholder="" v-model="userQuit.quitWhereToGo" />
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="24">
           <Button class="wd mr10 tr" type="text">主观/客观因素：</Button>
-          <Input type="textarea" placeholder="" v-model="userQuit.rootCause" readonly />
+          <Input type="textarea" placeholder="" v-model="userQuit.rootCause" />
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="6">
           <Button type="success" size="large" style="margin:auto;width:128px;" @click="approvalAndApproval"  v-if="auditStatus == '审批中'">审批通过</Button>
+          <Button type="success" size="large" style="margin:auto;width:128px;" @click="updateApply"  v-if="auditStatus == '审批中'">保存修改数据</Button>
         </Col>
         <Col class="col_flex tr" span="6">
           <Button type="error" size="large" style="margin:auto;width:128px;" @click="approvalNotApproved"  v-if="auditStatus == '审批中'">审批不通过</Button>
@@ -126,7 +135,8 @@
 </template>
 <script>
 
-import { getUserAudit, getUserAuditOldUser, getUserQuitApply, userAudit, postUserAuditRollback } from '@/server/api'
+import { getUserAudit, getUserAuditOldUser, getUserQuitApply, userAudit, postUserAuditRollback, updateUserQuit } from '@/server/api'
+import getDic from '@/server/apiDic'
 
 export default {
   data () {
@@ -163,6 +173,9 @@ export default {
     }
   },
   created () {
+    getDic('quitType').then((res) => {
+      this.quitTypeDict = res.data
+    })
     let params = {entityId: this.$route.params.entityId}
     getUserAuditOldUser(params).then((res) => {
       let user = res.data
@@ -230,6 +243,18 @@ export default {
     approvalRollback () {
       let params = { auditId: this.auditId, applyCode: this.applyCode, operatorId: localStorage.userId }
       postUserAuditRollback(params).then((res) => {
+        if (res.code === 200) {
+          this.$Message.success(res.msg)
+          this.$router.go(-1)
+        } else {
+          this.$Message.warning(res.msg)
+        }
+      })
+    },
+    updateApply () {
+      let {quitType, quitDate, reasons, quitWhereToGo, rootCause} = {...this.userQuit}
+      let params = Object.assign({}, {id: this.userQuit.id}, { quitType, quitDate, reasons, quitWhereToGo, rootCause })
+      updateUserQuit(params).then((res) => {
         if (res.code === 200) {
           this.$Message.success(res.msg)
           this.$router.go(-1)
