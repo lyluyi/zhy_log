@@ -64,11 +64,11 @@
             <Button class="tc" type="error" @click="removeItem(index)" >查询项{{ index + 1 }}：</Button>
           </Col>
           <Col class="col_flex" span="4">
-            <Button class="mr10 tc" type="primary">查询字段：</Button>
+            <Button class="mr10 tc" type="primary">查询字段</Button>
             <Input type="text" placeholder="" readonly v-model="item.des"/>
           </Col>
           <Col class="col_flex" span="4">
-            <Button class="mr10 tc" type="primary">查询条件：</Button>
+            <Button class="mr10 tc" type="primary">查询条件</Button>
             <!--
               {name:'userName', linkOption:'or', option:'like', value1:'张三', value2:'张三'}
              -->
@@ -77,15 +77,15 @@
             </Select>
           </Col>
             <Col v-if="item.name === 'cname'" class="col_flex" span="8">
-              <Button class="mr10 tc" type="primary">查询范围：</Button>
+              <Button class="mr10 tc" type="primary">查询范围</Button>
               <Input search enter-button placeholder="111" v-model="item.value1" @on-search="queryCompany" />
             </Col>
             <Col v-if="item.name === 'dname'" class="col_flex" span="8">
-              <Button class="mr10 tc" type="primary">查询范围：</Button>
+              <Button class="mr10 tc" type="primary">查询范围</Button>
               <Input search enter-button placeholder="222" v-model="item.value1"  @on-search="queryDepartment" />
             </Col>
             <Col v-if="((item.name !== 'cname') && (item.name !=='dname'))" class="col_flex" span="8">
-              <Button class="mr10 tc" type="primary">查询范围：</Button>
+              <Button class="mr10 tc" type="primary">查询范围</Button>
               <Input type="text" placeholder="请输入" v-model="item.value1" v-if="!item.timeType" />
               <DatePicker type="date" placeholder="Select date" v-if="item.timeType" v-model="item.value1"></DatePicker>
               <Input type="text" placeholder="请输入" v-model="item.value2" v-if="!item.timeType" />
@@ -97,7 +97,7 @@
             <DatePicker type="date" placeholder="Select date" v-if="item.timeType" v-model="item.value2"></DatePicker>
           </Col> -->
           <Col class="col_flex" span="4">
-            <Button class="mr10 tc" type="primary">逻辑条件：</Button>
+            <Button class="mr10 tc" type="primary">逻辑条件</Button>
             <Select v-model="item.linkOption"  style="width:150px">
               <Option v-for="itemB in  logicCondition" :value="itemB.key" :key="itemB.key">{{ itemB.value }}</Option>
             </Select>

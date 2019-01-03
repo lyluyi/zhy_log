@@ -29,7 +29,9 @@
 
 <script>
 
-import { getBPCVersions, getBPCVersionsQuery, getBPCData, getUpdateBPCData } from '@/components/ZHYFF/server/api.js'
+import { getBPCVersions, getBPCVersionsQuery, getBPCData } from '@/components/ZHYFF/server/api.js'
+
+import url from '../config/index.js'
 
 export default {
   data () {
@@ -43,88 +45,111 @@ export default {
       columns7: [
         {
           title: '时间',
-          key: 'b28_S_VVDOKK5'
+          width: 120,
+          key: 'b28_S_VVDOKK5',
+          fixed: 'left'
         },
         {
           title: '公司',
+          width: 150,
           key: 'b28_S_VVDX75J'
         },
         {
           title: '科目',
+          width: 150,
           key: 'month'
         },
         {
           title: '产品',
+          width: 150,
           key: 'b28_S_VVD7BCH'
         },
         {
           title: '物料',
+          width: 150,
           key: 'b28_S_VVD60WY'
         },
         {
           title: '项目',
+          width: 150,
           key: 'b28_S_VVDVO1H'
         },
         {
           title: '辅助信息',
+          width: 150,
           key: 'b28_S_VVDNC9R'
         },
         {
           title: '关联方',
+          width: 150,
           key: 'b28_S_VVDT8K3'
         },
         {
           title: '预算渠道',
+          width: 150,
           key: 'b28_S_VVDYYKE'
         },
         {
           title: '报表货币',
+          width: 150,
           key: 'b28_S_VVDMEJQ'
         },
         {
           title: '备用维',
+          width: 150,
           key: 'b28_S_VVDIBZZ'
         },
         {
           title: '金额',
+          width: 200,
           key: 'b28_S_VVDC4XT'
         },
         {
           title: '预算版本',
+          width: 120,
           key: 'SIGNDATA'
         },
         {
           title: '公司代码',
+          width: 150,
           key: 'b28_S_VVD38TI'
         },
         {
           title: '部门',
+          width: 150,
           key: 'b28_S_VVDX75J_01'
         },
         {
           title: '年',
+          width: 100,
           key: 'year'
         },
         {
           title: '月',
+          width: 100,
           key: 'month'
         },
         {
           title: '类型',
+          width: 150,
           key: 'bpc_costtype'
         },
         {
           title: '架构代码',
+          width: 150,
           key: 'controlNum'
         },
         {
           title: 'FK版本',
-          key: 'edition'
+          width: 150,
+          key: 'edition',
+          fixed: 'right'
         }
       ]
     }
   },
   created () {
+    console.log(this)
     let param = {}
     getBPCVersions(param).then((res) => {
       if (res.success === true || res.success === 'true') {
@@ -168,9 +193,13 @@ export default {
     },
     update () {
       let param = {
-        'edition': this.allData.costTable
+        'b28_s_vvd38ti': this.allData.costTable
       }
-      getUpdateBPCData(param).then((res) => {
+      this.$Message.info('数据进行更新中……')
+      this.$axios.post(url + 'costTable/synchronizationFK.do', param, {
+        timeout: 3600 * 10
+      }).then(res => {
+        this.$Spin.hide()
         if (res.success === true || res.success === 'true') {
           this.$Message.success('数据更新成功！')
         } else {

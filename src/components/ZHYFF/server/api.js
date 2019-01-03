@@ -38,7 +38,7 @@ export const getExchangeManegement = (params) => { return fetch('json', 'Exchang
 
 // BPC版本维护表
 
-export const getBPCVersions = (params) => { return fetch('json', 'costTable/choseEdition.do', params) }
+export const getBPCVersions = (params) => { return fetch('json', 'costTable/selectBPCBudget.do', params) }
 
 // 查询BPC版本
 
