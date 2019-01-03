@@ -25,11 +25,8 @@
           </Row>
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">公司负责人：</Button>
-              <!--
+              <Button class="wd mr10 tr" type="text">法人：</Button>
               <Input placeholder="" v-model="allData.comHeader" />
-              -->
-              <Input placeholder="" search enter-button v-model="allData.comHeader" @on-search="queryUser" readonly />
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">上级公司ID：</Button>
@@ -51,13 +48,10 @@
       </Row>
     </div>
     <companyQuery @tableCompany="getCompany" @statusCompany='getCompanyStatus' :data="model1" v-if="flag1"></companyQuery>
-    <userIdQuery @tableUserId="getUserId" @statusUserId='getUserIdStatus' :data="modal6" v-if="openSelectUserDialog"></userIdQuery>
   </div>
 </template>
 <script>
 import companyQuery from '@/common/companyQuery'
-import userIdQuery from '@/common/userIdQuery'
-
 import { postCompanyData, getCompanyTree } from '@/server/api.js'
 import getDic from '@/server/apiDic'
 import { currentTime } from '@/util/common.js'
@@ -66,15 +60,12 @@ export default {
     return {
       model1: false,
       flag1: false,
-      modal6: false,
       data1: [],
       areaType: [],
-      openSelectUserDialog: false,
       allData: {
         cname: '',
         registeredAddress: '',
         comHeader: '',
-        comHeaderId: '',
         status: '',
         createtime: '',
         lastmodifytime: '',
@@ -130,24 +121,10 @@ export default {
         this.allData[key] = ''
         return this.allData
       })
-    },
-    queryUser () {
-      this.modal6 = true
-      this.openSelectUserDialog = true
-      this.userIdFlag = 0
-    },
-    getUserIdStatus (item) {
-      this.openSelectUserDialog = item.comFlag
-      this.modal6 = item.commodal
-    },
-    getUserId (item) {
-      this.allData.comHeaderId = item.userId
-      this.allData.comHeader = item.userName
     }
   },
   components: {
-    companyQuery,
-    userIdQuery
+    companyQuery
   }
 }
 </script>

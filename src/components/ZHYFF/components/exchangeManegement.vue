@@ -58,7 +58,7 @@
           <span>删除确认</span>
         </p>
         <div style="text-align:center; font-size:14px;font-weight:bold;">
-          <p>确定删除当前最新配置项吗？</p>
+          <p>确定删除当前配置项吗？</p>
         </div>
         <div slot="footer">
           <Button type="error" long  @click="remove">删除</Button>
@@ -139,9 +139,10 @@ export default {
   },
   created () {
     getExchangeManegement({}).then((res) => {
-      if (res.success) {
+      if (res.success === true || res.success === 'true') {
         this.data6 = res.exchangeRateList
-        this.listLength = res.exchangeRateListSize
+        // this.listLength = res.data.exchangeRateListSize
+        this.listLength = res.exchangeRateList.length
       } else {
         this.$Message.error('数据查询异常！')
       }
@@ -157,7 +158,7 @@ export default {
       let params = this.allData
       if (this.addCheckType) {
         getExchangeManegement(params).then((res) => {
-          if (res.success === 'true') {
+          if (res.success === true || res.success === 'true') {
             this.$Message.success('添加成功！')
             this.$router.go(0)
           } else {
@@ -170,11 +171,11 @@ export default {
       }
     },
     addCheck () {
-      if (!this.allData.rate) {
+      if (this.allData.rate === '') {
         this.$Message.info('内项1不能为空！')
         return
       }
-      if (!this.allData.year || !this.allData.month) {
+      if (this.allData.year === '' || this.allData.month === '') {
         this.$Message.info('时间字段不能为空！')
         return
       }
@@ -193,7 +194,7 @@ export default {
       let params = this.deleteRow
       getExchangeManegement(params).then((res) => {
         console.log(res)
-        if (res.success === 'true') {
+        if (res.success === true || res.success === 'true') {
           this.$Message.info('数据删除成功！')
         } else {
           this.$Message.error('数据删除失败！')
@@ -209,7 +210,7 @@ export default {
       let params = this.allData
       getExchangeManegement(params).then((res) => {
         console.log(res)
-        if (res.success === 'true') {
+        if (res.success === true || res.success === 'true') {
           this.data6 = res.exchangeRateList
         } else {
           this.$Message.error('数据查询失败！')
