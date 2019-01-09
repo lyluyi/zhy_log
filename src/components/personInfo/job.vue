@@ -87,9 +87,15 @@ export default {
     getDic('job_level').then((res) => {
       this.jobLevel = res.data
     })
+
+    this.$Loading.start()
     postJob().then((res) => {
       this.data1 = res.list
       this.pageInfo = { ...res }
+    }).catch(err => {
+      this.$Message.warning('数据请求异常！')
+      this.$Loading.finish()
+      throw err
     })
   },
   mounted () {},
@@ -116,13 +122,17 @@ export default {
       })
     },
     save () {
+      this.$Loading.start()
       let params = this.allData
       postSaveJob(params).then((res) => {
         console.log(res)
+        this.$Loading.finish()
         this.$Message.success('保存成功！')
         this.$router.go(0)
-      }).catch((e) => {
-        this.$Message.error(e)
+      }).catch((err) => {
+        this.$Loading.finish()
+        this.$Message.error('数据操作异常！')
+        throw err
       })
     }
   },

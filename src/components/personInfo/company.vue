@@ -85,10 +85,17 @@ export default {
     }
   },
   created () {
+    this.$Loading.start()
     getCompanyTree().then((res) => {
       console.log(res)
+      this.$Loading.finish()
       this.data1 = res
+    }).catch(err => {
+      this.$Message.warning('数据请求异常！')
+      this.$Loading.finish()
+      throw err
     })
+
     getDic('area').then((res) => {
       this.areaType = res.data
     })
