@@ -177,3 +177,9 @@ export const updateUserQuit = (params) => { return fetch('json', 'userQuit/updat
 
 // 更新员工回聘信息
 export const updateUserReturn = (params) => { return fetch('json', 'userReturn/updateUserReturn', params) }
+
+// 人员信息编辑 工号查询 获取所有信息
+export const getUserIdAllInfo = (params) => { return fetch('FormData', 'user/findUserById', params) }
+
+// 人员信息编辑 更新保存
+export const updateUserIdAllInfo = (params) => { return fetch('json', 'user/updateUserInfo', params) }

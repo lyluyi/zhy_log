@@ -1,4 +1,7 @@
 export const currentTime = (val) => {
+  if (val === null || val === '') {
+    return ''
+  }
   let date = new Date(val)
   let month = date.getMonth() + 1
   let day = date.getDate()

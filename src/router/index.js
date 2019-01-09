@@ -182,16 +182,6 @@ const router = new Router({
           component: (resolve) => require(['../components/stanceManagement/userLog.vue'], resolve)
         },
         {
-          path: 'userInfo',
-          name: 'userInfo',
-          meta: {
-            title: '人员信息',
-            content: true,
-            requireAuth: true
-          },
-          component: (resolve) => require(['../components/stanceManagement/userInfo.vue'], resolve)
-        },
-        {
           path: 'role',
           name: 'role',
           meta: {
@@ -440,6 +430,36 @@ const router = new Router({
             requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/userAuditWill.vue'], resolve)
+        },
+        {
+          path: 'personQuery',
+          name: 'personQuery',
+          meta: {
+            title: '人员查看',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/personManger/personQuery.vue'], resolve)
+        },
+        {
+          path: 'personEdit',
+          name: 'personEdit',
+          meta: {
+            title: '人员编辑',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/personManger/personEdit.vue'], resolve)
+        },
+        {
+          path: 'userInfo',
+          name: 'userInfo',
+          meta: {
+            title: '人员信息查询',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/personManger/userInfo.vue'], resolve)
         }
       ]
     }

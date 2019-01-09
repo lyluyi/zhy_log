@@ -283,6 +283,7 @@ export default {
       getBpcCompany(params).then((res) => {
         if (res.success === true || res.success === 'true') {
           this.data6 = res.budgetUsageList
+          this.listLength = res.budgetUsageListSize
         } else {
           this.$Message.error('数据查询失败！')
         }

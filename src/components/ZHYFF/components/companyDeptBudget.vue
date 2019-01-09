@@ -230,6 +230,7 @@ export default {
         if (res.success === true || res.success === 'true') {
           this.$Message.success('数据查询成功！')
           this.data6 = res.budgetUsageList
+          this.listLength = res.budgetUsageListSize
         } else {
           this.$Message.error('数据查询失败！')
         }

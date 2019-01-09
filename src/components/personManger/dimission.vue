@@ -214,16 +214,21 @@ export default {
       this.userQuit.cid = this.oldData.cid
       this.userQuit.dname = this.oldData.dname
       this.userQuit.did = this.oldData.did
-
       let params = this.userQuit
       params.operatorId = localStorage.getItem('userId')
+      this.$Loading.start()
       postUserQuit(params).then((res) => {
+        this.$Loading.finish()
         if (res.code === 200) {
           this.$Message.success(res.msg)
           this.$router.go(0)
         } else {
           this.$Message.warning(res.msg)
         }
+      }).catch(err => {
+        this.$Message.warning('数据保存异常！')
+        this.$Loading.finish()
+        throw err
       })
     }
   },
