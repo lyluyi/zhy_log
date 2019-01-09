@@ -212,6 +212,7 @@ export default {
         console.log(res)
         if (res.success === true || res.success === 'true') {
           this.data6 = res.exchangeRateList
+          this.listLength = res.exchangeRateList.length
         } else {
           this.$Message.error('数据查询失败！')
         }

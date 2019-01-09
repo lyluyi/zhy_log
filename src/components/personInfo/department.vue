@@ -71,9 +71,15 @@ export default {
     }
   },
   created () {
+    this.$Loading.start()
     getCompanyTree().then((res) => {
       console.log(res)
+      this.$Loading.finish()
       this.data1 = res
+    }).catch(err => {
+      this.$Message.warning('数据请求异常！')
+      this.$Loading.finish()
+      throw err
     })
   },
   mounted () {},
@@ -110,7 +116,9 @@ export default {
     save () {
       // this.$Spin.show()
       let params = this.allData
+      this.$Loading.start()
       postDepartmentData(params).then((res) => {
+        this.$Loading.finish()
         if (res.code === 200) {
           this.$Message.success(res.msg)
           this.$router.go(0)
@@ -119,9 +127,10 @@ export default {
         }
       }).catch((err) => {
         // this.$Spin.hide()
-        // this.$Message.error({ content: '保存失败！' })
+        this.$Message.warning('数据保存异常！')
         // this.clearData()
-        console.log(err)
+        this.$Loading.finish()
+        throw err
       })
     },
     clearData () {
