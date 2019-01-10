@@ -36,7 +36,7 @@
               <DropdownMenu slot="list">
                 <DropdownItem name="个人信息">个人信息</DropdownItem>
                 <DropdownItem name="修改密码">修改密码</DropdownItem>
-                <DropdownItem name="修改密码">退出登录</DropdownItem>
+                <DropdownItem name="退出登录">退出登录</DropdownItem>
               </DropdownMenu>
             </Dropdown>
             <span @click="drawerHandleClick" style="color:#2d8cf0;background:#fff; display: inline-block; width:24px; height:24px; border-radius:50%;line-height:24px;text-align:center;">
@@ -47,7 +47,7 @@
       </Header>
       <Layout style="min-height: 0;">
         <Sider hide-trigger theme="dark" :style="{overflow: 'auto !important', minHeight: '0'}">
-          <Menu active-name="company" theme="dark" width="auto" :open-names="['personInfo']" @on-select="routerTo">
+          <Menu :active-name="slideMenuOpenDefault" theme="dark" @on-open-change='changeMenu'  width="auto" :open-names="slideMenuOpenList" @on-select="routerTo">
             <Submenu v-for="(group, index) in menuData" :name="group.menu_URL" :key="index" >
               <template slot="title">
                 <Icon type="ios-navigate"></Icon>
@@ -96,12 +96,21 @@ export default {
       flagUserInfo: false,
       flagRevisePassWord: false,
       menuData: [],
+      slideMenuOpenList: ['personInfo'],
+      slideMenuOpenDefault: '',
       prefix: '/home/' // router prefix
     }
   },
   created () {
     this.menuData = JSON.parse(localStorage.getItem('menuList'))
-    this.getBreadcrumb()
+    this.slideMenuOpenList = JSON.parse(localStorage.getItem('slideMenuOpenList'))
+    // this.levelList = JSON.parse(localStorage.getItem('levelList'))
+    this.slideMenuOpenDefault = localStorage.getItem('slideMenuOpenDefault')
+    if (this.levelList.length) {
+      this.getBreadcrumb()
+    } else {
+      return false
+    }
     // console.log(this.menuData)
   },
   watch: {
@@ -141,6 +150,10 @@ export default {
       if (item === '修改密码') {
         this.revisePassWordModel = true
         this.flagRevisePassWord = true
+      }
+      if (item === '退出登录') {
+        localStorage.clear()
+        this.$router.push('/login')
       }
     },
     getUserInfoStatus (item) {
@@ -190,6 +203,12 @@ export default {
           this.levelList.splice(index, 1)
         }
       })
+    },
+    changeMenu (slideMenuOpenList) {
+      console.log(slideMenuOpenList)
+      this.slideMenuOpenList = slideMenuOpenList
+      localStorage.setItem('slideMenuOpenList', JSON.stringify(slideMenuOpenList))
+      localStorage.setItem('slideMenuOpenDefault', this.slideMenuOpenDefault)
     },
     drawerHandleClick () {
       this.$Notice.info({

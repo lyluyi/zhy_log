@@ -68,6 +68,12 @@
           <Input placeholder="" v-model="userFormal.toBeWorkDateView" readonly />
           -->
         </Col>
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">员工状态：</Button>
+          <Select v-model="userFormal.userStatus"  placement="bottom">
+            <Option v-for="item in emloyType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
+        </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="24">
@@ -88,9 +94,14 @@
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
+        <Col class="col_flex tr">
+          <Button type="success" size="large" style="margin:auto;width:128px;" @click="updateApply"  v-if="auditStatus == '审批中'">保存修改数据</Button>
+        </Col>
+      </Row>
+      <Divider></Divider>
+      <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="6">
           <Button type="success" size="large" style="margin:auto;width:128px;" @click="approvalAndApproval"  v-if="auditStatus == '审批中'">审批通过</Button>
-          <Button type="success" size="large" style="margin:auto;width:128px;" @click="updateApply"  v-if="auditStatus == '审批中'">保存修改数据</Button>
         </Col>
         <Col class="col_flex tr" span="6">
           <Button type="error" size="large" style="margin:auto;width:128px;" @click="approvalNotApproved"  v-if="auditStatus == '审批中'">审批不通过</Button>
@@ -112,6 +123,8 @@
 
 import { getUserAudit, getUserAuditOldUser, getUserFormalApply, userAudit, postUserAuditRollback, updateUserFormal } from '@/server/api'
 
+import getDic from '@/server/apiDic'
+
 export default {
   data () {
     return {
@@ -124,6 +137,7 @@ export default {
         totalPage: 0,
         totalRow: 0
       },
+      emloyType: [],
       userFormal: {
         userId: '', // 员工编号
         userName: '', // 员工姓名
@@ -139,12 +153,11 @@ export default {
         did: '', // 部门id
         signTheOpinion: '' // 核签意见
       },
-      oldData: {
-
-      }
+      oldData: {}
     }
   },
   created () {
+    getDic('userStatus').then(res => { this.emloyType = res.data })
     let params = {entityId: this.$route.params.entityId}
     getUserAuditOldUser(params).then((res) => {
       let user = res.data
@@ -221,8 +234,8 @@ export default {
       })
     },
     updateApply () {
-      let { toBeWorkDate, opinion, signTheOpinion, remark } = {...this.userFormal}
-      let params = Object.assign({}, {id: this.userFormal.id}, { toBeWorkDate, opinion, signTheOpinion, remark })
+      let { toBeWorkDate, opinion, signTheOpinion, remark, userStatus } = {...this.userFormal}
+      let params = Object.assign({}, {id: this.userFormal.id}, { toBeWorkDate, opinion, signTheOpinion, remark, userStatus })
       updateUserFormal(params).then((res) => {
         if (res.code === 200) {
           this.$Message.success(res.msg)

@@ -73,17 +73,18 @@
           -->
         </Col>
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">异动日期：</Button>
+          <Button class="wd mr10 tr" type="text">申请日期：</Button>
           <Date-picker placement="bottom" v-model="userCdChange.changeDate" />
         </Col>
         <!-- <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">申请日期：</Button>
           <DatePicker type="date" placeholder="Select date" placement="bottom" ></DatePicker>
         </Col>
+        -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">生效日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" ></DatePicker>
-        </Col> -->
+          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.effectDate" ></DatePicker>
+        </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
@@ -148,9 +149,14 @@
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
+        <Col class="col_flex tr">
+          <Button type="success" size="large" style="margin:auto;width:128px;" @click="updateApply"  v-if="auditStatus == '审批中'">保存修改数据</Button>
+        </Col>
+      </Row>
+      <Divider></Divider>
+      <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="6">
           <Button type="success" size="large" style="margin:auto;width:128px;" @click="approvalAndApproval"  v-if="auditStatus == '审批中'">审批通过</Button>
-          <Button type="success" size="large" style="margin:auto;width:128px;" @click="updateApply"  v-if="auditStatus == '审批中'">保存修改数据</Button>
         </Col>
         <Col class="col_flex tr" span="6">
           <Button type="error" size="large" style="margin:auto;width:128px;" @click="approvalNotApproved"  v-if="auditStatus == '审批中'">审批不通过</Button>
@@ -241,7 +247,8 @@ export default {
         toBeWorkDate: '',
         jobIdNew: '', // 新职位id
         remark: '', // 备注
-        changeDate: ''
+        changeDate: '', // 申请日期
+        effectDate: '' // 生效日期
       }
     }
   },

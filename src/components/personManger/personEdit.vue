@@ -1245,6 +1245,7 @@ export default {
       let params = this.allData
       this.$Loading.start()
       updateUserIdAllInfo(params).then((res) => {
+        debugger
         if (res.code === 200) {
           this.$Message.success(res.msg)
           this.$router.go(0)
