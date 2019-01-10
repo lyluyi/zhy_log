@@ -57,12 +57,6 @@
       </Row>
       <Divider orientation="left">回聘信息</Divider>
       <Row :gutter="16" class="mb10">
-        <!--
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">申请日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom"></DatePicker>
-        </Col>
-        -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">工号：</Button>
           <Input placeholder="" v-model="userReturn.userId" />

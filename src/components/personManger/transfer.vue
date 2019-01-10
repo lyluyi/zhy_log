@@ -71,11 +71,11 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">试用日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userOrganization.startworkdate"></DatePicker>
+          <DatePicker @on-change="userOrganization.startworkdate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userOrganization.startworkdate"></DatePicker>
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">转正日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userOrganization.toBeWorkDate"></DatePicker>
+          <DatePicker @on-change="userOrganization.toBeWorkDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userOrganization.toBeWorkDate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">

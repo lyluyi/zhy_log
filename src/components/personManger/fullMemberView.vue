@@ -63,9 +63,6 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">转正日期：</Button>
-          <!--
-          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userFormal.toBeWorkDate"></DatePicker>
-          -->
           <Input placeholder="" v-model="userFormal.toBeWorkDateView" readonly />
         </Col>
       </Row>

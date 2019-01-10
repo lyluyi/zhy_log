@@ -50,12 +50,6 @@
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
-        <!--
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">成本中心：</Button>
-          <Input placeholder="" readonly />
-        </Col>
-        -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">前次离职日期：</Button>
           <Input placeholder="" v-model="oldData.lastworkdateView" readonly />
@@ -63,19 +57,13 @@
       </Row>
       <Divider orientation="left">回聘信息</Divider>
       <Row :gutter="16" class="mb10">
-        <!--
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">申请日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom"></DatePicker>
-        </Col>
-        -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">工号：</Button>
           <Input placeholder="" v-model="userReturn.userId" />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">入司日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userReturn.startworkdate"></DatePicker>
+          <DatePicker @on-change="userReturn.startworkdate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userReturn.startworkdate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
@@ -111,7 +99,7 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">年资起算日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userReturn.annuityStartDate"></DatePicker>
+          <DatePicker @on-change="userReturn.annuityStartDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userReturn.annuityStartDate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">

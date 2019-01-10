@@ -81,14 +81,11 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">申请日期：</Button>
-          <!--
-          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userQuit.askForDate" ></DatePicker>
-          -->
           <Input placeholder="" v-model="userQuit.askForDate" readonly />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">预计离职日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userQuit.quitDate"></DatePicker>
+          <DatePicker @on-change="userQuit.quitDate=$event"  type="date" placeholder="Select date" placement="bottom" v-model="userQuit.quitDate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
