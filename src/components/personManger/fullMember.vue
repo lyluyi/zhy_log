@@ -65,6 +65,13 @@
           <Button class="wd mr10 tr" type="text">转正日期：</Button>
           <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userFormal.toBeWorkDate"></DatePicker>
         </Col>
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">员工状态：</Button>
+          <Input placeholder="" v-model="userFormal.userStatus" readonly />
+          <!-- <Select v-model="userFormal.userStatus">
+            <Option v-for="item in userStatusDic" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select> -->
+        </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="24">
@@ -125,9 +132,15 @@ import userIdQuery from '@/common/userIdQuery'
 
 import { getCanUserFormalUser, postUserFormal } from '@/server/api'
 
+// import getDic from '@/server/apiDic'
+
 export default {
   data () {
     return {
+      // userStatusDic: [
+      //   { label: '转正员工', value: '转正员工'}
+      //   { label: '试用员工', value: '转正员工'}
+      // ],
       flag1: false,
       model1: false,
       flag2: false,
@@ -212,6 +225,9 @@ export default {
       this.data1 = res.list
       this.pageInfo = { ...res }
     })
+    // getDic('userStatus').then((res) => {
+    //   this.userStatusDic = res.data
+    // })
   },
   mounted () {},
   methods: {
@@ -291,6 +307,8 @@ export default {
       this.userFormal.jobName = item.jobName
       this.userFormal.cid = item.cid
       this.userFormal.did = item.did
+      this.userFormal.userStatus = '转正员工'
+      debugger
     },
     save () {
       let params = this.userFormal
