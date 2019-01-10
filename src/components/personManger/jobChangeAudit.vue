@@ -44,10 +44,6 @@
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
-        <!-- <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">成本中心：</Button>
-          <Input placeholder=""  />
-        </Col> -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">直接主管：</Button>
           <Input placeholder="" v-model="oldData.upHeader" readonly />
@@ -68,80 +64,44 @@
           <Select v-model="userCdChange.changeType">
             <Option v-for="item in changeTypeDic" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
-          <!--
-          <Input v-model="userCdChange.changeType" readonly />
-          -->
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">申请日期：</Button>
-          <Date-picker placement="bottom" v-model="userCdChange.changeDate" />
+          <DatePicker @on-change="userCdChange.changeDate=$event" placement="bottom" v-model="userCdChange.changeDate" />
         </Col>
-        <!-- <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">申请日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" ></DatePicker>
-        </Col>
-        -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">生效日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.effectDate" ></DatePicker>
+          <DatePicker @on-change="userCdChange.effectDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.effectDate" ></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新公司：</Button>
-          <!--
-          <Input   placeholder=""  v-model="userCdChange.cnameNew" readonly/>
-          -->
           <Input search enter-button  placeholder=""  v-model="userCdChange.cnameNew" @on-search="queryCompany" readonly />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新部门：</Button>
-          <!--
-          <Input   placeholder="" v-model="userCdChange.dnameNew"  readonly/>
-          -->
           <Input search enter-button  placeholder="" v-model="userCdChange.dnameNew"  @on-search="queryDepartment" readonly/>
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新职位：</Button>
-          <!--
-          <Input  placeholder=""  v-model="userCdChange.jobnameNew" readonly />
-          -->
           <Input  placeholder="" search enter-button v-model="userCdChange.jobnameNew" @on-search="queryJob" readonly />
         </Col>
-        <!-- <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">新成本中心：</Button>
-          <Input placeholder="" />
-        </Col> -->
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新所属区域：</Button>
           <Input placeholder="" v-model="userCdChange.area" readonly />
         </Col>
-        <!-- <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">新所属厂区：</Button>
-          <Input placeholder="" v-model="" />
-        </Col> -->
-        <!-- <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">新工号：</Button>
-          <Input placeholder="" />
-        </Col> -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新直接主管：</Button>
-          <!--
-          <Input placeholder="" v-model="userCdChange.upheaderNewName" readonly/>
-          -->
           <Input placeholder="" v-model="userCdChange.upheaderNewName" search enter-button @on-search="queryUpHeader" />
         </Col>
-      </Row>
-      <!--
-      <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">见习转正日期：</Button>
-          <Input placeholder="" v-model="userCdChange.toBeWorkDate" readonly/>
+          <DatePicker @on-change="userCdChange.toBeWorkDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.toBeWorkDate" format="yyyy-MM-dd" ></DatePicker>
         </Col>
       </Row>
-      -->
       <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="24">
           <Button class="wd mr10 tr" type="text">备注：</Button>
@@ -351,8 +311,8 @@ export default {
       })
     },
     updateApply () {
-      let { cidNew, cnameNew, didNew, dnameNew, jobnameNew, jobIdNew, upheaderNew, upheaderNewName, changeType, changeDate, area, remark } = {...this.userCdChange}
-      let params = Object.assign({}, {id: this.userCdChange.id}, { cidNew, cnameNew, didNew, dnameNew, jobnameNew, jobIdNew, upheaderNew, upheaderNewName, changeType, changeDate, area, remark })
+      let { cidNew, cnameNew, didNew, dnameNew, jobnameNew, jobIdNew, upheaderNew, upheaderNewName, changeType, changeDate, area, remark, toBeWorkDate } = {...this.userCdChange}
+      let params = Object.assign({}, {id: this.userCdChange.id}, { cidNew, cnameNew, didNew, dnameNew, jobnameNew, jobIdNew, upheaderNew, upheaderNewName, changeType, changeDate, area, remark, toBeWorkDate })
       updateUserCdChange(params).then((res) => {
         if (res.code === 200) {
           this.$Message.success(res.msg)
@@ -384,12 +344,10 @@ export default {
       }
     },
     getDepartment (item) {
-      // console.log(item)
       this.userCdChange.didNew = item.did
       this.userCdChange.dnameNew = item.dname
     },
     getDepartmentStatus (item) {
-      // console.log(item)
       this.flag2 = item.comFlag
       this.model2 = item.commodal
     },
