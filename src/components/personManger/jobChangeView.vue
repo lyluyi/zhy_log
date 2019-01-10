@@ -73,17 +73,18 @@
           <Input v-model="userCdChange.changeType" readonly />
         </Col>
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">异动日期：</Button>
+          <Button class="wd mr10 tr" type="text">申请日期：</Button>
           <Date-picker placement="bottom" v-model="userCdChange.changeDate" readonly />
         </Col>
         <!-- <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">申请日期：</Button>
           <DatePicker type="date" placeholder="Select date" placement="bottom" ></DatePicker>
         </Col>
+        -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">生效日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" ></DatePicker>
-        </Col> -->
+          <DatePicker type="date" placeholder="Select date" v-model="userCdChange.effectDate" placement="bottom" readonly ></DatePicker>
+        </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
@@ -198,7 +199,8 @@ export default {
         toBeWorkDate: '',
         jobIdNew: '', // 新职位id
         remark: '', // 备注
-        changeDate: '' // 变更时间
+        changeDate: '', // 变更时间
+        effectDate: '' // 生效日期
       }
     }
   },
