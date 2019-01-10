@@ -75,7 +75,7 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">生效日期：</Button>
-          <DatePicker type="date" @on-change="userCdChange.changeDate=$event" placeholder="Select date" placement="bottom" v-model="userCdChange.effectDate" ></DatePicker>
+          <DatePicker @on-change="userCdChange.changeDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.effectDate" ></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">

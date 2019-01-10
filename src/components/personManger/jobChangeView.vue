@@ -65,7 +65,7 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">申请日期：</Button>
-          <DatePicker placement="bottom" v-model="userCdChange.changeDate" readonly />
+          <Date-picker placement="bottom" v-model="userCdChange.changeDate" readonly />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">生效日期：</Button>

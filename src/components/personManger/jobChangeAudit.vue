@@ -67,11 +67,11 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">申请日期：</Button>
-          <DatePicker @on-change="userCdChange.changeDate=$event" placement="bottom" v-model="userCdChange.changeDate" />
+          <DatePicker placement="bottom" v-model="userCdChange.changeDate" @on-change="userCdChange.changeDate=$event" />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">生效日期：</Button>
-          <DatePicker @on-change="userCdChange.effectDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.effectDate" ></DatePicker>
+          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.effectDate" ></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
