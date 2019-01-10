@@ -88,9 +88,14 @@
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
+        <Col class="col_flex tr">
+          <Button type="success" size="large" style="margin:auto;width:128px;" @click="updateApply"  v-if="auditStatus == '审批中'">保存修改数据</Button>
+        </Col>
+      </Row>
+      <Divider></Divider>
+      <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="6">
           <Button type="success" size="large" style="margin:auto;width:128px;" @click="approvalAndApproval"  v-if="auditStatus == '审批中'">审批通过</Button>
-          <Button type="success" size="large" style="margin:auto;width:128px;" @click="updateApply"  v-if="auditStatus == '审批中'">保存修改数据</Button>
         </Col>
         <Col class="col_flex tr" span="6">
           <Button type="error" size="large" style="margin:auto;width:128px;" @click="approvalNotApproved"  v-if="auditStatus == '审批中'">审批不通过</Button>

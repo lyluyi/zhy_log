@@ -165,7 +165,11 @@ export default {
         a: this.targetList
       }
       postRoleMuneList(params).then((res) => {
+        this.$Message.info('角色权限配置成功！')
         console.log(res)
+      }).catch(err => {
+        this.$Message.warning('操作失败！')
+        throw err
       })
     }
   },

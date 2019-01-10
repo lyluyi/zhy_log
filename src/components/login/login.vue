@@ -75,6 +75,9 @@ export default {
           localStorage.setItem('Authorization', 'Bearer ' + res.Authorization)
           localStorage.setItem('menuList', JSON.stringify(res.treeList))
           localStorage.setItem('userId', this.form.name)
+          // 设置默认展开的Slide
+          localStorage.setItem('slideMenuOpenList', JSON.stringify(['personInfo']))
+          localStorage.setItem('slideMenuOpenDefault', 'company')
           this.$Message.success({ content: '登陆成功！' })
           this.$router.push('/home/company')
         }).catch(err => {

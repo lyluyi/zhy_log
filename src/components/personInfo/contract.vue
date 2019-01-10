@@ -64,14 +64,14 @@
 
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">签订类型:</Button>
+          <Button class="wd mr10 tr" type="text">签订类型：</Button>
           <i-select v-model="userContract.signType">
             <Option v-for="item in signTypeItems" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </i-select>
         </Col>
 
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">是否无固定限期合同:</Button>
+          <Button class="wd mr10 tr" type="text">固定限期合同：</Button>
           <!-- <Input placeholder="" v-model="userContract.isGraduates" /> -->
           <i-switch v-model="userContract.isLongConView" @on-change="isLongConViewChange" />
         </Col>
@@ -79,55 +79,55 @@
 
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">合同类型:</Button>
+          <Button class="wd mr10 tr" type="text">合同类型：</Button>
           <!-- <Input placeholder="" v-model="userContract.conType" /> -->
           <i-select v-model="userContract.conType">
             <Option v-for="item in conTypeItems" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </i-select>
         </Col>
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">合同编号:</Button>
+          <Button class="wd mr10 tr" type="text">合同编号：</Button>
           <Input placeholder="" v-model="userContract.contractid" />
         </Col>
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">合同名称:</Button>
+          <Button class="wd mr10 tr" type="text">合同名称：</Button>
           <Input placeholder="" v-model="userContract.conName" />
         </Col>
       </Row>
 
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">是否应届毕业生:</Button>
+          <Button class="wd mr10 tr" type="text">应届毕业生：</Button>
           <!-- <Input placeholder="" v-model="userContract.isGraduates" /> -->
           <i-switch v-model="userContract.isGraduatesView" @on-change="isGraduatesViewChange" />
         </Col>
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">合同生效日:</Button>
+          <Button class="wd mr10 tr" type="text">合同生效日：</Button>
           <DatePicker type="date" placeholder="合同生效日" placement="bottom" v-model="userContract.conBeginDate"></DatePicker>
         </Col>
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">合同终止日:</Button>
+          <Button class="wd mr10 tr" type="text">合同终止日：</Button>
           <DatePicker type="date" placeholder="合同终止日" placement="bottom" v-model="userContract.conEndDate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">签订日期:</Button>
+          <Button class="wd mr10 tr" type="text">签订日期：</Button>
           <DatePicker type="date" placeholder="签订日期" placement="bottom" v-model="userContract.signDate"></DatePicker>
         </Col>
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">签约用人单位:</Button>
+          <Button class="wd mr10 tr" type="text">签约用人单位：</Button>
           <Input placeholder="" search enter-button v-model="userContract.conCname" @on-search="queryCompany" readonly />
         </Col>
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">实际终止日:</Button>
+          <Button class="wd mr10 tr" type="text">实际终止日：</Button>
           <DatePicker type="date" placeholder="实际终止日" placement="bottom" v-model="userContract.conEndTime"></DatePicker>
         </Col>
       </Row>
 
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">合同签订部门:</Button>
+          <Button class="wd mr10 tr" type="text">合同签订部门：</Button>
           <Input placeholder="" search enter-button v-model="userContract.conDept" @on-search="queryDepartment" readonly />
         </Col>
       </Row>
@@ -280,7 +280,7 @@ export default {
     this.queryType = 'newContract'
     this.timeType = ''
     getDic('contractType').then((res) => {
-      console.log(res)
+      // console.log(res)
       this.conTypeItems = res.data
     })
     getDic('contractSignType').then((res) => {
@@ -433,6 +433,14 @@ export default {
   height: 36px;
   padding-left: 10px;
 }
-.contract_inputGroup{
+.contract .ivu-divider-inner-text{
+  font-size: 15px;
+  font-weight: bolder;
+  color: #2d8cf0;
 }
+
+.contract .ivu-switch {
+  margin:  auto 0;
+}
+
 </style>
