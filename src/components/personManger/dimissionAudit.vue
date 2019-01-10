@@ -91,7 +91,7 @@
           <!--
           <Input placeholder=""  v-model="userQuit.quitDateView" />
           -->
-          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userQuit.quitDate"></DatePicker>
+          <DatePicker @on-change="userQuit.quitDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userQuit.quitDate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">

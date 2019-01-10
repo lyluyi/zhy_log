@@ -63,7 +63,7 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">转正日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userFormal.toBeWorkDate"></DatePicker>
+          <DatePicker @on-change="userFormal.toBeWorkDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userFormal.toBeWorkDate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">

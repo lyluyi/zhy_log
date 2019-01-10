@@ -71,11 +71,11 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">异动日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.changeDate" ></DatePicker>
+          <DatePicker @on-change="userCdChange.changeDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.changeDate" ></DatePicker>
         </Col>
         <!-- <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">生效日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" ></DatePicker>
+          <DatePicker type="date" placeholder="Select date" placement="bottom" ></DatePicker> @on-change="userCdChange.changeDate=$event"
         </Col> -->
       </Row>
       <Row :gutter="16" class="mb10">
@@ -115,7 +115,7 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">见习转正日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.toBeWorkDate"></DatePicker>
+          <DatePicker @on-change="userCdChange.toBeWorkDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.toBeWorkDate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">

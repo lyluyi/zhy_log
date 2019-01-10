@@ -74,13 +74,13 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">证件到期日期：</Button>
-              <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.idcardkindid"></DatePicker>
+              <DatePicker @on-change="allData.idcardkindid=$event" type="date" placeholder="Select date" placement="bottom" v-model="allData.idcardkindid"></DatePicker>
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">出生日期：</Button>
-              <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.birthdate" readonly ></DatePicker>
+              <DatePicker @on-change="allData.birthdate=$event" type="date" placeholder="Select date" placement="bottom" v-model="allData.birthdate" readonly ></DatePicker>
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">性别：</Button>
@@ -138,11 +138,11 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">预计转正日期：</Button>
-              <DatePicker type="date" placeholder="Select date"  placement="bottom" v-model="allData.beWorkDate"></DatePicker>
+              <DatePicker @on-change="allData.beWorkDate=$event" type="date" placeholder="Select date"  placement="bottom" v-model="allData.beWorkDate"></DatePicker>
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">健康证到期日：</Button>
-              <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.healhDate "></DatePicker>
+              <DatePicker @on-change="allData.healhDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="allData.healhDate "></DatePicker>
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -224,16 +224,8 @@
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">工龄开始日期：</Button>
-              <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.beginWorkDate"></DatePicker>
+              <DatePicker @on-change="allData.beginWorkDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="allData.beginWorkDate"></DatePicker>
             </Col>
-            <!-- <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">最后工作日：</Button>
-              <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="allData.lastworkdate"></DatePicker>
-            </Col> -->
-            <!-- <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">公司工龄：</Button>
-              <Input type="text" placeholder="" v-model="allData.workYears" />
-            </Col> -->
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">人员来源：</Button>
               <Select v-model="allData.source"  placement="bottom">
@@ -309,7 +301,6 @@
         </TabPane>
          <TabPane label="相关信息" name="相关信息" class="person_tabpane">
           <div class="mb20 col_flex">
-            <!-- @on-change="infoRecordChange" -->
             <Select v-model="infoRecordTypeValue" @on-change="infoRecordChange" style="width:150px">
               <Option v-for="item in infoRecordType" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
@@ -322,11 +313,11 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">开始日期：</Button>
-                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userWorkhis.beginDate"></DatePicker>
+                  <DatePicker @on-change="userWorkhis.beginDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userWorkhis.beginDate"></DatePicker>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">结束日期：</Button>
-                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userWorkhis.endDate"></DatePicker>
+                  <DatePicker @on-change="userWorkhis.endDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userWorkhis.endDate"></DatePicker>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">单位名称：</Button>
@@ -359,11 +350,11 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">开始日期：</Button>
-                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userTrainhis.beginDate"></DatePicker>
+                  <DatePicker @on-change="userTrainhis.beginDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userTrainhis.beginDate"></DatePicker>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">结束日期：</Button>
-                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userTrainhis.endDate"></DatePicker>
+                  <DatePicker @on-change="userTrainhis.endDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userTrainhis.endDate"></DatePicker>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">培训机构：</Button>
@@ -400,11 +391,11 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">开始日期：</Button>
-                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userStudyhis.beginDate"></DatePicker>
+                  <DatePicker @on-change="userStudyhis.beginDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userStudyhis.beginDate"></DatePicker>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">结束日期：</Button>
-                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userStudyhis.endDate"></DatePicker>
+                  <DatePicker @on-change="userStudyhis.endDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userStudyhis.endDate"></DatePicker>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">院校名称：</Button>
@@ -467,10 +458,6 @@
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
-                <!-- <Col class="col_flex" span="8">
-                  <Button class="wd mr10 tr" type="text">出生日期：</Button>
-                  <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userFamily.birthdate"></DatePicker>
-                </Col> -->
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">担任职位：</Button>
                   <Input type="text" placeholder="" v-model="userFamily.jobName" />
@@ -570,7 +557,7 @@
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">获得日期：</Button>
-                  <DatePicker type="date" placeholder="Select date" placement="bottom"  v-model="userJobinfo.getDate"></DatePicker>
+                  <DatePicker @on-change="userJobinfo.getDate=$event" type="date" placeholder="Select date" placement="bottom"  v-model="userJobinfo.getDate"></DatePicker>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">所在单位：</Button>

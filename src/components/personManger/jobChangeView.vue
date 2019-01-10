@@ -44,10 +44,6 @@
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
-        <!-- <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">成本中心：</Button>
-          <Input placeholder=""  />
-        </Col> -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">直接主管：</Button>
           <Input placeholder="" v-model="oldData.upHeader" readonly />
@@ -65,25 +61,12 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">变更类型：</Button>
-          <!--
-          <Select v-model="userCdChange.changeType">
-            <Option v-for="item in changeTypeDic" :value="item.value" :key="item.value">{{ item.label }}</Option>
-          </Select>
-          -->
           <Input v-model="userCdChange.changeType" readonly />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">异动日期：</Button>
-          <Date-picker placement="bottom" v-model="userCdChange.changeDate" readonly />
+          <DatePicker placement="bottom" v-model="userCdChange.changeDate" readonly />
         </Col>
-        <!-- <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">申请日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" ></DatePicker>
-        </Col>
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">生效日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" ></DatePicker>
-        </Col> -->
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
@@ -98,37 +81,21 @@
           <Button class="wd mr10 tr" type="text">新职位：</Button>
           <Input  placeholder=""  v-model="userCdChange.jobnameNew" readonly />
         </Col>
-        <!-- <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">新成本中心：</Button>
-          <Input placeholder="" />
-        </Col> -->
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新所属区域：</Button>
           <Input placeholder="" v-model="userCdChange.area" readonly />
         </Col>
-        <!-- <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">新所属厂区：</Button>
-          <Input placeholder="" v-model="" />
-        </Col> -->
-        <!-- <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">新工号：</Button>
-          <Input placeholder="" />
-        </Col> -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新直接主管：</Button>
           <Input placeholder="" v-model="userCdChange.upheaderNewName" readonly/>
         </Col>
-      </Row>
-      <!--
-      <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">见习转正日期：</Button>
-          <Input placeholder="" v-model="userCdChange.toBeWorkDate" readonly/>
+          <DatePicker @on-change="userCdChange.toBeWorkDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.toBeWorkDate" readonly></DatePicker>
         </Col>
       </Row>
-      -->
       <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="24">
           <Button class="wd mr10 tr" type="text">备注：</Button>
