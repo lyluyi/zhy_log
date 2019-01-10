@@ -89,7 +89,7 @@ export const getUserIdJobChange = (params) => { return fetch('Json', 'user/page'
 
 export const getTransferList = (params) => { return fetch('Json', 'userOrganization/selectUserpage', params) } // 待转编人员列表
 
-export const postTransfer = (params) => { return fetch(('Json'), 'userOrganization', params) } // 保存转编人员信息
+export const postTransfer = (params) => { return fetch(('json'), 'userOrganization', params) } // 保存转编人员信息
 
 // 职位
 export const postJob = (params) => { return fetch('FormData', 'jobDict/page', params) } // 职位录入
@@ -103,7 +103,7 @@ export const getJobId = (params) => { return fetch('FormData', 'job/page', param
 
 // 岗位变动
 
-export const postJobChange = (params) => { return fetch('Json', 'userCdChange', params) } // 保存岗位变动信息
+export const postJobChange = (params) => { return fetch('json', 'userCdChange', params) } // 保存岗位变动信息
 
 // 查询岗位变动信息
 
@@ -127,7 +127,7 @@ export const userAudit = (params) => { return fetch('FormData', 'userAudit/audit
 
 // 保存人员回聘信息
 
-export const postUserReturn = (params) => { return fetch('Json', 'userReturn', params) }
+export const postUserReturn = (params) => { return fetch('json', 'userReturn', params) }
 
 // 查询回聘详细信息
 
@@ -135,7 +135,7 @@ export const getUserReturnApply = (params) => { return fetch('FormData', 'userRe
 
 // 保存离职信息
 
-export const postUserQuit = (params) => { return fetch('Json', 'userQuit', params) }
+export const postUserQuit = (params) => { return fetch('json', 'userQuit', params) }
 
 // 查询离职信息
 
@@ -147,11 +147,11 @@ export const getUserOrganizationApply = (params) => { return fetch('FormData', '
 
 // 查询待转正员工
 
-export const getCanUserFormalUser = (params) => { return fetch('Json', 'userFormal/selectUserPage', params) }
+export const getCanUserFormalUser = (params) => { return fetch('json', 'userFormal/selectUserPage', params) }
 
 // 保存员工转正信息
 
-export const postUserFormal = (params) => { return fetch('Json', 'userFormal', params) }
+export const postUserFormal = (params) => { return fetch('json', 'userFormal', params) }
 
 // 查询转编信息
 
@@ -164,28 +164,28 @@ export const postUserAuditRollback = (params) => { return fetch('FormData', 'use
 export const getUserAuditWill = (params) => { return fetch('FormData', 'user/userAuditWill', params) }
 
 // 更新岗位变动信息
-export const updateUserCdChange = (params) => { return fetch('Json', 'userCdChange/updateUserCdChange', params) }
+export const updateUserCdChange = (params) => { return fetch('json', 'userCdChange/updateUserCdChange', params) }
 
 // 更新员工转正信息
-export const updateUserFormal = (params) => { return fetch('Json', 'userFormal/updateUserFormal', params) }
+export const updateUserFormal = (params) => { return fetch('json', 'userFormal/updateUserFormal', params) }
 
 // 更新员工转编信息
-export const updateUserOrganization = (params) => { return fetch('Json', 'userOrganization/updateUserOrganization', params) }
+export const updateUserOrganization = (params) => { return fetch('json', 'userOrganization/updateUserOrganization', params) }
 
 // 更新员工离退信息
-export const updateUserQuit = (params) => { return fetch('Json', 'userQuit/updateUserQuit', params) }
+export const updateUserQuit = (params) => { return fetch('json', 'userQuit/updateUserQuit', params) }
 
 // 更新员工回聘信息
-export const updateUserReturn = (params) => { return fetch('Json', 'userReturn/updateUserReturn', params) }
+export const updateUserReturn = (params) => { return fetch('json', 'userReturn/updateUserReturn', params) }
 
 // 人员信息编辑 工号查询 获取所有信息
 export const getUserIdAllInfo = (params) => { return fetch('FormData', 'user/findUserById', params) }
 
 // 人员信息编辑 更新保存
-export const updateUserIdAllInfo = (params) => { return fetch('Json', 'user/updateUserInfo', params) }
+export const updateUserIdAllInfo = (params) => { return fetch('json', 'user/updateUserInfo', params) }
 
 // 合同录入人员查询
 export const getUserContractPage = (params) => { return fetch('FormData', 'userContract/userPage', params) }
 
 // 保存合同信息
-export const postSaveUserContractPage = (params) => { return fetch('Json', 'userContract/saveUserContract', params) }
+export const postSaveUserContractPage = (params) => { return fetch('json', 'userContract/saveUserContract', params) }
