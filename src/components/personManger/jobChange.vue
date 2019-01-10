@@ -70,13 +70,13 @@
           </Select>
         </Col>
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">异动日期：</Button>
+          <Button class="wd mr10 tr" type="text">申请日期：</Button>
           <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.changeDate" ></DatePicker>
         </Col>
-        <!-- <Col class="col_flex" span="8">
+        <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">生效日期：</Button>
-          <DatePicker type="date" placeholder="Select date" placement="bottom" ></DatePicker>
-        </Col> -->
+          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.effectDate" ></DatePicker>
+        </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
@@ -205,7 +205,8 @@ export default {
         toBeWorkDate: '', // 预计转正日期
         jobIdNew: '', // 新职位id
         remark: '', // 备注
-        changeDate: '' // 变动时间
+        changeDate: '', // 申请日期
+        effectDate: '' // 生效日期
       }
     }
   },
@@ -289,30 +290,45 @@ export default {
       this.flag6 = item.comFlag
       this.modal6 = item.commodal
     },
+    saveValidate () {
+      if (this.userCdChange.changeType !== '升职') {
+        if (this.userCdChange.toBeWorkDate === '') {
+          return false
+        } else {
+          return true
+        }
+      } else {
+        return true
+      }
+    },
     save () {
       // this.userCdChange.toBeWorkDate = currentTime(this.userCdChange.toBeWorkDate)
-      this.userCdChange.userId = this.oldData.userId
-      let remark = this.userCdChange.remark
-      let userName = this.oldData.userName
-      // let toBeWorkDate = this.userCdChange.toBeWorkDate
-      let params = Object.assign({}, this.oldData, this.userCdChange)
-      params.remark = remark
-      params.operatorId = localStorage.getItem('userId')
-      params.userName = userName
-      params.cnameOld = params.cname
-      params.dnameOld = params.dname
-      console.log(params)
-      // debugger
-      // return
-      // params.toBeWorkDate = toBeWorkDate
-      postJobChange(params).then((res) => {
-        if (res.code === 200) {
-          this.$Message.success(res.msg)
-          this.$router.go(0)
-        } else {
-          this.$Message.warning(res.msg)
-        }
-      })
+      if (this.saveValidate()) {
+        this.userCdChange.userId = this.oldData.userId
+        let remark = this.userCdChange.remark
+        let userName = this.oldData.userName
+        // let toBeWorkDate = this.userCdChange.toBeWorkDate
+        let params = Object.assign({}, this.oldData, this.userCdChange)
+        params.remark = remark
+        params.operatorId = localStorage.getItem('userId')
+        params.userName = userName
+        params.cnameOld = params.cname
+        params.dnameOld = params.dname
+        console.log(params)
+        // debugger
+        // return
+        // params.toBeWorkDate = toBeWorkDate
+        postJobChange(params).then((res) => {
+          if (res.code === 200) {
+            this.$Message.success(res.msg)
+            this.$router.go(0)
+          } else {
+            this.$Message.warning(res.msg)
+          }
+        })
+      } else {
+        this.$Message.info('升职情况下，见习转正日期必填！')
+      }
     }
   },
   components: {

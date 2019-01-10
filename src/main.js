@@ -6,11 +6,17 @@ import router from './router'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import axios from 'axios'
+import filters from './filter'
+
 // import './theme/index.less'
 
 Vue.prototype.$axios = axios
 
 Vue.use(iView)
+
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
 
 Vue.config.productionTip = false
 
