@@ -63,7 +63,7 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">入司日期：</Button>
-          <DatePicker @on-change="userReturn.startworkdate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userReturn.startworkdate"></DatePicker>
+          <DatePicker :options="limitDateA" @on-change="userReturn.startworkdate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userReturn.startworkdate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
@@ -85,16 +85,6 @@
           <Button class="wd mr10 tr" type="text">员工状态：</Button>
           <Input placeholder="" v-model="userReturn.userStatus"/>
         </Col>
-        <!--
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">成本中心：</Button>
-          <Input placeholder="" readonly />
-        </Col>
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">编制人数：</Button>
-          <Input placeholder=""/>
-        </Col>
-        -->
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
@@ -156,6 +146,12 @@ import { postUserReturn, getUserId } from '@/server/api'
 export default {
   data () {
     return {
+      limitDateA: {
+        disabledDate: date => {
+          let endTime = Date.now()
+          return date && date.valueOf() > endTime // 从某个时间开始 默认小于当前时间
+        }
+      },
       flag1: false,
       model1: false,
       flag2: false,

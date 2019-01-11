@@ -35,7 +35,9 @@
                 <!-- ？？？？？？？？？？？？？ -->
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">职等：</Button>
-                  <Input type="text" placeholder="" readonly v-model="allData.jobLevel"/>
+                  <Select v-model="allData.jobLevel"  placement="bottom">
+                    <Option v-for="item in jobLevelType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
@@ -160,7 +162,9 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">所属区域：</Button>
-              <Input type="text" placeholder=""  v-model="allData.area" readonly />
+              <Select v-model="allData.area"  placement="bottom">
+                <Option v-for="item in areaType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -405,7 +409,9 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">院校性质：</Button>
-                  <Input type="text" placeholder="" v-model="userStudyhis.schoolType" />
+                  <Select v-model="userStudyhis.schoolType"  placement="bottom">
+                    <Option v-for="item in schoolTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">主修专业：</Button>
@@ -413,7 +419,9 @@
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">毕业类型：</Button>
-                  <Input type="text" placeholder="" v-model="userStudyhis.graduationType" />
+                  <Select v-model="userStudyhis.graduationType"  placement="bottom">
+                    <Option v-for="item in graduationTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
@@ -693,16 +701,11 @@ export default {
         { value: '临时工', label: '临时工' },
         { value: '兼职员工', label: '兼职员工' }
       ],
-      emloyType: [
-        { value: '实习生', label: '实习生' },
-        { value: '兼职员工', label: '兼职员工' },
-        { value: '劳务员工', label: '劳务员工' },
-        { value: '试用员工', label: '试用员工' },
-        { value: '正式员工', label: '正式员工' },
-        { value: '离职员工', label: '离职员工' },
-        { value: '退休员工', label: '退休员工' },
-        { value: '留职停薪员工', label: '留职停薪员工' }
-      ],
+      schoolTypeList: [], // 院校性质
+      graduationTypeList: [], // 毕业类型
+      jobLevelType: [],
+      areaType: [],
+      emloyType: [],
       columns1: [],
       data1: [],
       infoTemplate: '工作简历',
@@ -861,6 +864,27 @@ export default {
     })
     getDic('SOURCE').then((res) => {
       this.sourceType = res.data
+    })
+    getDic('EDUCATION').then((res) => {
+      this.educationType = res.data
+    })
+    getDic('userStatus').then((res) => {
+      this.emloyType = res.data
+    })
+    getDic('area').then((res) => {
+      this.areaType = res.data
+    })
+    getDic('job_level').then((res) => {
+      this.jobLevelType = res.data
+    })
+    getDic('POLITICS').then((res) => {
+      this.politicsType = res.data
+    })
+    getDic('academy').then((res) => {
+      this.schoolTypeList = res.data
+    })
+    getDic('Graduation').then((res) => {
+      this.graduationTypeList = res.data
     })
   },
   mounted () {
@@ -1232,7 +1256,6 @@ export default {
       let params = this.allData
       this.$Loading.start()
       updateUserIdAllInfo(params).then((res) => {
-        debugger
         if (res.code === 200) {
           this.$Message.success(res.msg)
           this.$router.go(0)
