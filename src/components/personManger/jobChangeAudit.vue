@@ -67,11 +67,11 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">申请日期：</Button>
-          <DatePicker @on-change="userCdChange.changeDate=$event" placement="bottom" v-model="userCdChange.changeDate" />
+          <DatePicker :options="limitDateA" @on-change="userCdChange.changeDate=$event" placement="bottom" v-model="userCdChange.changeDate" />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">生效日期：</Button>
-          <DatePicker @on-change="userCdChange.effectDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.effectDate" ></DatePicker>
+          <DatePicker :options="limitDateB" @on-change="userCdChange.effectDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.effectDate" ></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
@@ -151,6 +151,19 @@ import { getUserAudit, getUserAuditOldUser, getJobChangeApply, userAudit, postUs
 export default {
   data () {
     return {
+      limitDateA: {
+        disabledDate: date => {
+          let startTime = this.oldData.startworkdataView ? new Date(this.oldData.startworkdataView).valueOf() : Date.now()
+          return date && date.valueOf() < startTime // 从某个时间开始 默认从当前时间开始
+        }
+      },
+      limitDateB: {
+        disabledDate: date => {
+          let startTime = this.oldData.startworkdataView ? new Date(this.oldData.startworkdataView).valueOf() : Date.now()
+          let endTime = Date.now()
+          return (date && (date.valueOf() < startTime)) || (date.valueOf() > endTime)
+        }
+      },
       auditId: '',
       applyCode: '',
       auditStatus: '',
@@ -311,8 +324,8 @@ export default {
       })
     },
     updateApply () {
-      let { cidNew, cnameNew, didNew, dnameNew, jobnameNew, jobIdNew, upheaderNew, upheaderNewName, changeType, changeDate, area, remark, toBeWorkDate } = {...this.userCdChange}
-      let params = Object.assign({}, {id: this.userCdChange.id}, { cidNew, cnameNew, didNew, dnameNew, jobnameNew, jobIdNew, upheaderNew, upheaderNewName, changeType, changeDate, area, remark, toBeWorkDate })
+      let { cidNew, cnameNew, didNew, dnameNew, jobnameNew, jobIdNew, upheaderNew, upheaderNewName, changeType, changeDate, area, remark, toBeWorkDate, effectDate } = {...this.userCdChange}
+      let params = Object.assign({}, {id: this.userCdChange.id}, { cidNew, cnameNew, didNew, dnameNew, jobnameNew, jobIdNew, upheaderNew, upheaderNewName, changeType, changeDate, area, remark, toBeWorkDate, effectDate })
       updateUserCdChange(params).then((res) => {
         if (res.code === 200) {
           this.$Message.success(res.msg)

@@ -63,7 +63,7 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">转正日期：</Button>
-          <DatePicker @on-change="userFormal.toBeWorkDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userFormal.toBeWorkDate"></DatePicker>
+          <DatePicker :options="limitDateA" @on-change="userFormal.toBeWorkDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userFormal.toBeWorkDate"></DatePicker>
           <!--
           <Input placeholder="" v-model="userFormal.toBeWorkDateView" readonly />
           -->
@@ -128,6 +128,12 @@ import getDic from '@/server/apiDic'
 export default {
   data () {
     return {
+      limitDateA: {
+        disabledDate: date => { // 大于当前时间
+          let startTime = this.oldData.startworkdataView ? new Date(this.oldData.startworkdataView).valueOf() : Date.now()
+          return date && date.valueOf() < startTime // 从某个时间开始 默认从当前时间开始
+        }
+      },
       auditId: '',
       applyCode: '',
       auditStatus: '',
