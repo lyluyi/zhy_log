@@ -57,29 +57,20 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">入司日期：</Button>
-          <DatePicker @on-change="userReturn.startworkdate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userReturn.startworkdate"></DatePicker>
+          <DatePicker :options="limitDateA" @on-change="userReturn.startworkdate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userReturn.startworkdate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">公司名称：</Button>
-          <!--
-          <Input placeholder="" v-model="userReturn.cname" readonly />
-          -->
           <Input placeholder="" search enter-button v-model="userReturn.cname" @on-search="queryCompany" />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">部门名称：</Button>
-          <!--
-          <Input placeholder="" v-model="userReturn.dname"   readonly />
-          -->
           <Input placeholder="" search enter-button v-model="userReturn.dname"   @on-search="queryDepartment" />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">职位名称：</Button>
-          <!--
-          <Input placeholder="" v-model="userReturn.jobName"  readonly />
-          -->
           <Input placeholder="" search enter-button v-model="userReturn.jobName"  @on-search="queryJob" />
         </Col>
       </Row>
@@ -88,23 +79,10 @@
           <Button class="wd mr10 tr" type="text">员工状态：</Button>
           <Input placeholder="" v-model="userReturn.userStatus" readonly />
         </Col>
-        <!--
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">成本中心：</Button>
-          <Input placeholder="" readonly />
-        </Col>
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">编制人数：</Button>
-          <Input placeholder="" readonly/>
-        </Col>
-        -->
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">年资起算日期：</Button>
-          <!--
-          <Input placeholder=""  v-model="userReturn.annuityStartDateView" readonly />
-          -->
           <DatePicker @on-change="userReturn.annuityStartDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userReturn.annuityStartDate"></DatePicker>
         </Col>
       </Row>
@@ -179,6 +157,12 @@ import { getUserAudit, getUserAuditOldUser, getUserReturnApply, userAudit, postU
 export default {
   data () {
     return {
+      limitDateA: {
+        disabledDate: date => {
+          let endTime = Date.now()
+          return date && date.valueOf() > endTime // 从某个时间开始 默认小于当前时间
+        }
+      },
       auditId: '',
       applyCode: '',
       auditStatus: '',

@@ -308,7 +308,6 @@ export default {
       this.userFormal.cid = item.cid
       this.userFormal.did = item.did
       this.userFormal.userStatus = '转正员工'
-      debugger
     },
     save () {
       let params = this.userFormal

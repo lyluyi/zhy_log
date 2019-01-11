@@ -54,7 +54,7 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">入司日期：</Button>
-          <Input placeholder="" v-model="oldData.startworkdataView" readonly />
+          <Input placeholder=""  v-model="oldData.startworkdataView" readonly />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">员工状态：</Button>
@@ -71,11 +71,11 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">申请日期：</Button>
-          <DatePicker @on-change="userCdChange.changeDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.changeDate" ></DatePicker>
+          <DatePicker :options="limitDateA" @on-change="userCdChange.changeDate=$event" type="date" :value="userCdChange.changeDate" placeholder="Select date" placement="bottom" v-model="userCdChange.changeDate" ></DatePicker>
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">生效日期：</Button>
-          <DatePicker type="date" @on-change="userCdChange.changeDate=$event" placeholder="Select date" placement="bottom" v-model="userCdChange.effectDate" ></DatePicker>
+          <DatePicker :options="limitDateB" type="date" @on-change="userCdChange.effectDate=$event" placeholder="Select date" placement="bottom" v-model="userCdChange.effectDate" ></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
@@ -91,24 +91,12 @@
           <Button class="wd mr10 tr" type="text">新职位：</Button>
           <Input  placeholder="" search enter-button v-model="userCdChange.jobNameNew" @on-search="queryJob" readonly />
         </Col>
-        <!-- <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">新成本中心：</Button>
-          <Input placeholder="" />
-        </Col> -->
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新所属区域：</Button>
           <Input placeholder="" v-model="userCdChange.area" readonly />
         </Col>
-        <!-- <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">新所属厂区：</Button>
-          <Input placeholder="" v-model="" />
-        </Col> -->
-        <!-- <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">新工号：</Button>
-          <Input placeholder="" />
-        </Col> -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">新直接主管：</Button>
           <Input placeholder="" v-model="userCdChange.upheaderNewName" search enter-button @on-search="queryUpHeader" />
@@ -151,6 +139,19 @@ import getDic from '@/server/apiDic'
 export default {
   data () {
     return {
+      limitDateA: {
+        disabledDate: date => { // 大于当前时间
+          let startTime = this.oldData.startworkdataView ? new Date(this.oldData.startworkdataView).valueOf() : Date.now()
+          return date && date.valueOf() < startTime // 从某个时间开始 默认从当前时间开始
+        }
+      },
+      limitDateB: { // 小于当前时间 大于入司时间
+        disabledDate: date => {
+          let startTime = this.oldData.startworkdataView ? new Date(this.oldData.startworkdataView).valueOf() : Date.now()
+          let endTime = Date.now()
+          return (date && (date.valueOf() < startTime)) || (date.valueOf() > endTime)
+        }
+      },
       changeTypeDic: [],
       flag1: false,
       model1: false,
@@ -215,7 +216,8 @@ export default {
       this.changeTypeDic = res.data
     })
   },
-  mounted () {},
+  mounted () {
+  },
   methods: {
     queryCompany () { // 公司信息查询
       this.flag1 = true
@@ -284,6 +286,7 @@ export default {
         this.userCdChange.upheaderNewName = item.userName
       } else {
         this.oldData = item
+        // this.changeLimitDateA()
       }
     },
     getUserIdStatus (item) {
