@@ -64,11 +64,11 @@
             <Button class="tc" type="error" @click="removeItem(index)" >查询项{{ index + 1 }}</Button>
           </Col>
           <Col class="col_flex" span="4">
-            <Button class="mr10 tc" type="primary">查询字段</Button>
+            <Button class="mr10 tc" type="info">查询字段</Button>
             <Input type="text" placeholder="" readonly v-model="item.des"/>
           </Col>
           <Col class="col_flex" span="4">
-            <Button class="mr10 tc" type="primary">查询条件</Button>
+            <Button class="mr10 tc" type="info">查询条件</Button>
             <!--
               {name:'userName', linkOption:'or', option:'like', value1:'张三', value2:'张三'}
              -->
@@ -77,22 +77,22 @@
             </Select>
           </Col>
             <Col v-if="item.name === 'cname'" class="col_flex" span="8">
-              <Button class="mr10 tc" type="primary">查询范围</Button>
+              <Button class="mr10 tc" type="info">查询范围</Button>
               <Input search enter-button placeholder="111" v-model="item.value1" @on-search="queryCompany" />
             </Col>
             <Col v-if="item.name === 'dname'" class="col_flex" span="8">
-              <Button class="mr10 tc" type="primary">查询范围</Button>
+              <Button class="mr10 tc" type="info">查询范围</Button>
               <Input search enter-button placeholder="222" v-model="item.value1"  @on-search="queryDepartment" />
             </Col>
             <Col v-if="((item.name !== 'cname') && (item.name !=='dname'))" class="col_flex" span="8">
-              <Button class="mr10 tc" type="primary">查询范围</Button>
+              <Button class="mr10 tc" type="info">查询范围</Button>
               <Input type="text" placeholder="请输入" v-model="item.value1" v-if="!item.timeType" />
               <DatePicker @on-change="item.value1=$event" type="date" placeholder="Select date" v-if="item.timeType" v-model="item.value1"></DatePicker>
               <Input type="text" placeholder="请输入" v-model="item.value2" v-if="!item.timeType" />
               <DatePicker @on-change="item.value2=$event" type="date" placeholder="Select date" v-if="item.timeType" v-model="item.value2"></DatePicker>
             </Col>
           <Col class="col_flex" span="4">
-            <Button class="mr10 tc" type="primary">逻辑条件</Button>
+            <Button class="mr10 tc" type="info">逻辑条件</Button>
             <Select v-model="item.linkOption"  style="width:150px">
               <Option v-for="itemB in  logicCondition" :value="itemB.key" :key="itemB.key">{{ itemB.value }}</Option>
             </Select>
@@ -104,14 +104,22 @@
           <Button class="wd tc" type="primary" style="margin: 0 auto;" @click="queryInfo(type = (checkType ? 'lowCheck' : 'highCheck'), num = null)">查询</Button>
         </Col>
       </Row>
-      <Table border :columns="columns2" :sortable="true" :highlight-row="true" :data="data4"></Table>
-      <Page :total="pageInfo.totalRow" :current="pageInfo.pageNumber" :page-size="pageInfo.pageSize" @on-change="changePageNumber" show-total  class="mt20" />
+      <Table border :loading="tableLoading" :height="tableHeight" :columns="columns2" :sortable="true" :highlight-row="true" :data="data4" ></Table>
+      <Page
+        :total="pageInfo.totalRow"
+        :current="pageInfo.pageNumber"
+        :page-size-opts="[10, 50, 100]"
+        show-sizer :page-size="pageInfo.pageSize"
+        @on-change="changePageNumber"
+        @on-page-size-change="changePageSize"  show-total
+        class="mt20" />
       <Divider orientation="left">
       </Divider>
       <div class="mb20 col_flex">
         <Select v-model="infoRecordTypeValue.value" @on-change="infoRecordChange" placement="bottom" style="width:150px">
           <Option v-for="item in infoRecordType" :value="item.value" :key="item.key">{{ item.value }}</Option>
         </Select>
+        <Button class="wd mr10 tc ml20 " type="success" style="margin-top: -2px;" @click="exportSubTable"><Icon type="ios-download-outline" style="vertical-align: baseline;"></Icon>导出数据</Button>
       </div>
       <!-- 删除项弹出层 -->
       <Modal v-model="removeModalType" width="120">
@@ -427,7 +435,7 @@ export default {
         {
           title: '操作',
           key: 'action',
-          width: 148,
+          width: 200,
           fixed: 'right',
           render: (h, params) => {
             return h('div', [
@@ -436,30 +444,35 @@ export default {
                   type: 'info',
                   size: 'small'
                 },
+                style: {
+                  marginRight: '24px'
+                },
                 on: {
                   click: () => {
                     console.log(params.row.userId) // 员工ID
                     this.querySubInfo({ userId: params.row.userId })
                   }
                 }
-              }, '查看子表')
-              // h('Button', {
-              //   props: {
-              //     type: 'text',
-              //     size: 'small'
-              //   }
-              // }, '查看详情'),
-              // h('Button', {
-              //   props: {
-              //     type: 'text',
-              //     size: 'small'
-              //   }
-              // }, '编辑')
+              }, '查看'),
+              h('Button', {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                on: {
+                  click: () => {
+                    this.$router.push({name: 'personEdit', params: { userId: params.row.userId }})
+                  }
+                }
+              }, '编辑')
             ])
           }
         }
       ],
       data4: [],
+      tableLoading: false,
+      tableHeight: 108,
+      tableScroll: 0,
       highCheck: {
         page: 1,
         pageSize: 10,
@@ -472,7 +485,9 @@ export default {
         userName: '',
         cname: '',
         dname: '',
-        userStatus: ''
+        userStatus: '',
+        page: 1,
+        pageSize: 10
       },
       userStatusType: [],
       checkCname: '',
@@ -591,13 +606,33 @@ export default {
       data1: []
     }
   },
+  // watch: {
+  //   data1: { // 深度监听，可监听到对象、数组的变化
+  //     handler (newVal, oldVal) {
+  //       console.log(newVal, oldVal)
+  //       if (newVal.length === 0) {
+  //         this.tableHeight = 0
+  //       } else {
+  //         this.tableHeight = 500
+  //       }
+  //     },
+  //     deep: true
+  //   }
+  // },
   created () {
     this.infoRecordChange(this.infoRecordTypeValue.value)
     getDic('userStatus').then((res) => {
       this.userStatusType = res.data
     })
   },
-  mounted () {},
+  mounted () {
+    // let tableElement = document.getElementsByClassName('ivu-table-body')[0]
+    // tableElement.addEventListener('scroll', (event) => {
+    // let [o, h, s] = [tableElement.style.height, tableElement.clientHeight, tableElement.scrollTop]
+    //   console.log(o, h, s)
+    //   this.tableScroll = event.target.scrollTop
+    // })
+  },
   methods: {
     queryCompany () { // 公司信息查询
       this.flag1 = true
@@ -720,9 +755,13 @@ export default {
     // },
     queryInfo (type, num) { // 信息查询
       num ? this[type].pageNumber = this.pageInfo.pageNumber : this[type].pageNumber = 1
+      this[type].pageSize = this.pageInfo.pageSize
       this.exportHighData = this[type] // 导出数据
       let params = this[type]
+      this.tableLoading = true
       getInfoCheck(params).then((res) => {
+        this.tableHeight = 500
+        this.tableLoading = false
         console.log(res)
         this.data4 = res.list
         return Promise.resolve(res) // 已经同步了……
@@ -744,6 +783,10 @@ export default {
       let type = ''
       this.checkType ? type = 'lowCheck' : type = 'highCheck'
       this.queryInfo(type, num)
+    },
+    changePageSize (pageSize) {
+      this.pageInfo.pageSize = pageSize
+      this.changePageNumber(1) // 默认改变pageSize也会进行数据查询
     },
     exportTable () {
       let params = this.exportHighData
@@ -781,6 +824,25 @@ export default {
       // console.log(objectUrl) // blob:http://localhost:8080/90c05518-b797-478c-b7ee-aeecde730bb3
       //   window.open(objectUrl)
       // })
+    },
+    exportSubTable () {
+      let params = this.exportHighData
+      this.$axios.post('user/exportAllUserInfo', params, {
+        responseType: 'blob',
+        timeout: 30000
+      }).then(res => {
+        let blob = res.data
+        let reader = new FileReader()
+        reader.readAsDataURL(blob)
+        reader.onload = (e) => {
+          let a = document.createElement('a')
+          a.download = '新建表格.xls'
+          a.href = e.target.result
+          document.body.appendChild(a)
+          a.click()
+          document.body.removeChild(a)
+        }
+      })
     },
     querySubInfo (params) {
       getSubCheck(params).then((res) => {

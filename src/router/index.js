@@ -415,7 +415,7 @@ const router = new Router({
           path: 'userAuditView',
           name: 'userAuditView',
           meta: {
-            title: '人员变动审核查看',
+            title: '人员变动查看',
             content: true,
             requireAuth: true
           },
