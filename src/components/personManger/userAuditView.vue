@@ -775,7 +775,7 @@ export default {
             }
           })
           break
-        case '离职':
+        case '离退':
           getDimissonCum(params).then(res => {
             console.log(res)
             this.userTypeQueryData = res.list

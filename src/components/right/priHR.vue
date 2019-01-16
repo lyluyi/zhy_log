@@ -6,22 +6,22 @@
     <div class="contract_inputGroup">
       <Divider orientation="left">员工信息添加</Divider>
       <Row :gutter="16" class="mb10">
-        <Col class="col_flex" span="10">
-            <Button class="wd mr10 tr" type="text">工号</Button>
+        <Col class="col_flex" span="8">
+            <Button class="wd mr10 tr" type="text">工号：</Button>
             <Input placeholder="" search enter-button v-model="userContract.userId" @on-search="queryUser" readonly />
         </Col>
-        <Col class="col_flex" span="10">
+        <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text" >姓名：</Button>
           <Input placeholder="" v-model="userContract.userName" readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
-        <Col class="col_flex" span="10">
+        <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">公司id：</Button>
           <Input placeholder="" search enter-button v-model="userContract.cId" @on-search="queryCompany" readonly />
         </Col>
-        <Col class="col_flex" span="10">
-          <Button class="wd mr10 tr" type="text" >公司名称</Button>
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text" >公司名称：</Button>
           <Input placeholder="" v-model="userContract.cName" readonly />
         </Col>
       </Row>
@@ -32,21 +32,21 @@
       </Row>
       <Divider orientation="left">查询信息</Divider>
       <Row :gutter="16" class="mb10">
-        <Col class="col_flex" span="10">
-          <Button class="wd mr10 tr" type="text" >用户名Id：</Button>
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text" >用户名ID：</Button>
           <Input placeholder="" search enter-button @on-search="queryUser2" v-model="inquiry.userId" readonly />
         </Col>
-        <Col class="col_flex" span="10">
+        <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text" >姓名：</Button>
           <Input placeholder="" v-model="inquiry.userName" readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
-        <Col class="col_flex" span="10">
-          <Button class="wd mr10 tr" type="text">公司Id:</Button>
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">公司ID：</Button>
           <Input placeholder="" search enter-button v-model="inquiry.cId" @on-search="queryCompany2" readonly />
         </Col>
-        <Col class="col_flex" span="10">
+        <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text" >公司名称：</Button>
           <Input placeholder="" v-model="inquiry.cName" readonly />
         </Col>
@@ -89,7 +89,7 @@ export default {
           key: 'userName'
         },
         {
-          title: '公司id',
+          title: '公司ID',
           key: 'cId'
         },
         {
@@ -97,7 +97,7 @@ export default {
           key: 'cName'
         },
         {
-          title: 'Action',
+          title: '操作',
           key: 'action',
           width: 150,
           align: 'center',

@@ -138,7 +138,7 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">预计转正日期：</Button>
-              <DatePicker type="date" placeholder="Select date"  placement="bottom" v-model="allData.beWorkDate"></DatePicker>
+              <DatePicker type="date" placeholder="Select date"  placement="bottom" v-model="allData.toBeWorkDateView"></DatePicker>
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">健康证到期日：</Button>

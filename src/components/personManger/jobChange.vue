@@ -317,10 +317,6 @@ export default {
         params.userName = userName
         params.cnameOld = params.cname
         params.dnameOld = params.dname
-        console.log(params)
-        // debugger
-        // return
-        // params.toBeWorkDate = toBeWorkDate
         postJobChange(params).then((res) => {
           if (res.code === 200) {
             this.$Message.success(res.msg)
@@ -330,7 +326,7 @@ export default {
           }
         })
       } else {
-        this.$Message.info('升职情况下，见习转正日期必填！')
+        this.$Message.info('非升职情况下，见习转正日期必填！')
       }
     }
   },
