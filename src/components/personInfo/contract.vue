@@ -346,25 +346,25 @@ export default {
       if (name === 'newContractWork') { // 劳动
         this.newSigningConTypes = 'newContractWork'
         this.timeType = ''
-        this.queryType = ''
+        this.queryType = 'endContract'
         this.queryUserContractPageData()
       }
       if (name === 'newContractPractice') { // 协议
         this.newSigningConTypes = 'newContractPractice'
         this.timeType = ''
-        this.queryType = ''
+        this.queryType = 'endContract'
         this.queryUserContractPageData()
       }
       if (name === 'newContractLabour') { // 劳务
         this.newSigningConTypes = 'newContractLabour'
         this.timeType = ''
-        this.queryType = ''
+        this.queryType = 'endContract'
         this.queryUserContractPageData()
       }
       if (name === 'newContractPartTimeJob') { // 兼职
         this.newSigningConTypes = 'newContractPartTimeJob'
         this.timeType = ''
-        this.queryType = ''
+        this.queryType = 'endContract'
         this.queryUserContractPageData()
       }
     },

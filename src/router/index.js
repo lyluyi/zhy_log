@@ -242,6 +242,16 @@ const router = new Router({
           component: (resolve) => require(['../components/right/dictIndex.vue'], resolve)
         },
         {
+          path: 'priHR',
+          name: 'priHR',
+          meta: {
+            title: 'HR权限',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/right/priHR.vue'], resolve)
+        },
+        {
           path: 'OAReport',
           name: 'OAReport',
           meta: {
