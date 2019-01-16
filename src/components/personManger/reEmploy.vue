@@ -14,12 +14,10 @@
           <Button class="wd mr10 tr" type="text">姓名：</Button>
           <Input placeholder="" v-model="oldData.userName" readonly/>
         </Col>
-        <!--
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">姓名：</Button>
-          <Input placeholder="" v-model="oldData.userName" readonly />
+          <Button class="wd mr10 tr" type="text">身份证：</Button>
+          <Input placeholder="" v-model="oldData.idcardno" readonly />
         </Col>
-        -->
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
@@ -239,6 +237,7 @@ export default {
         this.oldData.cname = item.cname // 公司名称
         this.oldData.dname = item.dname // 公司名称
         this.oldData.jobName = item.dname // 职位名称
+        this.oldData.idcardno = item.idcardno // 身份证
         this.oldData.startworkdataView = item.workType // 入司时间
         this.oldData.lastworkdateView = item.lastworkdateView // 离职日期
         this.userReturn.userName = item.userName // 用户姓名

@@ -14,6 +14,10 @@
           <Button class="wd mr10 tr" type="text">姓名：</Button>
           <Input placeholder="" v-model="oldData.userName" readonly/>
         </Col>
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">身份证：</Button>
+          <Input placeholder="" v-model="oldData.idcardno" readonly />
+        </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">

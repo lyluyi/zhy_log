@@ -4,7 +4,6 @@
       合同信息录入
     </div>
     <div class="contract_inputGroup">
-
       <Divider orientation="left">员工基本信息</Divider>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
@@ -145,8 +144,20 @@
         </Row>
         <Row :gutter="16" class="mb10">
           <Col class="col_flex" span="24">
-            <Tabs value="newContract" @on-click="tabChange">
-              <TabPane :label="tabPane.newContract" name="newContract">
+            <Tabs value="newContractWork" @on-click="tabChange" :animated="false" style="width: 100%;">
+              <TabPane :label="tabPane.newContractWork" name="newContractWork">
+                <Table border :columns="columns" :data="UserContractPageData" @on-row-click="selectUser" ></Table>
+                <Page :total="UserContractPageParams.totalRow" :current="UserContractPageParams.pageNumber" :page-size="UserContractPageParams.pageSize" @on-change="changeUserContractPageNumber" show-total  class="mt20" />
+              </TabPane>
+              <TabPane :label="tabPane.newContractPractice" name="newContractPractice">
+                <Table border :columns="columns" :data="UserContractPageData" @on-row-click="selectUser" ></Table>
+                <Page :total="UserContractPageParams.totalRow" :current="UserContractPageParams.pageNumber" :page-size="UserContractPageParams.pageSize" @on-change="changeUserContractPageNumber" show-total  class="mt20" />
+              </TabPane>
+              <TabPane :label="tabPane.newContractLabour" name="newContractLabour">
+                <Table border :columns="columns" :data="UserContractPageData" @on-row-click="selectUser" ></Table>
+                <Page :total="UserContractPageParams.totalRow" :current="UserContractPageParams.pageNumber" :page-size="UserContractPageParams.pageSize" @on-change="changeUserContractPageNumber" show-total  class="mt20" />
+              </TabPane>
+              <TabPane :label="tabPane.newContractPartTimeJob" name="newContractPartTimeJob">
                 <Table border :columns="columns" :data="UserContractPageData" @on-row-click="selectUser" ></Table>
                 <Page :total="UserContractPageParams.totalRow" :current="UserContractPageParams.pageNumber" :page-size="UserContractPageParams.pageSize" @on-change="changeUserContractPageNumber" show-total  class="mt20" />
               </TabPane>
@@ -185,9 +196,24 @@ export default {
       flag2: false,
       model2: false,
       tabPane: {
-        newContract: (h) => {
+        newContractWork: (h) => {
           return h('div', [
-            h('span', '新签')
+            h('span', '劳动合同')
+          ])
+        },
+        newContractPractice: (h) => {
+          return h('div', [
+            h('span', '实习协议')
+          ])
+        },
+        newContractLabour: (h) => {
+          return h('div', [
+            h('span', '劳务协议')
+          ])
+        },
+        newContractPartTimeJob: (h) => {
+          return h('div', [
+            h('span', '兼职协议')
           ])
         },
         thisMonth: (h) => {
@@ -242,9 +268,14 @@ export default {
         {
           title: '员工状态',
           key: 'userStatus'
+        },
+        {
+          title: '合同预签类型',
+          key: 'newSigningConTypes'
         }
       ],
       UserContractPageParams: {
+        newSigningConTypes: '',
         queryType: '',
         timeType: '',
         pageNumber: 1,
@@ -269,7 +300,7 @@ export default {
         isLongCon: 0, // 是否无固定期限合同
         isLongConView: false
       },
-      currentTabName: 'newContract', // 选择的tab
+      currentTabName: 'newContractWork', // 选择的tab
       currentUser: {}, // 当前选择的用户
       UserContractPageData: [],
       conTypeItems: [],
@@ -277,7 +308,7 @@ export default {
     }
   },
   created () {
-    this.queryType = 'newContract'
+    this.queryType = 'newContractWork'
     this.timeType = ''
     getDic('contractType').then((res) => {
       // console.log(res)
@@ -295,28 +326,51 @@ export default {
     },
     tabChange (name) {
       if (name === 'thisMonth') {
+        this.newSigningConTypes = ''
         this.queryType = 'endContract'
         this.timeType = 'thisMonth'
         this.queryUserContractPageData()
       }
       if (name === 'nextMonth') {
+        this.newSigningConTypes = ''
         this.queryType = 'endContract'
         this.timeType = 'nextMonth'
         this.queryUserContractPageData()
       }
       if (name === 'threeMonth') {
+        this.newSigningConTypes = ''
         this.queryType = 'endContract'
         this.timeType = 'threeMonth'
         this.queryUserContractPageData()
       }
-      if (name === 'newContract') {
-        this.queryType = 'newContract'
+      if (name === 'newContractWork') { // 劳动
+        this.newSigningConTypes = 'newContractWork'
         this.timeType = ''
+        this.queryType = ''
+        this.queryUserContractPageData()
+      }
+      if (name === 'newContractPractice') { // 协议
+        this.newSigningConTypes = 'newContractPractice'
+        this.timeType = ''
+        this.queryType = ''
+        this.queryUserContractPageData()
+      }
+      if (name === 'newContractLabour') { // 劳务
+        this.newSigningConTypes = 'newContractLabour'
+        this.timeType = ''
+        this.queryType = ''
+        this.queryUserContractPageData()
+      }
+      if (name === 'newContractPartTimeJob') { // 兼职
+        this.newSigningConTypes = 'newContractPartTimeJob'
+        this.timeType = ''
+        this.queryType = ''
         this.queryUserContractPageData()
       }
     },
     queryUserContractPageData () {
       this.UserContractPageParams = {
+        newSigningConTypes: this.newSigningConTypes,
         queryType: this.queryType,
         timeType: this.timeType,
         pageNumber: 1,
