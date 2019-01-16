@@ -203,3 +203,12 @@ export const getDimissonCum = (params) => { return fetch('FormData', 'userQuit/p
 export const getReEmployCum = (params) => { return fetch('FormData', 'userReturn/page', params) }
 
 export const getTransferCum = (params) => { return fetch('FormData', 'userOrganization/page', params) }
+
+// HR系统权限默认查询
+export const defaultQuery = (params) => { return fetch('FormData', 'priHR/page', params) }
+
+// HR系统权限默保存修改
+export const updateList = (params) => { return fetch('Json', 'priHR/updateList', params) }
+
+// HR系统权限删除
+export const deletePriHR = (params) => { return fetch('Json', 'priHR/deletePriHR', params) }
