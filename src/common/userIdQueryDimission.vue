@@ -68,6 +68,10 @@ export default {
           {
             title: '部门',
             key: 'dname'
+          },
+          {
+            title: '身份证',
+            key: 'idcardno'
           }
         ]
       }

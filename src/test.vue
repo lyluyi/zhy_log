@@ -78,6 +78,27 @@ export default {
         } // 职称信息
       }
     }
+USER_NAME	N	VARCHAR2(20)	Y			员工姓名
+ASK_FOR_DATE	N	DATE	Y			申请时间
+STARTWORKDATE	N	DATE	Y			入司时间
+CID	N	VARCHAR2(50)	Y			公司ID
+CNAME	N	VARCHAR2(50)	Y			公司名称
+DID	N	VARCHAR2(50)	Y			部门id
+DNAME	N	VARCHAR2(50)	Y			部门名称
+USER_STATUS	N	VARCHAR2(50)	Y			员工状态
+RETURN_ASK	N	VARCHAR2(50)	Y			回聘申请
+D_OLD_OPINION	N	VARCHAR2(50)	Y			原用人部门意见 
+D_NEW_OPINION	N	VARCHAR2(50)	Y			回聘部门意见 
+HR_OPINION	N	VARCHAR2(50)	Y			HR部门意见
+OPERATOR_ID	N	VARCHAR2(50)	Y			操作人
+OPER_DATE	N	DATE	Y			操作时间
+APPROVER_ID	N	VARCHAR2(20)	Y			审批人
+APP_DATE	N	DATE	Y			审批时间
+ID	N	VARCHAR2(32)	N			id
+REMARK	N	VARCHAR2(100)	Y			备注
+JOB_ID	N	VARCHAR2(50)	Y			职位ID
+ANNUITY_START_DATE	N	DATE	Y			年金起算日期
+OLD_USER_ID	N	VARCHAR2(50)	Y			老用户id
   },
   created () {},
   mounted () {},
