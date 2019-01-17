@@ -5,6 +5,10 @@ Vue.use(Router)
 
 const router = new Router({
   routes: [
+    { // 错误路径匹配
+      path: '*',
+      redirect: '/'
+    },
     {
       path: '/',
       redirect: '/login'
@@ -103,7 +107,7 @@ const router = new Router({
     },
     {
       path: '/home',
-      name: 'home',
+      // name: 'home',
       meta: {
         title: '首页',
         content: true,
@@ -111,6 +115,10 @@ const router = new Router({
       },
       component: (resolve) => require(['../components/home/home.vue'], resolve),
       children: [
+        {
+          path: '/',
+          redirect: { name: 'company' }
+        },
         {
           path: 'person',
           name: 'person',

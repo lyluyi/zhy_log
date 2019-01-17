@@ -6,13 +6,13 @@
     <Form ref="loginForm" class="login-form" :model="form" :rules="rules">
       <h3 class="login-form-title">信息化平台系统</h3>
       <FormItem prop="name" class="mb30">
-        <Input v-model="form.name" size="large" placeholder="">
+        <Input v-model="form.name" size="large" placeholder="请输入账号">
           <span slot="prepend">
             <Icon type="md-person"  :size="16"/>
           </span>
         </Input>
       </FormItem>
-      <FormItem prop="word" class="mb30">
+      <FormItem prop="pass" class="mb30">
         <Input type="password" v-model="form.pass" size="large" placeholder="请输入密码">
           <span slot="prepend">
             <Icon type="md-lock" :size="16" />
@@ -40,8 +40,8 @@ export default {
       isDisable: false,
       loading: false,
       form: {
-        name: '019799',
-        pass: '123456'
+        name: '',
+        pass: ''
       },
       rules: {
         name: [{
@@ -64,22 +64,30 @@ export default {
     onLogin () {
       this.isDisable = true
       this.$refs.loginForm.validate(valid => {
-        if (!valid) return
+        if (!valid) {
+          this.isDisable = false
+          return
+        }
         let params = {
           userId: this.form.name,
           password: this.form.pass
         }
         getLogin(params).then((res) => {
-          console.log(res)
-          this.isDisable = false
-          localStorage.setItem('Authorization', res.Authorization)
-          localStorage.setItem('menuList', JSON.stringify(res.treeList))
-          localStorage.setItem('userId', this.form.name)
-          // 设置默认展开的Slide
-          localStorage.setItem('slideMenuOpenList', JSON.stringify(['personInfo']))
-          localStorage.setItem('slideMenuOpenDefault', 'company')
-          this.$Message.success({ content: '登陆成功！' })
-          this.$router.push('/home/company')
+          if (res.code === 200) {
+            console.log(res)
+            this.isDisable = false
+            localStorage.setItem('Authorization', res.data.Authorization)
+            localStorage.setItem('menuList', JSON.stringify(res.data.treeList))
+            localStorage.setItem('userId', this.form.name)
+            // 设置默认展开的Slide
+            localStorage.setItem('slideMenuOpenList', JSON.stringify(['personInfo']))
+            localStorage.setItem('slideMenuOpenDefault', 'company')
+            this.$Message.success({ content: '登陆成功！' })
+            this.$router.push('/home/company')
+          } else {
+            this.isDisable = false
+            this.$Message.error({ content: '账号或密码错误！' })
+          }
         }).catch(err => {
           this.isDisable = false
           this.$Message.error({ content: '登陆异常！' })

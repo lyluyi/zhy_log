@@ -138,7 +138,7 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">预计转正日期：</Button>
-              <DatePicker type="date" placeholder="Select date"  placement="bottom" v-model="allData.toBeWorkDateView"></DatePicker>
+              <DatePicker :disabled="true" type="date" placeholder="Select date"  placement="bottom" v-model="allData.toBeWorkDateView"></DatePicker>
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">健康证到期日：</Button>
@@ -687,7 +687,7 @@ export default {
       infoRecordTableObj: {
         '工作简历': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['单位名称', 'company'], ['单位性质', 'comType'], ['担任职位', 'jobName'], ['薪资情况', 'wages'], ['离职原因', 'quitRes']],
         '培训经历': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['培训机构', 'trainName'], ['培训主题', 'trainTheme'], ['培训课程', 'trainContent'], ['证书有效期', 'certTerm'], ['备注', 'remark']],
-        '教育背景': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['院校名称', 'schoolName'], ['院校性质', 'schoolType'], ['主修专业', 'major'], ['毕业类型', 'graduationType'], ['学历情况', 'education'], ['学制', 'years'], ['学位', 'educationDgree'], ['职务', 'jobName'], ['证明人', 'witness'], ['备注', 'remark']],
+        '教育背景': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['院校名称', 'schoolName'], ['院校性质', 'schoolType'], ['主修专业', 'major'], ['毕业类型', 'graduationType'], ['学历情况', 'education'], ['学制', 'years'], ['证明人', 'witness'], ['备注', 'remark']],
         '家庭关系': [['家属姓名', 'sibName'], ['与己关系', 'relationship'], ['所在单位', 'cname'], ['出生日期', 'birthdate'], ['担任职位', 'jobName'], ['电话号码', 'phone'], ['备注', 'remark']],
         '语言情况': [['语种', 'languageType'], ['听力能力', 'lisnten'], ['会话能力', 'talk'], ['书写能力', 'write'], ['等级状态', 'levleStatus'], ['证书级别', 'levle'], ['备注', 'remark']],
         '紧急联系人': [['联系人', 'urgentName'], ['与己关系', 'urgentType'], ['联系电话', 'phone'], ['E-mail', 'email'], ['邮政编码', 'code'], ['联系地址', 'addr'], ['备注', 'remark']],
@@ -870,6 +870,27 @@ export default {
     })
     getDic('SOURCE').then((res) => {
       this.sourceType = res.data
+    })
+    getDic('EDUCATION').then((res) => {
+      this.educationType = res.data
+    })
+    getDic('userStatus').then((res) => {
+      this.emloyType = res.data
+    })
+    getDic('area').then((res) => {
+      this.areaType = res.data
+    })
+    getDic('job_level').then((res) => {
+      this.jobLevelType = res.data
+    })
+    getDic('POLITICS').then((res) => {
+      this.politicsType = res.data
+    })
+    getDic('academy').then((res) => {
+      this.schoolTypeList = res.data
+    })
+    getDic('Graduation').then((res) => {
+      this.graduationTypeList = res.data
     })
   },
   mounted () {

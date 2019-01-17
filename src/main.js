@@ -20,8 +20,8 @@ Vue.config.productionTip = false
 
 // title匹配 mobile
 router.beforeEach((to, from, next) => {
-  console.log(to)
-  console.log(from)
+  // console.log(to)
+  // console.log(from)
   if (to.matched.some(record => record.meta.requireAuth)) { // 判断该路由是否需要登录权限
     if (localStorage.getItem('userId')) { // 判断当前的token是否存在
       next()
