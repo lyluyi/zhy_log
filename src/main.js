@@ -24,7 +24,36 @@ router.beforeEach((to, from, next) => {
   // console.log(from)
   if (to.matched.some(record => record.meta.requireAuth)) { // 判断该路由是否需要登录权限
     if (localStorage.getItem('userId')) { // 判断当前的token是否存在
-      next()
+      // if (from.name !== 'login') {
+      //   let menuData = JSON.parse(localStorage.getItem('menuList'))
+      //   let menuNameList = []
+      //   menuData.forEach(item => {
+      //     let subMenuList = item.children
+      //     for (let i = 0; i < subMenuList.length; i++) {
+      //       menuNameList.push(subMenuList[i].menu_URL)
+      //     }
+      //   })
+      //   console.log(menuNameList)
+      //   if (menuNameList.indexOf(to.name) > -1) {
+      //     next()
+      //   } else {
+      //     next('/login') // 将跳转的路由path作为参数，登录成功后跳转到该路由
+      //   }
+      // }
+      let menuData = JSON.parse(localStorage.getItem('menuList'))
+      let menuNameList = ['login']
+      menuData.forEach(item => {
+        let subMenuList = item.children
+        for (let i = 0; i < subMenuList.length; i++) {
+          menuNameList.push(subMenuList[i].menu_URL)
+        }
+      })
+      // console.log(menuNameList)
+      if (menuNameList.indexOf(to.name) > -1) {
+        next()
+      } else {
+        next('/login')
+      }
     } else {
       next('/login') // 将跳转的路由path作为参数，登录成功后跳转到该路由
     }

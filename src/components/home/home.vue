@@ -96,7 +96,7 @@ export default {
       flagUserInfo: false,
       flagRevisePassWord: false,
       menuData: [],
-      slideMenuOpenList: ['personInfo'],
+      slideMenuOpenList: ['apply'],
       slideMenuOpenDefault: '',
       prefix: '/home/' // router prefix
     }

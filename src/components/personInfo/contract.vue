@@ -308,8 +308,9 @@ export default {
     }
   },
   created () {
-    this.queryType = 'newContractWork'
+    this.newSigningConTypes = 'newContractWork'
     this.timeType = ''
+    this.queryType = 'endContract'
     getDic('contractType').then((res) => {
       // console.log(res)
       this.conTypeItems = res.data

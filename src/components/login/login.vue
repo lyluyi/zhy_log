@@ -80,10 +80,10 @@ export default {
             localStorage.setItem('menuList', JSON.stringify(res.data.treeList))
             localStorage.setItem('userId', this.form.name)
             // 设置默认展开的Slide
-            localStorage.setItem('slideMenuOpenList', JSON.stringify(['personInfo']))
-            localStorage.setItem('slideMenuOpenDefault', 'company')
+            localStorage.setItem('slideMenuOpenList', JSON.stringify(['apply']))
+            localStorage.setItem('slideMenuOpenDefault', 'comNote')
             this.$Message.success({ content: '登陆成功！' })
-            this.$router.push('/home/company')
+            this.$router.push('/home')
           } else {
             this.isDisable = false
             this.$Message.error({ content: '账号或密码错误！' })

@@ -607,7 +607,7 @@ import ip from '@/config'
 
 import { currentTime, isPoneAvailable, threeMonth, idCardCheck } from '@/util/common'
 
-import { updateUserIdAllInfo } from '@/server/api'
+import { getUserIdAllInfo } from '@/server/api'
 
 import getDic from '@/server/apiDic'
 
@@ -894,6 +894,21 @@ export default {
     })
   },
   mounted () {
+    let userId = this.$route.params.userId || undefined
+    if (userId) {
+      this.$Loading.start()
+      getUserIdAllInfo({ userId }).then(res => {
+        this.$Message.info('查询成功！')
+        this.allData = res.data
+        this.data1 = this.allData.userWorkhis
+        this.infoRecordChange(this.infoTemplate)
+        this.$Loading.finish()
+      }).catch(err => {
+        this.$Loading.finish()
+        this.$Message.warning('查询异常！')
+        throw err
+      })
+    }
   },
   methods: {
     joinTime () {
@@ -1256,23 +1271,6 @@ export default {
         }
       }
       this.checkIndex.checkFlag = false
-    },
-    save () {
-      this.timeFormatting()
-      let params = this.allData
-      this.$Loading.start()
-      updateUserIdAllInfo(params).then((res) => {
-        if (res.code === 200) {
-          this.$Message.success(res.msg)
-          this.$router.go(0)
-        } else {
-          this.$Message.warning(res.msg)
-        }
-      }).catch(err => {
-        this.$Message.warning('数据操作异常！')
-        this.$Loading.finish()
-        throw err
-      })
     },
     timeFormatting () {
       this.allData.idcardkindid ? this.allData.idcardkindid = currentTime(this.allData.idcardkindid) : this.allData.idcardkindid = ''

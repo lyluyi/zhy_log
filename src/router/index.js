@@ -117,7 +117,7 @@ const router = new Router({
       children: [
         {
           path: '/',
-          redirect: { name: 'company' }
+          redirect: { name: 'comNote' }
         },
         {
           path: 'person',
@@ -178,6 +178,16 @@ const router = new Router({
             requireAuth: true
           },
           component: (resolve) => require(['../components/stanceManagement/companyStruct.vue'], resolve)
+        },
+        {
+          path: 'comNote',
+          name: 'comNote',
+          meta: {
+            title: '通知',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/stanceManagement/comNote.vue'], resolve)
         },
         {
           path: 'userLog',

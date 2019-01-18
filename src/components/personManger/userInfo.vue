@@ -461,10 +461,10 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.$router.push({name: 'personEdit', params: { userId: params.row.userId }})
+                    this.$router.push({name: 'personQuery', params: { userId: params.row.userId }})
                   }
                 }
-              }, '编辑')
+              }, '详情')
             ])
           }
         }
@@ -886,7 +886,7 @@ export default {
           break
         case '教育背景':
           this.infoTemplate = '教育背景'
-          this.infoRecordTypeValue = { key: 'userStudyhis', value: '工作简历' }
+          this.infoRecordTypeValue = { key: 'userStudyhis', value: '教育背景' }
           this.createInfoRecordTh()
           this.data1 = this.userStudyhis
           // this.userStudyhis ? this.data1 = this.userStudyhis : this.data1 = []
@@ -921,7 +921,7 @@ export default {
           break
       }
     },
-    createInfoRecordTh (tableData) {
+    createInfoRecordTh () {
       this.columns1 = []
       this.data1 = []
       let infoItem = this.infoRecordTypeValue.value
