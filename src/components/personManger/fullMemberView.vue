@@ -41,7 +41,7 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">职位：</Button>
-          <Input placeholder="" v-model="oldData.userType" readonly />
+          <Input placeholder="" v-model="oldData.jobName" readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">

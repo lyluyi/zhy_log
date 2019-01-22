@@ -40,7 +40,7 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">职位：</Button>
-          <Input placeholder="" v-model="oldData.userType" readonly />
+          <Input placeholder="" v-model="oldData.jobName" readonly />
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
@@ -164,6 +164,8 @@ export default {
       userIdFlag: 0,
       oldData: {
         userId: '',
+        cidOld: '',
+        didOld: '',
         cnameOld: '',
         dnameOld: '',
         userName: '',
@@ -179,11 +181,11 @@ export default {
         appDate: '', // 审批时间
         approverId: '', // 审批人ID
         cidNew: '', // 新公司ID
-        cidOld: '', // 公司id
+        // cidOld: '', // 公司id
         cnameNew: '', // 新公司名称
         cnameOld: '', // 公司名称
         didNew: '', // 新部门ID
-        didOld: '', // 部门id
+        // didOld: '', // 部门id
         dnameNew: '', // 新部门名称
         dnameOld: '', // 部门名称
         changeType: '', // 变更类型

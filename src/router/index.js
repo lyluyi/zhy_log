@@ -5,6 +5,10 @@ Vue.use(Router)
 
 const router = new Router({
   routes: [
+    { // 错误路径匹配
+      path: '*',
+      redirect: '/'
+    },
     {
       path: '/',
       redirect: '/login'
@@ -103,7 +107,7 @@ const router = new Router({
     },
     {
       path: '/home',
-      name: 'home',
+      // name: 'home',
       meta: {
         title: '首页',
         content: true,
@@ -111,6 +115,10 @@ const router = new Router({
       },
       component: (resolve) => require(['../components/home/home.vue'], resolve),
       children: [
+        {
+          path: '/',
+          redirect: { name: 'comNote' }
+        },
         {
           path: 'person',
           name: 'person',
@@ -170,6 +178,16 @@ const router = new Router({
             requireAuth: true
           },
           component: (resolve) => require(['../components/stanceManagement/companyStruct.vue'], resolve)
+        },
+        {
+          path: 'comNote',
+          name: 'comNote',
+          meta: {
+            title: '通知',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/stanceManagement/comNote.vue'], resolve)
         },
         {
           path: 'userLog',

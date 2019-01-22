@@ -44,8 +44,8 @@ axios.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = token
   }
-  console.log(axios.dataType)
   if (config.method === 'post' && axios.dataType === 'FormData') {
+    // console.log(config)
     config.headers['content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
     config.data = qs.stringify(config.data) // key-value传参
   }
