@@ -54,6 +54,7 @@
 import { getUserAuditList } from '@/server/api'
 import getDic from '@/server/apiDic'
 import userIdQuery from '@/common/userIdQuery'
+import qs from 'qs'
 
 export default {
   data () {
@@ -144,7 +145,7 @@ export default {
       userAuditQueryParams: {
         auditType: '',
         applyCode: '',
-        auditStatus: '',
+        auditStatus: '审批中',
         userId: '',
         userName: ''
       },
@@ -156,14 +157,32 @@ export default {
         totalRow: 0
       },
       UserAuditType: [],
-      UserAuditStatus: []
+      UserAuditStatus: [
+        { label: '审批中', value: '审批中' },
+        { label: '审批不通过', value: '审批不通过' }
+      ]
     }
   },
-  created () {
-    let params = { pageNumber: 1, pageInfo: 10 }
-    this.getUserAuditPage(params)
+  mounted () {
+    let params = { ...this.userAuditQueryParams, ...this.userAuditPageInfo }
+    this.$axios.post('userAudit/page', qs.stringify(params), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }).then(res => {
+      this.userAuditData = res.data.list
+      let { pageNumber, pageSize, totalPage, totalRow } = {...res.data}
+      this.userAuditPageInfo = {
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+        totalPage: totalPage,
+        totalRow: totalRow
+      }
+    }).catch(err => {
+      this.$Message.warning('数据刷新异常！')
+      throw err
+    })
     this.getAuditTypeDictionaries()
-    this.getAuditStatusDictionaries()
   },
   methods: {
     queryUser () {
@@ -182,11 +201,6 @@ export default {
     getAuditTypeDictionaries () {
       getDic('UserAuditType').then((res) => {
         this.UserAuditType = res.data
-      })
-    },
-    getAuditStatusDictionaries () {
-      getDic('userAuditStatus').then((res) => {
-        this.UserAuditStatus = res.data
       })
     },
     changeUserAuditPageNumber (num) {

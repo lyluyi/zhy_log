@@ -191,7 +191,7 @@ export default {
     }
   },
   created () {
-    this.getByUserId()
+    // this.getByUserId()
   },
   mounted () {},
   methods: {
@@ -225,7 +225,7 @@ export default {
         this.oldData.education = item.education // 学历
         this.oldData.cname = item.cname // 公司名称
         this.oldData.dname = item.dname // 公司名称
-        this.oldData.jobName = item.dname // 职位名称
+        this.oldData.jobName = item.jobName // 职位名称
         this.oldData.startworkdataView = item.workType // 入司时间
         this.oldData.lastworkdateView = item.lastworkdateView // 离职日期
         this.userReturn.userName = item.userName // 用户姓名
@@ -236,7 +236,7 @@ export default {
         this.oldData.education = item.education // 学历
         this.oldData.cname = item.cname // 公司名称
         this.oldData.dname = item.dname // 公司名称
-        this.oldData.jobName = item.dname // 职位名称
+        this.oldData.jobName = item.jobName // 职位名称
         this.oldData.idcardno = item.idcardno // 身份证
         this.oldData.startworkdataView = item.workType // 入司时间
         this.oldData.lastworkdateView = item.lastworkdateView // 离职日期
@@ -340,5 +340,4 @@ export default {
 }
 
 /* .reEmploy .ivu-input-group { width: 60% !important; } */
-
 </style>

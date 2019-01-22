@@ -82,6 +82,7 @@ import {
 
 import getDic from '@/server/apiDic'
 import userIdQuery from '@/common/userIdQuery'
+import qs from 'qs'
 
 export default {
   data () {
@@ -133,7 +134,7 @@ export default {
       userAuditQueryParams: {
         auditType: '',
         applyCode: '',
-        auditStatus: '',
+        auditStatus: '审批中',
         userId: '',
         userName: ''
       },
@@ -145,7 +146,10 @@ export default {
         totalRow: 0
       },
       UserAuditType: [],
-      UserAuditStatus: [],
+      UserAuditStatus: [
+        { label: '审批中', value: '审批中' },
+        { label: '审批不通过', value: '审批不通过' }
+      ],
       userAuditQueryData: {
         auditStatus: '审批通过',
         auditTypeStatus: '异动'
@@ -177,11 +181,6 @@ export default {
           key: 'USER_NAME',
           width: 128,
           fixed: 'left'
-        },
-        {
-          title: 'ID',
-          width: 128,
-          key: 'ID'
         },
         {
           title: '原公司名称',
@@ -316,11 +315,6 @@ export default {
           key: 'USER_NAME'
         },
         {
-          title: 'ID',
-          width: 128,
-          key: 'ID'
-        },
-        {
           title: '申请时间',
           width: 128,
           key: 'ASK_FOR_DATE'
@@ -428,11 +422,6 @@ export default {
           key: 'USER_NAME'
         },
         {
-          title: 'ID',
-          width: 128,
-          key: 'ID'
-        },
-        {
           title: '公司',
           width: 128,
           key: 'CNAME'
@@ -518,11 +507,6 @@ export default {
           title: '员工姓名',
           width: 128,
           key: 'USER_NAME'
-        },
-        {
-          title: 'ID',
-          width: 128,
-          key: 'ID'
         },
         {
           title: '所属公司',
@@ -612,11 +596,6 @@ export default {
           key: 'USER_NAME'
         },
         {
-          title: 'ID',
-          width: 128,
-          key: 'ID'
-        },
-        {
           title: '所属公司',
           width: 128,
           key: 'CNAME'
@@ -695,14 +674,28 @@ export default {
     }
   },
   created () {
-    this.userAuditDetailColumns = this.jobChangeColumns
-    let params = { pageNumber: 1, pageInfo: 10 }
-    this.getUserAuditPage(params)
+    let params = { ...this.userAuditQueryParams, ...this.userAuditPageInfo }
+    this.$axios.post('userAudit/page', qs.stringify(params), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }).then(res => {
+      console.log(params)
+      this.userAuditData = res.data.list
+      let { pageNumber, pageSize, totalPage, totalRow } = {...res.data}
+      this.userAuditPageInfo = {
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+        totalPage: totalPage,
+        totalRow: totalRow
+      }
+    }).catch(err => {
+      this.$Message.warning('数据刷新异常！')
+      throw err
+    })
     this.getAuditTypeDictionaries()
-    this.getAuditStatusDictionaries()
   },
   mounted () {
-    this.getUserStatusPage()
   },
   methods: {
     queryUser () {
@@ -750,6 +743,7 @@ export default {
       let params = { ...this.userQueryPageInfo, ...this.userAuditQueryData }
       switch (this.userAuditQueryData.auditTypeStatus) {
         case '异动':
+          this.userAuditDetailColumns = this.jobChangeColumns
           getJobChangeCum(params).then(res => {
             console.log(res)
             this.userTypeQueryData = res.list
@@ -763,6 +757,7 @@ export default {
           })
           break
         case '回聘':
+          this.userAuditDetailColumns = this.reEmployColumns
           getReEmployCum(params).then(res => {
             console.log(res)
             this.userTypeQueryData = res.list
@@ -776,6 +771,7 @@ export default {
           })
           break
         case '离退':
+          this.userAuditDetailColumns = this.dimissionColumns
           getDimissonCum(params).then(res => {
             console.log(res)
             this.userTypeQueryData = res.list
@@ -789,6 +785,7 @@ export default {
           })
           break
         case '转正':
+          this.userAuditDetailColumns = this.fullMemberColumns
           getFullmemberCum(params).then(res => {
             console.log(res)
             this.userTypeQueryData = res.list
@@ -802,6 +799,7 @@ export default {
           })
           break
         case '转编':
+          this.userAuditDetailColumns = this.transferColumns
           getTransferCum(params).then(res => {
             console.log(res)
             this.userTypeQueryData = res.list

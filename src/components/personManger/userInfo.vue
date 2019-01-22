@@ -461,10 +461,10 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.$router.push({name: 'personEdit', params: { userId: params.row.userId }})
+                    this.$router.push({name: 'personQuery', params: { userId: params.row.userId }})
                   }
                 }
-              }, '编辑')
+              }, '详情')
             ])
           }
         }
@@ -482,6 +482,12 @@ export default {
         ]
       },
       lowCheck: {
+        // queryItem: [
+        //   { name: 'userName', option: 'like', value1: '王晶', value2: '', linkOption: 'or', timeType: false, des: '用户名' },
+        //   { name: 'cname', option: 'like', value1: '王晶', value2: '', linkOption: 'or', timeType: false, des: '用户名' },
+        //   { name: 'dname', option: 'like', value1: '王晶', value2: '', linkOption: 'or', timeType: false, des: '用户名' },
+        //   { name: 'userStatus', option: 'like', value1: '王晶', value2: '', linkOption: 'or', timeType: false, des: '用户名' }
+        // ],
         userName: '',
         cname: '',
         dname: '',
@@ -789,17 +795,34 @@ export default {
       this.changePageNumber(1) // 默认改变pageSize也会进行数据查询
     },
     exportTable () {
-      let params = this.exportHighData
+      let params = null
+      if (!this.checkType) {
+        params = this.exportHighData
+      } else {
+        let { userName, cname, dname, userStatus, page, pageSize } = { ...this.exportHighData }
+        params = {
+          queryItem: [
+            { name: 'userName', option: 'like', value1: userName, value2: '', linkOption: 'and', timeType: false, des: '用户名' },
+            { name: 'cname', option: 'like', value1: cname, value2: '', linkOption: 'and', timeType: false, des: '公司' },
+            { name: 'dname', option: 'like', value1: dname, value2: '', linkOption: 'and', timeType: false, des: '部门' },
+            { name: 'userStatus', option: 'like', value1: userStatus, value2: '', linkOption: 'and', timeType: false, des: '员工状态' }
+          ],
+          page: page,
+          pageSize: pageSize
+        }
+      }
       this.$axios.post('user/exportPlus', params, {
-        responseType: 'blob'
+        responseType: 'blob',
+        timeout: 60000 * 2
       }).then(res => {
         let blob = res.data
+        // let blob = new Blob([res.data], {type: 'text/csv,charset=UTF-8'})
         let reader = new FileReader()
         reader.readAsDataURL(blob)
         reader.onload = (e) => {
           let a = document.createElement('a')
           a.download = '新建表格.xls'
-          a.href = e.target.result
+          a.href = URL.createObjectURL(blob)
           document.body.appendChild(a)
           a.click()
           document.body.removeChild(a)
@@ -829,7 +852,7 @@ export default {
       let params = this.exportHighData
       this.$axios.post('user/exportAllUserInfo', params, {
         responseType: 'blob',
-        timeout: 30000
+        timeout: 60000 * 2
       }).then(res => {
         let blob = res.data
         let reader = new FileReader()
@@ -837,7 +860,7 @@ export default {
         reader.onload = (e) => {
           let a = document.createElement('a')
           a.download = '新建表格.xls'
-          a.href = e.target.result
+          a.href = URL.createObjectURL(blob)
           document.body.appendChild(a)
           a.click()
           document.body.removeChild(a)
@@ -886,7 +909,7 @@ export default {
           break
         case '教育背景':
           this.infoTemplate = '教育背景'
-          this.infoRecordTypeValue = { key: 'userStudyhis', value: '工作简历' }
+          this.infoRecordTypeValue = { key: 'userStudyhis', value: '教育背景' }
           this.createInfoRecordTh()
           this.data1 = this.userStudyhis
           // this.userStudyhis ? this.data1 = this.userStudyhis : this.data1 = []
@@ -921,7 +944,7 @@ export default {
           break
       }
     },
-    createInfoRecordTh (tableData) {
+    createInfoRecordTh () {
       this.columns1 = []
       this.data1 = []
       let infoItem = this.infoRecordTypeValue.value

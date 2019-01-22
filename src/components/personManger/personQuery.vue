@@ -74,7 +74,7 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">证件到期日期：</Button>
-              <DatePicker :disabled="true" type="date" placeholder="Select date" placement="bottom" v-model="allData.idcardkindid"></DatePicker>
+              <DatePicker :disabled="true" type="date" placeholder="Select date" placement="bottom" v-model="allData.idcardkindid" readonly ></DatePicker>
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -134,15 +134,15 @@
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">入司日期：</Button>
-              <DatePicker :disabled="true" type="date" placeholder="Select date"  placement="bottom" v-model="allData.startworkdata" @on-change="joinTime"></DatePicker>
+              <DatePicker :disabled="true" type="date" placeholder="Select date"  placement="bottom" v-model="allData.startworkdata" @on-change="joinTime" readonly ></DatePicker>
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">预计转正日期：</Button>
-              <DatePicker type="date" placeholder="Select date"  placement="bottom" v-model="allData.toBeWorkDateView"></DatePicker>
+              <DatePicker :disabled="true" type="date" placeholder="Select date"  placement="bottom" v-model="allData.toBeWorkDateView" readonly ></DatePicker>
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">健康证到期日：</Button>
-              <DatePicker :disabled="true" type="date" placeholder="Select date" placement="bottom" v-model="allData.healhDate "></DatePicker>
+              <DatePicker :disabled="true" type="date" placeholder="Select date" placement="bottom" v-model="allData.healhDate " readonly ></DatePicker>
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -164,10 +164,10 @@
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
-            <!-- <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">联系电话：</Button>
-              <Input type="text" placeholder="" v-model="allData.telephone" />
-            </Col> -->
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">转正日期：</Button>
+              <DatePicker :disabled="true" placeholder="" v-model="allData.beWorkDate" readonly ></DatePicker>
+            </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">是否负责人：</Button>
               <Select :disabled="true" v-model="allData.isHeader"  placement="bottom">
@@ -224,7 +224,7 @@
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">工龄开始日期：</Button>
-              <DatePicker :disabled="true" type="date" placeholder="Select date" placement="bottom" v-model="allData.beginWorkDate"></DatePicker>
+              <DatePicker :disabled="true" type="date" placeholder="Select date" placement="bottom" v-model="allData.beginWorkDate" readonly ></DatePicker>
             </Col>
             <!-- <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">最后工作日：</Button>
@@ -607,7 +607,7 @@ import ip from '@/config'
 
 import { currentTime, isPoneAvailable, threeMonth, idCardCheck } from '@/util/common'
 
-import { updateUserIdAllInfo } from '@/server/api'
+import { getUserIdAllInfo } from '@/server/api'
 
 import getDic from '@/server/apiDic'
 
@@ -687,7 +687,7 @@ export default {
       infoRecordTableObj: {
         '工作简历': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['单位名称', 'company'], ['单位性质', 'comType'], ['担任职位', 'jobName'], ['薪资情况', 'wages'], ['离职原因', 'quitRes']],
         '培训经历': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['培训机构', 'trainName'], ['培训主题', 'trainTheme'], ['培训课程', 'trainContent'], ['证书有效期', 'certTerm'], ['备注', 'remark']],
-        '教育背景': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['院校名称', 'schoolName'], ['院校性质', 'schoolType'], ['主修专业', 'major'], ['毕业类型', 'graduationType'], ['学历情况', 'education'], ['学制', 'years'], ['学位', 'educationDgree'], ['职务', 'jobName'], ['证明人', 'witness'], ['备注', 'remark']],
+        '教育背景': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['院校名称', 'schoolName'], ['院校性质', 'schoolType'], ['主修专业', 'major'], ['毕业类型', 'graduationType'], ['学历情况', 'education'], ['学制', 'years'], ['证明人', 'witness'], ['备注', 'remark']],
         '家庭关系': [['家属姓名', 'sibName'], ['与己关系', 'relationship'], ['所在单位', 'cname'], ['出生日期', 'birthdate'], ['担任职位', 'jobName'], ['电话号码', 'phone'], ['备注', 'remark']],
         '语言情况': [['语种', 'languageType'], ['听力能力', 'lisnten'], ['会话能力', 'talk'], ['书写能力', 'write'], ['等级状态', 'levleStatus'], ['证书级别', 'levle'], ['备注', 'remark']],
         '紧急联系人': [['联系人', 'urgentName'], ['与己关系', 'urgentType'], ['联系电话', 'phone'], ['E-mail', 'email'], ['邮政编码', 'code'], ['联系地址', 'addr'], ['备注', 'remark']],
@@ -871,8 +871,44 @@ export default {
     getDic('SOURCE').then((res) => {
       this.sourceType = res.data
     })
+    getDic('EDUCATION').then((res) => {
+      this.educationType = res.data
+    })
+    getDic('userStatus').then((res) => {
+      this.emloyType = res.data
+    })
+    getDic('area').then((res) => {
+      this.areaType = res.data
+    })
+    getDic('job_level').then((res) => {
+      this.jobLevelType = res.data
+    })
+    getDic('POLITICS').then((res) => {
+      this.politicsType = res.data
+    })
+    getDic('academy').then((res) => {
+      this.schoolTypeList = res.data
+    })
+    getDic('Graduation').then((res) => {
+      this.graduationTypeList = res.data
+    })
   },
   mounted () {
+    let userId = this.$route.params.userId || undefined
+    if (userId) {
+      this.$Loading.start()
+      getUserIdAllInfo({ userId }).then(res => {
+        this.$Message.info('查询成功！')
+        this.allData = res.data
+        this.data1 = this.allData.userWorkhis
+        this.infoRecordChange(this.infoTemplate)
+        this.$Loading.finish()
+      }).catch(err => {
+        this.$Loading.finish()
+        this.$Message.warning('查询异常！')
+        throw err
+      })
+    }
   },
   methods: {
     joinTime () {
@@ -1235,23 +1271,6 @@ export default {
         }
       }
       this.checkIndex.checkFlag = false
-    },
-    save () {
-      this.timeFormatting()
-      let params = this.allData
-      this.$Loading.start()
-      updateUserIdAllInfo(params).then((res) => {
-        if (res.code === 200) {
-          this.$Message.success(res.msg)
-          this.$router.go(0)
-        } else {
-          this.$Message.warning(res.msg)
-        }
-      }).catch(err => {
-        this.$Message.warning('数据操作异常！')
-        this.$Loading.finish()
-        throw err
-      })
     },
     timeFormatting () {
       this.allData.idcardkindid ? this.allData.idcardkindid = currentTime(this.allData.idcardkindid) : this.allData.idcardkindid = ''
