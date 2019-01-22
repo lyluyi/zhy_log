@@ -3,7 +3,7 @@
     <transition name="fade" mode="out-in">
       <!-- 组件重复渲染的情况下，可以应用缓存 -->
       <!-- <keep-alive>  -->
-      <router-view/>
+      <router-view />
       <!-- </keep-alive>   -->
     </transition>
   </div>
@@ -12,6 +12,24 @@
 <script>
 export default {
   name: 'App'
+  // provide () {
+  //   return {
+  //     reload: this.reload
+  //   }
+  // },
+  // data () {
+  //   return {
+  //     isRouterAlive: true
+  //   }
+  // },
+  // methods: {
+  //   reload () {
+  //     this.isRouterAlive = false
+  //     this.$nextTick(function () {
+  //       this.isRouterAlive = true
+  //     })
+  //   }
+  // }
 }
 </script>
 

@@ -35,15 +35,16 @@
                 <!-- ？？？？？？？？？？？？？ -->
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">职等：</Button>
-                  <Select v-model="allData.jobLevel"  placement="bottom">
+                  <Input readonly placeholder="" v-model="allData.jobLevel" />
+                  <!-- <Select v-model="allData.jobLevel"  placement="bottom">
                     <Option v-for="item in jobLevelType" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
+                  </Select> -->
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">直接主管：</Button>
-                  <Input search enter-button  placeholder="" v-model="allData.upHeader" @on-search="queryUser" />
+                  <Input search enter-button  placeholder="" v-model="allData.upHeader" @on-search="queryUpHeader" />
                 </Col>
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">职务：</Button>
@@ -181,6 +182,10 @@
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">档案编号：</Button>
               <Input type="text" placeholder="" v-model="allData.archivesId" />
+            </Col>
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">转正日期：</Button>
+              <DatePicker placeholder="" v-model="allData.beWorkDate" ></DatePicker>
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -458,7 +463,9 @@
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">与己关系：</Button>
-                  <Input type="text" placeholder="" v-model="userFamily.relationship" />
+                  <Select v-model="userFamily.relationship"  placement="bottom">
+                    <Option v-for="item in relationshipTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">所在单位：</Button>
@@ -528,7 +535,9 @@
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">与己关系：</Button>
-                  <Input type="text" placeholder="" v-model="userUrgent.urgentType" />
+                  <Select v-model="userUrgent.urgentType"  placement="bottom">
+                    <Option v-for="item in relationshipTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">联系电话：</Button>
@@ -606,7 +615,7 @@ import ip from '@/config'
 
 import { currentTime, isPoneAvailable, threeMonth, idCardCheck } from '@/util/common'
 
-import { updateUserIdAllInfo, getUserIdAllInfo } from '@/server/api'
+import { updateUserIdAllInfo } from '@/server/api'
 
 import getDic from '@/server/apiDic'
 
@@ -686,7 +695,7 @@ export default {
       infoRecordTableObj: {
         '工作简历': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['单位名称', 'company'], ['单位性质', 'comType'], ['担任职位', 'jobName'], ['薪资情况', 'wages'], ['离职原因', 'quitRes']],
         '培训经历': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['培训机构', 'trainName'], ['培训主题', 'trainTheme'], ['培训课程', 'trainContent'], ['证书有效期', 'certTerm'], ['备注', 'remark']],
-        '教育背景': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['院校名称', 'schoolName'], ['院校性质', 'schoolType'], ['主修专业', 'major'], ['毕业类型', 'graduationType'], ['学历情况', 'education'], ['学制', 'years'], ['学位', 'educationDgree'], ['证明人', 'witness'], ['备注', 'remark']],
+        '教育背景': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['院校名称', 'schoolName'], ['院校性质', 'schoolType'], ['主修专业', 'major'], ['毕业类型', 'graduationType'], ['学历情况', 'education'], ['学制', 'years'], ['证明人', 'witness'], ['备注', 'remark']],
         '家庭关系': [['家属姓名', 'sibName'], ['与己关系', 'relationship'], ['所在单位', 'cname'], ['担任职位', 'jobName'], ['电话号码', 'phone'], ['备注', 'remark']],
         '语言情况': [['语种', 'languageType'], ['听力能力', 'lisnten'], ['会话能力', 'talk'], ['书写能力', 'write'], ['等级状态', 'levleStatus'], ['证书级别', 'levle'], ['备注', 'remark']],
         '紧急联系人': [['联系人', 'urgentName'], ['与己关系', 'urgentType'], ['联系电话', 'phone'], ['E-mail', 'email'], ['邮政编码', 'code'], ['联系地址', 'addr'], ['备注', 'remark']],
@@ -701,6 +710,7 @@ export default {
         { value: '临时工', label: '临时工' },
         { value: '兼职员工', label: '兼职员工' }
       ],
+      relationshipTypeList: [],
       schoolTypeList: [], // 院校性质
       graduationTypeList: [], // 毕业类型
       jobLevelType: [],
@@ -887,23 +897,23 @@ export default {
       this.graduationTypeList = res.data
     })
   },
-  mounted () {
-    let userId = this.$route.params.userId || undefined
-    if (userId) {
-      this.$Loading.start()
-      getUserIdAllInfo({ userId }).then(res => {
-        this.$Message.info('查询成功！')
-        this.allData = res.data
-        this.data1 = this.allData.userWorkhis
-        this.infoRecordChange(this.infoTemplate)
-        this.$Loading.finish()
-      }).catch(err => {
-        this.$Loading.finish()
-        this.$Message.warning('查询异常！')
-        throw err
-      })
-    }
-  },
+  // mounted () {
+  //   let userId = this.$route.params.userId || undefined
+  //   if (userId) {
+  //     this.$Loading.start()
+  //     getUserIdAllInfo({ userId }).then(res => {
+  //       this.$Message.info('查询成功！')
+  //       this.allData = res.data
+  //       this.data1 = this.allData.userWorkhis
+  //       this.infoRecordChange(this.infoTemplate)
+  //       this.$Loading.finish()
+  //     }).catch(err => {
+  //       this.$Loading.finish()
+  //       this.$Message.warning('查询异常！')
+  //       throw err
+  //     })
+  //   }
+  // },
   methods: {
     joinTime () {
       this.allData.beginWorkDate = this.allData.startworkdata
@@ -921,10 +931,15 @@ export default {
       this.allData.age = strData.age
       this.allData.birthdate = strData.birthDay
     },
-    queryInneruser () { // 直接主管查询
+    queryUpHeader () { // 直接主管查询
       this.modal6 = true
       this.flag6 = true
       this.userIdFlag = 1
+    },
+    queryInneruser () { // 内部推荐人查询
+      this.modal6 = true
+      this.flag6 = true
+      this.userIdFlag = 2
     },
     queryUser () { // 工号查询
       this.modal6 = true
@@ -937,9 +952,11 @@ export default {
     },
     getUserId (item) {
       console.log(item)
-      if (this.userIdFlag) {
+      if (this.userIdFlag === 1) {
+        this.allData.upHeader = item.userName
+        this.allData.upHeaderId = item.userId
+      } else if (this.userIdFlag === 2) {
         this.allData.inneruser = item.userName
-        this.allData.inneruserdept = item.dname
       } else {
         this.allData = item
         this.data1 = this.allData.userWorkhis

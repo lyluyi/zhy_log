@@ -165,6 +165,9 @@ export const postUserAuditRollback = (params) => { return fetch('FormData', 'use
 // 人员信息预处理
 export const getUserAuditWill = (params) => { return fetch('FormData', 'user/userAuditWill', params) }
 
+// 更新健康证日期、有效证件到期日
+export const updateUserAuditWill = (params) => { return fetch('FormData', 'user/updateUserInfoExpireField', params) }
+
 // 更新岗位变动信息
 export const updateUserCdChange = (params) => { return fetch('Json', 'userCdChange/updateUserCdChange', params) }
 

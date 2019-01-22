@@ -66,6 +66,7 @@ import { getBpcCompany } from '@/components/ZHYFF/server/api.js'
 import url from '../config/index.js'
 
 export default {
+  // inject: ['reload'],
   data () {
     return {
       flag1: false,
@@ -198,6 +199,10 @@ export default {
     }
   },
   created () {
+    if (localStorage.getItem('routerToZHYFF')) {
+      localStorage.removeItem('routerToZHYFF')
+      this.$router.go(0)
+    }
     let params = this.allData
     this.$axios.post(url + 'BudgetUsage/selectC0001.do', params).then(res => {
       if (res.data.success === true || res.data.success === 'true') {
