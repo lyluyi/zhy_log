@@ -35,7 +35,9 @@
                 <!-- ？？？？？？？？？？？？？ -->
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">职等：</Button>
-                  <Input type="text" placeholder="" readonly v-model="allData.jobLevel"/>
+                  <Select v-model="allData.jobLevel"  placement="bottom">
+                    <Option v-for="item in jobLevelType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
@@ -160,7 +162,9 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">所属区域：</Button>
-              <Input type="text" placeholder=""  v-model="allData.area" readonly />
+              <Select v-model="allData.area"  placement="bottom">
+                <Option v-for="item in areaType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -405,7 +409,9 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">院校性质：</Button>
-                  <Input type="text" placeholder="" v-model="userStudyhis.schoolType" />
+                  <Select v-model="userStudyhis.schoolType"  placement="bottom">
+                    <Option v-for="item in schoolTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">主修专业：</Button>
@@ -413,7 +419,9 @@
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">毕业类型：</Button>
-                  <Input type="text" placeholder="" v-model="userStudyhis.graduationType" />
+                  <Select v-model="userStudyhis.graduationType"  placement="bottom">
+                    <Option v-for="item in graduationTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
@@ -598,7 +606,7 @@ import ip from '@/config'
 
 import { currentTime, isPoneAvailable, threeMonth, idCardCheck } from '@/util/common'
 
-import { updateUserIdAllInfo } from '@/server/api'
+import { updateUserIdAllInfo, getUserIdAllInfo } from '@/server/api'
 
 import getDic from '@/server/apiDic'
 
@@ -678,11 +686,11 @@ export default {
       infoRecordTableObj: {
         '工作简历': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['单位名称', 'company'], ['单位性质', 'comType'], ['担任职位', 'jobName'], ['薪资情况', 'wages'], ['离职原因', 'quitRes']],
         '培训经历': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['培训机构', 'trainName'], ['培训主题', 'trainTheme'], ['培训课程', 'trainContent'], ['证书有效期', 'certTerm'], ['备注', 'remark']],
-        '教育背景': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['院校名称', 'schoolName'], ['院校性质', 'schoolType'], ['主修专业', 'major'], ['毕业类型', 'graduationType'], ['学历情况', 'education'], ['学制', 'years'], ['学位', 'educationDgree'], ['职务', 'jobName'], ['证明人', 'witness'], ['备注', 'remark']],
-        '家庭关系': [['家属姓名', 'sibName'], ['与己关系', 'relationship'], ['所在单位', 'cname'], ['出生日期', 'birthdate'], ['担任职位', 'jobName'], ['电话号码', 'phone'], ['备注', 'remark']],
+        '教育背景': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['院校名称', 'schoolName'], ['院校性质', 'schoolType'], ['主修专业', 'major'], ['毕业类型', 'graduationType'], ['学历情况', 'education'], ['学制', 'years'], ['学位', 'educationDgree'], ['证明人', 'witness'], ['备注', 'remark']],
+        '家庭关系': [['家属姓名', 'sibName'], ['与己关系', 'relationship'], ['所在单位', 'cname'], ['担任职位', 'jobName'], ['电话号码', 'phone'], ['备注', 'remark']],
         '语言情况': [['语种', 'languageType'], ['听力能力', 'lisnten'], ['会话能力', 'talk'], ['书写能力', 'write'], ['等级状态', 'levleStatus'], ['证书级别', 'levle'], ['备注', 'remark']],
         '紧急联系人': [['联系人', 'urgentName'], ['与己关系', 'urgentType'], ['联系电话', 'phone'], ['E-mail', 'email'], ['邮政编码', 'code'], ['联系地址', 'addr'], ['备注', 'remark']],
-        '职称信息': [['职称信息', 'jobinfo'], ['获得日期', 'getDate'], ['所在学校', 'company'], ['职位描述', 'description'], ['备注', 'remark']]
+        '职称信息': [['职称信息', 'jobinfo'], ['获得日期', 'getDate'], ['所在单位', 'company'], ['职位描述', 'description'], ['备注', 'remark']]
       },
       emloyAttr: [
         { value: '实习生', label: '实习生' },
@@ -693,16 +701,11 @@ export default {
         { value: '临时工', label: '临时工' },
         { value: '兼职员工', label: '兼职员工' }
       ],
-      emloyType: [
-        { value: '实习生', label: '实习生' },
-        { value: '兼职员工', label: '兼职员工' },
-        { value: '劳务员工', label: '劳务员工' },
-        { value: '试用员工', label: '试用员工' },
-        { value: '正式员工', label: '正式员工' },
-        { value: '离职员工', label: '离职员工' },
-        { value: '退休员工', label: '退休员工' },
-        { value: '留职停薪员工', label: '留职停薪员工' }
-      ],
+      schoolTypeList: [], // 院校性质
+      graduationTypeList: [], // 毕业类型
+      jobLevelType: [],
+      areaType: [],
+      emloyType: [],
       columns1: [],
       data1: [],
       infoTemplate: '工作简历',
@@ -862,8 +865,44 @@ export default {
     getDic('SOURCE').then((res) => {
       this.sourceType = res.data
     })
+    getDic('EDUCATION').then((res) => {
+      this.educationType = res.data
+    })
+    getDic('userStatus').then((res) => {
+      this.emloyType = res.data
+    })
+    getDic('area').then((res) => {
+      this.areaType = res.data
+    })
+    getDic('job_level').then((res) => {
+      this.jobLevelType = res.data
+    })
+    getDic('POLITICS').then((res) => {
+      this.politicsType = res.data
+    })
+    getDic('academy').then((res) => {
+      this.schoolTypeList = res.data
+    })
+    getDic('Graduation').then((res) => {
+      this.graduationTypeList = res.data
+    })
   },
   mounted () {
+    let userId = this.$route.params.userId || undefined
+    if (userId) {
+      this.$Loading.start()
+      getUserIdAllInfo({ userId }).then(res => {
+        this.$Message.info('查询成功！')
+        this.allData = res.data
+        this.data1 = this.allData.userWorkhis
+        this.infoRecordChange(this.infoTemplate)
+        this.$Loading.finish()
+      }).catch(err => {
+        this.$Loading.finish()
+        this.$Message.warning('查询异常！')
+        throw err
+      })
+    }
   },
   methods: {
     joinTime () {
@@ -991,7 +1030,7 @@ export default {
           // this.data1.push(this.allData.userStudyhis)
           break
         case '家庭关系': this.infoTemplate = '家庭关系'
-          this.data1 = this.allData.userStudyhis
+          this.data1 = this.allData.userFamily
           // this.data1.push(this.allData.userFamily)
           break
         case '语言情况': this.infoTemplate = '语言情况'
@@ -1232,7 +1271,6 @@ export default {
       let params = this.allData
       this.$Loading.start()
       updateUserIdAllInfo(params).then((res) => {
-        debugger
         if (res.code === 200) {
           this.$Message.success(res.msg)
           this.$router.go(0)

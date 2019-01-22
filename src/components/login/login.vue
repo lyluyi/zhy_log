@@ -72,7 +72,7 @@ export default {
         getLogin(params).then((res) => {
           console.log(res)
           this.isDisable = false
-          localStorage.setItem('Authorization', 'Bearer ' + res.Authorization)
+          localStorage.setItem('Authorization', res.Authorization)
           localStorage.setItem('menuList', JSON.stringify(res.treeList))
           localStorage.setItem('userId', this.form.name)
           // 设置默认展开的Slide

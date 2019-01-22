@@ -75,9 +75,6 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">离退类型：</Button>
-          <!--
-          <Input placeholder="" v-model="userQuit.quitType" readonly />
-          -->
           <Select v-model="userQuit.quitType">
             <Option v-for="item in quitTypeDict" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
@@ -88,10 +85,7 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">预计离职日期：</Button>
-          <!--
-          <Input placeholder=""  v-model="userQuit.quitDateView" />
-          -->
-          <DatePicker @on-change="userQuit.quitDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userQuit.quitDate"></DatePicker>
+          <DatePicker :options="limitDateB" @on-change="userQuit.quitDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userQuit.quitDate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
@@ -125,9 +119,9 @@
         <Col class="col_flex tr" span="6">
           <Button type="error" size="large" style="margin:auto;width:128px;" @click="approvalNotApproved"  v-if="auditStatus == '审批中'">审批不通过</Button>
         </Col>
-        <Col class="col_flex tr" span="6">
+        <!-- <Col class="col_flex tr" span="6">
           <Button type="warning" size="large" style="margin:auto;width:128px;" @click="approvalAndRetreat"  v-if="auditStatus == '审批中'">回退</Button>
-        </Col>
+        </Col> -->
         <Col class="col_flex tr" span="6">
           <Button type="info" size="large" style="margin:auto;width:128px;" @click="approvalDisable"  v-if="auditStatus == '审批中'">审批作废</Button>
         </Col>
@@ -146,6 +140,13 @@ import getDic from '@/server/apiDic'
 export default {
   data () {
     return {
+      limitDateB: { // 小于当前时间 大于入司时间
+        disabledDate: date => {
+          let startTime = this.oldData.startworkdataView ? new Date(this.oldData.startworkdataView).valueOf() : Date.now()
+          let endTime = Date.now()
+          return (date && (date.valueOf() < startTime)) || (date.valueOf() > endTime)
+        }
+      },
       auditId: '',
       applyCode: '',
       auditStatus: '',

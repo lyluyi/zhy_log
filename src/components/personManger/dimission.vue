@@ -85,7 +85,7 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">预计离职日期：</Button>
-          <DatePicker @on-change="userQuit.quitDate=$event"  type="date" placeholder="Select date" placement="bottom" v-model="userQuit.quitDate"></DatePicker>
+          <DatePicker :options="limitDateB" @on-change="userQuit.quitDate=$event"  type="date" placeholder="Select date" placement="bottom" v-model="userQuit.quitDate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
@@ -95,12 +95,6 @@
             <Option v-for="item in reasonsType" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </Col>
-        <!--
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">员工状态：</Button>
-          <Input placeholder=""/>
-        </Col>
-        -->
       </Row>
       <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="24">
@@ -135,6 +129,13 @@ import { postUserQuit } from '@/server/api'
 export default {
   data () {
     return {
+      limitDateB: { // 小于当前时间 大于入司时间
+        disabledDate: date => {
+          let startTime = this.oldData.startworkdataView ? new Date(this.oldData.startworkdataView).valueOf() : Date.now()
+          let endTime = Date.now()
+          return (date && (date.valueOf() < startTime)) || (date.valueOf() > endTime)
+        }
+      },
       quitTypeDict: [],
       reasonsType: [],
       flag1: false,

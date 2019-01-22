@@ -22,7 +22,9 @@
                 <!-- ？？？？？？？？？？？？？ -->
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">职等：</Button>
-                  <Input type="text" placeholder="" readonly v-model="allData.jobLevel"/>
+                  <Select v-model="allData.jobLevel"  placement="bottom">
+                    <Option v-for="item in jobLevelType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
@@ -47,37 +49,6 @@
                 </Col>
               </Row>
             </Col>
-            <!-- <Col class="upload_img" span="8">
-              <Upload
-                  :show-upload-list="true"
-                  :on-success="handleSuccess"
-                  :format="['jpg','jpeg','png']"
-                  :max-size="2048"
-                  :on-format-error="handleFormatError"
-                  :on-exceeded-size="handleMaxSize"
-                  type="drag"
-                  :action=" ip +'up/up/' + 'LLH18816215744372' + '.do' "
-                  style="display: inline-block; width:118px;">
-                  <div style="width:118px;height:118px;line-height:118px;">
-                    <div>
-                      <Icon type="ios-camera" size="20"></Icon>
-                      点击上传图像
-                    </div>
-                    <img style="width:100%;height:100%;" src="../../assets/logo.png" alt="" v-if="true"> -->
-                    <!-- <Progress v-if="uploadList.showProgress" :percent="uploadList.percentage" hide-info></Progress> -->
-                    <!-- <div class="person_upload_list" v-for="item in uploadList" :key="item.name">
-                      <template v-if="item.status==='finished'">
-                        <div class="person_upload_list_cover">
-                            <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
-                            <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
-                        </div>
-                      </template>
-                    </div> -->
-                  <!-- </div>
-              </Upload>
-              <Modal title="View Image" v-model="visible">
-                <img :src="'../../assets' + imgName + '/large'" v-if="visible" style="width: 100%">
-              </Modal> -->
             </Col>
           </Row>
           <Row :gutter="16">
@@ -189,14 +160,12 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">所属区域：</Button>
-              <Input type="text" placeholder=""  v-model="allData.area" readonly />
+              <Select v-model="allData.area"  placement="bottom">
+                <Option v-for="item in areaType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
-            <!-- <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">联系电话：</Button>
-              <Input type="text" placeholder="" v-model="allData.telephone" />
-            </Col> -->
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">是否负责人：</Button>
               <Select v-model="allData.isHeader"  placement="bottom">
@@ -442,7 +411,9 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">院校性质：</Button>
-                  <Input type="text" placeholder="" v-model="userStudyhis.schoolType" />
+                  <Select v-model="userStudyhis.schoolType"  placement="bottom">
+                    <Option v-for="item in schoolTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">主修专业：</Button>
@@ -450,7 +421,9 @@
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">毕业类型：</Button>
-                  <Input type="text" placeholder="" v-model="userStudyhis.graduationType" />
+                  <Select v-model="userStudyhis.graduationType"  placement="bottom">
+                    <Option v-for="item in graduationTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
@@ -668,14 +641,7 @@ export default {
         { value: '直接', label: '直接' },
         { value: '间接', label: '间接' }
       ],
-      educationType: [
-        { value: '博士以上', label: '博士以上' },
-        { value: '博士', label: '博士' },
-        { value: '硕士', label: '硕士' },
-        { value: '本科', label: '本科' },
-        { value: '大专', label: '大专' },
-        { value: '其它', label: '其它' }
-      ],
+      educationType: [],
       marriageidType: [
         { value: '未婚', label: '未婚' },
         { value: '已婚', label: '已婚' },
@@ -691,12 +657,7 @@ export default {
         { value: '是', label: '是' },
         { value: '否', label: '否' }
       ],
-      politicsType: [
-        { value: '共青团员', label: '共青团员' },
-        { value: '党员', label: '党员' },
-        { value: '其它党派', label: '其它党派' },
-        { value: '无', label: '无' }
-      ],
+      politicsType: [],
       sexType: [
         { value: '男', label: '男' },
         { value: '女', label: '女' }
@@ -719,11 +680,11 @@ export default {
       infoRecordTableObj: {
         '工作简历': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['单位名称', 'company'], ['单位性质', 'comType'], ['担任职位', 'jobName'], ['薪资情况', 'wages'], ['离职原因', 'quitRes']],
         '培训经历': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['培训机构', 'trainName'], ['培训主题', 'trainTheme'], ['培训课程', 'trainContent'], ['证书有效期', 'certTerm'], ['备注', 'remark']],
-        '教育背景': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['院校名称', 'schoolName'], ['院校性质', 'schoolType'], ['主修专业', 'major'], ['毕业类型', 'graduationType'], ['学历情况', 'education'], ['学制', 'years'], ['学位', 'educationDgree'], ['职务', 'jobName'], ['证明人', 'witness'], ['备注', 'remark']],
-        '家庭关系': [['家属姓名', 'sibName'], ['与己关系', 'relationship'], ['所在单位', 'cname'], ['出生日期', 'birthdate'], ['担任职位', 'jobName'], ['电话号码', 'phone'], ['备注', 'remark']],
+        '教育背景': [['开始日期', 'beginDate'], ['结束日期', 'endDate'], ['院校名称', 'schoolName'], ['院校性质', 'schoolType'], ['主修专业', 'major'], ['毕业类型', 'graduationType'], ['学历情况', 'education'], ['学制', 'years'], ['学位', 'educationDgree'], ['证明人', 'witness'], ['备注', 'remark']],
+        '家庭关系': [['家属姓名', 'sibName'], ['与己关系', 'relationship'], ['所在单位', 'cname'], ['担任职位', 'jobName'], ['电话号码', 'phone'], ['备注', 'remark']],
         '语言情况': [['语种', 'languageType'], ['听力能力', 'lisnten'], ['会话能力', 'talk'], ['书写能力', 'write'], ['等级状态', 'levleStatus'], ['证书级别', 'levle'], ['备注', 'remark']],
         '紧急联系人': [['联系人', 'urgentName'], ['与己关系', 'urgentType'], ['联系电话', 'phone'], ['E-mail', 'email'], ['邮政编码', 'code'], ['联系地址', 'addr'], ['备注', 'remark']],
-        '职称信息': [['职称信息', 'jobinfo'], ['获得日期', 'getDate'], ['所在学校', 'company'], ['职位描述', 'description'], ['备注', 'remark']]
+        '职称信息': [['职称信息', 'jobinfo'], ['获得日期', 'getDate'], ['所在单位', 'company'], ['职位描述', 'description'], ['备注', 'remark']]
       },
       emloyAttr: [
         { value: '实习生', label: '实习生' },
@@ -734,16 +695,11 @@ export default {
         { value: '临时工', label: '临时工' },
         { value: '兼职员工', label: '兼职员工' }
       ],
-      emloyType: [
-        { value: '实习生', label: '实习生' },
-        { value: '兼职员工', label: '兼职员工' },
-        { value: '劳务员工', label: '劳务员工' },
-        { value: '试用员工', label: '试用员工' },
-        { value: '正式员工', label: '正式员工' },
-        { value: '离职员工', label: '离职员工' },
-        { value: '退休员工', label: '退休员工' },
-        { value: '留职停薪员工', label: '留职停薪员工' }
-      ],
+      schoolTypeList: [], // 院校性质
+      graduationTypeList: [], // 毕业类型
+      jobLevelType: [],
+      areaType: [],
+      emloyType: [],
       columns1: [],
       data1: [],
       infoTemplate: '工作简历',
@@ -899,6 +855,27 @@ export default {
     })
     getDic('SOURCE').then((res) => {
       this.sourceType = res.data
+    })
+    getDic('EDUCATION').then((res) => {
+      this.educationType = res.data
+    })
+    getDic('userStatus').then((res) => {
+      this.emloyType = res.data
+    })
+    getDic('area').then((res) => {
+      this.areaType = res.data
+    })
+    getDic('job_level').then((res) => {
+      this.jobLevelType = res.data
+    })
+    getDic('POLITICS').then((res) => {
+      this.politicsType = res.data
+    })
+    getDic('academy').then((res) => {
+      this.schoolTypeList = res.data
+    })
+    getDic('Graduation').then((res) => {
+      this.graduationTypeList = res.data
     })
   },
   mounted () {
@@ -1149,8 +1126,10 @@ export default {
       postPersonData(params).then((res) => {
         if (res.code === 200) {
           this.$Message.success(res.msg)
+          this.$Loading.finish()
           this.$router.go(0)
         } else {
+          this.$Loading.finish()
           this.$Message.warning(res.msg)
         }
       }).catch(err => {

@@ -72,13 +72,13 @@
             <Option v-for="item in userStatusDic" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </Col>
-        <Col class="col_flex" span="8">
+        <!-- <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">试用日期：</Button>
           <DatePicker @on-change="userOrganization.startworkdate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userOrganization.startworkdate"></DatePicker>
-        </Col>
+        </Col> -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">转正日期：</Button>
-          <DatePicker @on-change="userOrganization.toBeWorkDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userOrganization.toBeWorkDate"></DatePicker>
+          <DatePicker :options="limitDateA" @on-change="userOrganization.toBeWorkDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userOrganization.toBeWorkDate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
@@ -100,9 +100,9 @@
         <Col class="col_flex tr" span="6">
           <Button type="error" size="large" style="margin:auto;width:128px;" @click="approvalNotApproved"  v-if="auditStatus == '审批中'">审批不通过</Button>
         </Col>
-        <Col class="col_flex tr" span="6">
+        <!-- <Col class="col_flex tr" span="6">
           <Button type="warning" size="large" style="margin:auto;width:128px;" @click="approvalAndRetreat"  v-if="auditStatus == '审批中'">回退</Button>
-        </Col>
+        </Col> -->
         <Col class="col_flex tr" span="6">
           <Button type="info" size="large" style="margin:auto;width:128px;" @click="approvalDisable"  v-if="auditStatus == '审批中'">审批作废</Button>
         </Col>
@@ -122,6 +122,12 @@ import { getUserAudit, getUserAuditOldUser, getUserOrganizationApply, userAudit,
 export default {
   data () {
     return {
+      limitDateA: {
+        disabledDate: date => { // 大于当前时间
+          let startTime = this.oldData.startworkdataView ? new Date(this.oldData.startworkdataView).valueOf() : Date.now()
+          return date && date.valueOf() < startTime // 从某个时间开始 默认从当前时间开始
+        }
+      },
       auditId: '',
       applyCode: '',
       auditStatus: '',

@@ -58,6 +58,8 @@ export const getSubCheck = (params) => { return fetch('FormData', 'users/findUse
 
 export const exportTableData = (params) => { return fetch('Json', 'user/exportPlus', params) } // 表格信息导出
 
+export const exportSubTableData = (params) => { return fetch('Json', 'user/exportAllUserInfo', params) } // 表格信息导出
+
 // 人员联系方法
 
 export const getLinkman = (params) => { return fetch('Json', 'user/linkmanPage', params) } // 人员联系方式
@@ -189,3 +191,24 @@ export const getUserContractPage = (params) => { return fetch('FormData', 'userC
 
 // 保存合同信息
 export const postSaveUserContractPage = (params) => { return fetch('Json', 'userContract/saveUserContract', params) }
+
+// 人员变动详情查看
+
+export const getJobChangeCum = (params) => { return fetch('FormData', 'userCdChange/page', params) }
+
+export const getFullmemberCum = (params) => { return fetch('FormData', 'userFormal/page', params) }
+
+export const getDimissonCum = (params) => { return fetch('FormData', 'userQuit/page', params) }
+
+export const getReEmployCum = (params) => { return fetch('FormData', 'userReturn/page', params) }
+
+export const getTransferCum = (params) => { return fetch('FormData', 'userOrganization/page', params) }
+
+// HR系统权限默认查询
+export const defaultQuery = (params) => { return fetch('FormData', 'priHR/page', params) }
+
+// HR系统权限默保存修改
+export const updateList = (params) => { return fetch('Json', 'priHR/updateList', params) }
+
+// HR系统权限删除
+export const deletePriHR = (params) => { return fetch('Json', 'priHR/deletePriHR', params) }

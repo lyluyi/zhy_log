@@ -14,6 +14,10 @@
           <Button class="wd mr10 tr" type="text">姓名：</Button>
           <Input placeholder="" v-model="oldData.userName" readonly/>
         </Col>
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">身份证：</Button>
+          <Input placeholder="" v-model="oldData.idcardno" readonly />
+        </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
@@ -57,29 +61,20 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">入司日期：</Button>
-          <DatePicker @on-change="userReturn.startworkdate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userReturn.startworkdate"></DatePicker>
+          <DatePicker :options="limitDateA" @on-change="userReturn.startworkdate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userReturn.startworkdate"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">公司名称：</Button>
-          <!--
-          <Input placeholder="" v-model="userReturn.cname" readonly />
-          -->
           <Input placeholder="" search enter-button v-model="userReturn.cname" @on-search="queryCompany" />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">部门名称：</Button>
-          <!--
-          <Input placeholder="" v-model="userReturn.dname"   readonly />
-          -->
           <Input placeholder="" search enter-button v-model="userReturn.dname"   @on-search="queryDepartment" />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">职位名称：</Button>
-          <!--
-          <Input placeholder="" v-model="userReturn.jobName"  readonly />
-          -->
           <Input placeholder="" search enter-button v-model="userReturn.jobName"  @on-search="queryJob" />
         </Col>
       </Row>
@@ -88,23 +83,10 @@
           <Button class="wd mr10 tr" type="text">员工状态：</Button>
           <Input placeholder="" v-model="userReturn.userStatus" readonly />
         </Col>
-        <!--
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">成本中心：</Button>
-          <Input placeholder="" readonly />
-        </Col>
-        <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">编制人数：</Button>
-          <Input placeholder="" readonly/>
-        </Col>
-        -->
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">年资起算日期：</Button>
-          <!--
-          <Input placeholder=""  v-model="userReturn.annuityStartDateView" readonly />
-          -->
           <DatePicker @on-change="userReturn.annuityStartDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userReturn.annuityStartDate"></DatePicker>
         </Col>
       </Row>
@@ -151,9 +133,9 @@
         <Col class="col_flex tr" span="6">
           <Button type="error" size="large" style="margin:auto;width:128px;" @click="approvalNotApproved"  v-if="auditStatus == '审批中'">审批不通过</Button>
         </Col>
-        <Col class="col_flex tr" span="6">
+        <!-- <Col class="col_flex tr" span="6">
           <Button type="warning" size="large" style="margin:auto;width:128px;" @click="approvalAndRetreat"  v-if="auditStatus == '审批中'">回退</Button>
-        </Col>
+        </Col> -->
         <Col class="col_flex tr" span="6">
           <Button type="info" size="large" style="margin:auto;width:128px;" @click="approvalDisable"  v-if="auditStatus == '审批中'">审批作废</Button>
         </Col>
@@ -179,6 +161,12 @@ import { getUserAudit, getUserAuditOldUser, getUserReturnApply, userAudit, postU
 export default {
   data () {
     return {
+      limitDateA: {
+        disabledDate: date => {
+          let endTime = Date.now()
+          return date && date.valueOf() > endTime // 从某个时间开始 默认小于当前时间
+        }
+      },
       auditId: '',
       applyCode: '',
       auditStatus: '',
@@ -309,6 +297,9 @@ export default {
         } else {
           this.$Message.warning(res.msg)
         }
+      }).catch(err => {
+        this.$Message.warning('数据操作异常!')
+        throw err
       })
     },
     queryCompany () { // 公司信息查询
