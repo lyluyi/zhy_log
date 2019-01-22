@@ -22,9 +22,10 @@
                 <!-- ？？？？？？？？？？？？？ -->
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">职等：</Button>
-                  <Select v-model="allData.jobLevel"  placement="bottom">
-                    <Option v-for="item in jobLevelType" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
+                  <Input readonly placeholder="" v-model="allData.jobLevel" />
+                  <!-- <Select :disabled="true" v-model="allData.jobLevel"  placement="bottom" readonly>
+                    <Option v-for="item in jobLevelType" :value="item.value" :key="item.value" >{{ item.label }}</Option>
+                  </Select> -->
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
@@ -40,7 +41,7 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">工号：</Button>
-                  <Input  placeholder="" v-model="allData.userId" readonly />
+                  <Input  placeholder="" v-model="allData.userId" />
                 </Col>
                 <!-- ？？？？？？？？？？？？？？ -->
                 <Col class="col_flex" span="12">
@@ -852,7 +853,7 @@ export default {
     }
   },
   created () {
-    this.getByUserId() // 生成工号
+    // this.getByUserId() // 生成工号
     this.createInfoRecordTh() // 创建表格
     // getDic(9).then(res => this.nationidType = res.data)
     getDic('NATIONID').then((res) => {

@@ -96,10 +96,10 @@ export default {
   color: #fff;
   background: #2d8cf0;
   cursor: pointer; */
-  width: 100px;
-  height: 28;
+  width: 100px !important;
+  height: 28px !important;
   /* width: 93px; */
-  padding: 10px -10px;
+  padding: 10px -10px !important;
   border-radius: 3px;
   float: left;
   position: relative;
@@ -109,8 +109,8 @@ export default {
   text-align: center;
   /* vertical-align: 9px; */
   /* vertical-align: text-bottom; */
-  background: #2d8cf0;
-  color: #fff;
+  background: white !important;
+  color: #2d8cf0;
   cursor: pointer;
 }
 /* .ZHYFF .ivu-layout-header {

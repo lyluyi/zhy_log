@@ -35,15 +35,16 @@
                 <!-- ？？？？？？？？？？？？？ -->
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">职等：</Button>
-                  <Select v-model="allData.jobLevel"  placement="bottom">
+                  <Input readonly placeholder="" v-model="allData.jobLevel" />
+                  <!-- <Select v-model="allData.jobLevel"  placement="bottom">
                     <Option v-for="item in jobLevelType" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
+                  </Select> -->
                 </Col>
               </Row>
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">直接主管：</Button>
-                  <Input search enter-button  placeholder="" v-model="allData.upHeader" @on-search="queryUser" />
+                  <Input search enter-button  placeholder="" v-model="allData.upHeader" @on-search="queryUpHeader" />
                 </Col>
                 <Col class="col_flex" span="12">
                   <Button class="wd mr10 tr" type="text">职务：</Button>
@@ -181,6 +182,10 @@
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">档案编号：</Button>
               <Input type="text" placeholder="" v-model="allData.archivesId" />
+            </Col>
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">转正日期：</Button>
+              <DatePicker placeholder="" v-model="allData.beWorkDate" ></DatePicker>
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -926,10 +931,15 @@ export default {
       this.allData.age = strData.age
       this.allData.birthdate = strData.birthDay
     },
-    queryInneruser () { // 直接主管查询
+    queryUpHeader () { // 直接主管查询
       this.modal6 = true
       this.flag6 = true
       this.userIdFlag = 1
+    },
+    queryInneruser () { // 内部推荐人查询
+      this.modal6 = true
+      this.flag6 = true
+      this.userIdFlag = 2
     },
     queryUser () { // 工号查询
       this.modal6 = true
@@ -942,9 +952,11 @@ export default {
     },
     getUserId (item) {
       console.log(item)
-      if (this.userIdFlag) {
+      if (this.userIdFlag === 1) {
+        this.allData.upHeader = item.userName
+        this.allData.upHeaderId = item.userId
+      } else if (this.userIdFlag === 2) {
         this.allData.inneruser = item.userName
-        this.allData.inneruserdept = item.dname
       } else {
         this.allData = item
         this.data1 = this.allData.userWorkhis

@@ -74,7 +74,7 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">证件到期日期：</Button>
-              <DatePicker :disabled="true" type="date" placeholder="Select date" placement="bottom" v-model="allData.idcardkindid"></DatePicker>
+              <DatePicker :disabled="true" type="date" placeholder="Select date" placement="bottom" v-model="allData.idcardkindid" readonly ></DatePicker>
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -134,15 +134,15 @@
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">入司日期：</Button>
-              <DatePicker :disabled="true" type="date" placeholder="Select date"  placement="bottom" v-model="allData.startworkdata" @on-change="joinTime"></DatePicker>
+              <DatePicker :disabled="true" type="date" placeholder="Select date"  placement="bottom" v-model="allData.startworkdata" @on-change="joinTime" readonly ></DatePicker>
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">预计转正日期：</Button>
-              <DatePicker :disabled="true" type="date" placeholder="Select date"  placement="bottom" v-model="allData.toBeWorkDateView"></DatePicker>
+              <DatePicker :disabled="true" type="date" placeholder="Select date"  placement="bottom" v-model="allData.toBeWorkDateView" readonly ></DatePicker>
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">健康证到期日：</Button>
-              <DatePicker :disabled="true" type="date" placeholder="Select date" placement="bottom" v-model="allData.healhDate "></DatePicker>
+              <DatePicker :disabled="true" type="date" placeholder="Select date" placement="bottom" v-model="allData.healhDate " readonly ></DatePicker>
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
@@ -164,10 +164,10 @@
             </Col>
           </Row>
           <Row :gutter="16" class="mb10">
-            <!-- <Col class="col_flex" span="8">
-              <Button class="wd mr10 tr" type="text">联系电话：</Button>
-              <Input type="text" placeholder="" v-model="allData.telephone" />
-            </Col> -->
+            <Col class="col_flex" span="8">
+              <Button class="wd mr10 tr" type="text">转正日期：</Button>
+              <DatePicker :disabled="true" placeholder="" v-model="allData.beWorkDate" readonly ></DatePicker>
+            </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">是否负责人：</Button>
               <Select :disabled="true" v-model="allData.isHeader"  placement="bottom">
@@ -224,7 +224,7 @@
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">工龄开始日期：</Button>
-              <DatePicker :disabled="true" type="date" placeholder="Select date" placement="bottom" v-model="allData.beginWorkDate"></DatePicker>
+              <DatePicker :disabled="true" type="date" placeholder="Select date" placement="bottom" v-model="allData.beginWorkDate" readonly ></DatePicker>
             </Col>
             <!-- <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">最后工作日：</Button>

@@ -124,11 +124,12 @@ export default {
       // let token = this.compileStr('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLlvKDmtpsiLCJyb2xlcyI6InVzZXIiLCJpYXQiOjE1MzY0MDA2OTgsImV4cCI6MTUzODEwNTczMH0.6KpBNsDiybdyfBaulndvhshGMH4b4oA7m3Ku_qoY5r0')
       let token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLlvKDmtpsiLCJyb2xlcyI6InVzZXIiLCJpYXQiOjE1MzY0MDA2OTgsImV4cCI6MTUzODEwNTczMH0.6KpBNsDiybdyfBaulndvhshGMH4b4oA7m3Ku_qoY5r0'
       if (e === 'ZHYOA') {
-        window.open(`http://172.30.30.104:8080/#/login?userId=${userId}&token=${token}`)
+        window.open(`http://172.30.10.89:8080/#/login?userId=${userId}&token=${token}`)
         return
       }
       if (e === 'ZHYFF') { // 费控方案
         localStorage.setItem('routeType', 'home')
+        // localStorage.setItem('routerToZHYFF', true) // 解决从侧边栏进入ZHYFF 时 请求URL不正确的问题
         this.$router.push('/' + e)
         return
       }

@@ -118,10 +118,10 @@
           <Button class="wd mr10 tr" type="text">签约用人单位：</Button>
           <Input placeholder="" search enter-button v-model="userContract.conCname" @on-search="queryCompany" readonly />
         </Col>
-        <Col class="col_flex" span="8">
+        <!-- <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">实际终止日：</Button>
           <DatePicker type="date" placeholder="实际终止日" placement="bottom" v-model="userContract.conEndTime"></DatePicker>
-        </Col>
+        </Col> -->
       </Row>
 
       <Row :gutter="16" class="mb10">
@@ -198,22 +198,22 @@ export default {
       tabPane: {
         newContractWork: (h) => {
           return h('div', [
-            h('span', '劳动合同')
+            h('span', '待新签劳动合同')
           ])
         },
         newContractPractice: (h) => {
           return h('div', [
-            h('span', '实习协议')
+            h('span', '待新签实习协议')
           ])
         },
         newContractLabour: (h) => {
           return h('div', [
-            h('span', '劳务协议')
+            h('span', '待新签劳务协议')
           ])
         },
         newContractPartTimeJob: (h) => {
           return h('div', [
-            h('span', '兼职协议')
+            h('span', '待新签兼职协议')
           ])
         },
         thisMonth: (h) => {

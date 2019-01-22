@@ -191,7 +191,7 @@ export default {
     }
   },
   created () {
-    this.getByUserId()
+    // this.getByUserId()
   },
   mounted () {},
   methods: {

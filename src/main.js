@@ -24,22 +24,6 @@ router.beforeEach((to, from, next) => {
   // console.log(from)
   if (to.matched.some(record => record.meta.requireAuth)) { // 判断该路由是否需要登录权限
     if (localStorage.getItem('userId')) { // 判断当前的token是否存在
-      // if (from.name !== 'login') {
-      //   let menuData = JSON.parse(localStorage.getItem('menuList'))
-      //   let menuNameList = []
-      //   menuData.forEach(item => {
-      //     let subMenuList = item.children
-      //     for (let i = 0; i < subMenuList.length; i++) {
-      //       menuNameList.push(subMenuList[i].menu_URL)
-      //     }
-      //   })
-      //   console.log(menuNameList)
-      //   if (menuNameList.indexOf(to.name) > -1) {
-      //     next()
-      //   } else {
-      //     next('/login') // 将跳转的路由path作为参数，登录成功后跳转到该路由
-      //   }
-      // }
       let menuData = JSON.parse(localStorage.getItem('menuList'))
       let menuNameList = ['login']
       menuData.forEach(item => {
@@ -48,12 +32,40 @@ router.beforeEach((to, from, next) => {
           menuNameList.push(subMenuList[i].menu_URL)
         }
       })
+      if (menuNameList.indexOf('dimission') > -1) {
+        menuNameList = ['dimissionAudit', 'dimissionView', ...menuNameList]
+      }
+      if (menuNameList.indexOf('fullMember') > -1) {
+        menuNameList = ['fullMemberAudit', 'fullMemberView', ...menuNameList]
+      }
+      if (menuNameList.indexOf('jobChange') > -1) {
+        menuNameList = ['jobChangeAudit', 'jobChangeView', ...menuNameList]
+      }
+      if (menuNameList.indexOf('reEmploy') > -1) {
+        menuNameList = ['reEmployAudit', 'reEmployView', ...menuNameList]
+      }
+      if (menuNameList.indexOf('transfer') > -1) {
+        menuNameList = ['transferAudit', 'transferView', ...menuNameList]
+      }
+      if (menuNameList.indexOf('transfer') > -1) {
+        menuNameList = ['transferAudit', 'transferView', ...menuNameList]
+      }
+      if (menuNameList.indexOf('transfer') > -1) {
+        menuNameList = ['transferAudit', 'transferView', ...menuNameList]
+      }
       // console.log(menuNameList)
+      if (menuNameList.indexOf('ZHYFF') > -1) {
+        menuNameList = ['areaBudget', 'companyBudget', 'companyDeptBudget', 'departmentBudget', 'exchangeManegement', 'adjustBudget', 'BPCVersions', ...menuNameList]
+      }
       if (menuNameList.indexOf(to.name) > -1) {
-        next()
+        // if (to.name === 'companyBudget') {
+        //   next()
+        // }
+        // next()
       } else {
         next('/login')
       }
+      next()
     } else {
       next('/login') // 将跳转的路由path作为参数，登录成功后跳转到该路由
     }
