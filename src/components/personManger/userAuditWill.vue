@@ -255,7 +255,6 @@ export default {
         }
         updateUserAuditWill(params).then(res => {
           console.log(params)
-          debugger
           if (res.code === 200) {
             this.$Message.info('健康证日期更新成功！')
             this.$router.go(0)

@@ -104,7 +104,7 @@
           <Button class="wd mr10 tr" type="text">合同生效日：</Button>
           <DatePicker type="date" placeholder="合同生效日" placement="bottom" v-model="userContract.conBeginDate"></DatePicker>
         </Col>
-        <Col class="col_flex" span="8">
+        <Col class="col_flex" span="8" v-if="userContract.isLongConView === false">
           <Button class="wd mr10 tr" type="text">合同终止日：</Button>
           <DatePicker type="date" placeholder="合同终止日" placement="bottom" v-model="userContract.conEndDate"></DatePicker>
         </Col>
