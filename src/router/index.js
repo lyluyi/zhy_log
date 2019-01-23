@@ -488,6 +488,16 @@ const router = new Router({
             requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/userInfo.vue'], resolve)
+        },
+        {
+          path: 'userContract',
+          name: 'userContract',
+          meta: {
+            title: '合同查询',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/personManger/userContract.vue'], resolve)
         }
       ]
     }
