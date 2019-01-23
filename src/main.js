@@ -32,6 +32,7 @@ router.beforeEach((to, from, next) => {
           menuNameList.push(subMenuList[i].menu_URL)
         }
       })
+      debugger
       if (menuNameList.indexOf('dimission') > -1) {
         menuNameList = ['dimissionAudit', 'dimissionView', ...menuNameList]
       }
