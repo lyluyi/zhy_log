@@ -16,7 +16,7 @@
         </Row>
         <Row :gutter="16" class="mb10">
           <Col class="col_flex" span="24">
-            <Tabs value="thisMonth" @on-click="tabChange" :animate="false">
+            <Tabs value="thisMonth" @on-click="tabChange" :animated="false">
               <TabPane :label="tabPane.thisMonth" name="thisMonth">
                 <Table border :columns="columns" :data="userAuditWillPageData" @on-row-dblclick="handleRowClick"></Table>
                 <Page :total="userAuditWillPageParams.totalRow" :current="userAuditWillPageParams.pageNumber" :page-size="userAuditWillPageParams.pageSize" @on-change="changeUserAuditWillPageNumber" show-total  class="mt20" />
@@ -254,6 +254,8 @@ export default {
           date: this.dateValue
         }
         updateUserAuditWill(params).then(res => {
+          console.log(params)
+          debugger
           if (res.code === 200) {
             this.$Message.info('健康证日期更新成功！')
             this.$router.go(0)
@@ -282,9 +284,9 @@ export default {
           throw err
         })
       } else {
-        this.dateValue = ''
         return false
       }
+      this.dateValue = ''
     },
     modalCancel () {
       this.modal = false

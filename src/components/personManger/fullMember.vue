@@ -317,7 +317,8 @@ export default {
       postUserFormal(params).then((res) => {
         if (res.code === 200) {
           this.$Message.success(res.msg)
-          this.$router.go(0)
+          debugger
+          // this.$router.go(0)
         } else {
           this.$Message.warning(res.msg)
         }
