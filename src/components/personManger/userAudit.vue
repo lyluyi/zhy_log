@@ -205,6 +205,7 @@ export default {
     },
     changeUserAuditPageNumber (num) {
       let params = {pageNumber: num, pageInfo: 10}
+      params = Object.assign({}, params, this.userAuditQueryParams)
       this.getUserAuditPage(params)
     },
     getUserAuditPage (params) {
