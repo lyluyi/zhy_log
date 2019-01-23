@@ -16,7 +16,7 @@
         </Row>
         <Row :gutter="16" class="mb10">
           <Col class="col_flex" span="24">
-            <Tabs value="thisMonth" @on-click="tabChange" :animate="false">
+            <Tabs value="thisMonth" @on-click="tabChange" :animated="false">
               <TabPane :label="tabPane.thisMonth" name="thisMonth">
                 <Table border :columns="columns" :data="userAuditWillPageData" @on-row-dblclick="handleRowClick"></Table>
                 <Page :total="userAuditWillPageParams.totalRow" :current="userAuditWillPageParams.pageNumber" :page-size="userAuditWillPageParams.pageSize" @on-change="changeUserAuditWillPageNumber" show-total  class="mt20" />
@@ -26,6 +26,10 @@
                 <Page :total="userAuditWillPageParams.totalRow" :current="userAuditWillPageParams.pageNumber" :page-size="userAuditWillPageParams.pageSize" @on-change="changeUserAuditWillPageNumber" show-total  class="mt20" />
               </TabPane>
               <TabPane :label="tabPane.threeMonth" name="threeMonth">
+                <Table border :columns="columns" :data="userAuditWillPageData" @on-row-dblclick="handleRowClick"></Table>
+                <Page :total="userAuditWillPageParams.totalRow" :current="userAuditWillPageParams.pageNumber" :page-size="userAuditWillPageParams.pageSize" @on-change="changeUserAuditWillPageNumber" show-total  class="mt20" />
+              </TabPane>
+              <TabPane :label="tabPane.overdue" name="overdue">
                 <Table border :columns="columns" :data="userAuditWillPageData" @on-row-dblclick="handleRowClick"></Table>
                 <Page :total="userAuditWillPageParams.totalRow" :current="userAuditWillPageParams.pageNumber" :page-size="userAuditWillPageParams.pageSize" @on-change="changeUserAuditWillPageNumber" show-total  class="mt20" />
               </TabPane>
@@ -103,6 +107,11 @@ export default {
           return h('div', [
             h('span', '三个月之内')
           ])
+        },
+        overdue: (h) => {
+          return h('div', [
+            h('span', '逾期提醒')
+          ])
         }
       },
       baseColumns: [
@@ -146,18 +155,18 @@ export default {
     tabChange (name) {
       if (name === 'thisMonth') {
         this.currentTabName = 'thisMonth'
-        // console.log(this.currentTabName)
-        // console.log(this.getQueryTypeValue())
         this.createTabColumns()
       }
       if (name === 'nextMonth') {
         this.currentTabName = 'nextMonth'
-        // console.log(this.getQueryTypeValue())
         this.createTabColumns()
       }
       if (name === 'threeMonth') {
         this.currentTabName = 'threeMonth'
-        // console.log(this.getQueryTypeValue())
+        this.createTabColumns()
+      }
+      if (name === 'overdue') {
+        this.currentTabName = 'overdue'
         this.createTabColumns()
       }
     },
@@ -245,6 +254,8 @@ export default {
           date: this.dateValue
         }
         updateUserAuditWill(params).then(res => {
+          console.log(params)
+          debugger
           if (res.code === 200) {
             this.$Message.info('健康证日期更新成功！')
             this.$router.go(0)
@@ -273,9 +284,9 @@ export default {
           throw err
         })
       } else {
-        this.dateValue = ''
         return false
       }
+      this.dateValue = ''
     },
     modalCancel () {
       this.modal = false

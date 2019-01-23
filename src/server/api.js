@@ -215,3 +215,6 @@ export const updateList = (params) => { return fetch('Json', 'priHR/updateList',
 
 // HR系统权限删除
 export const deletePriHR = (params) => { return fetch('Json', 'priHR/deletePriHR', params) }
+
+// 查询合同信息
+export const getUserContractInfoPage = (params) => { return fetch('FormData', 'userContract/userContractPage', params) }

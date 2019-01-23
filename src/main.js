@@ -32,7 +32,6 @@ router.beforeEach((to, from, next) => {
           menuNameList.push(subMenuList[i].menu_URL)
         }
       })
-      debugger
       if (menuNameList.indexOf('dimission') > -1) {
         menuNameList = ['dimissionAudit', 'dimissionView', ...menuNameList]
       }
@@ -59,10 +58,7 @@ router.beforeEach((to, from, next) => {
         menuNameList = ['areaBudget', 'companyBudget', 'companyDeptBudget', 'departmentBudget', 'exchangeManegement', 'adjustBudget', 'BPCVersions', ...menuNameList]
       }
       if (menuNameList.indexOf(to.name) > -1) {
-        // if (to.name === 'companyBudget') {
-        //   next()
-        // }
-        // next()
+        next()
       } else {
         next('/login')
       }

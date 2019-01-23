@@ -905,6 +905,7 @@ export default {
       let strData = idCardCheck(this.allData.idcardno)
       this.allData.age = strData.age
       this.allData.birthdate = strData.birthDay
+      debugger
     },
     getByUserId () {
       getUserId().then((res) => {

@@ -723,7 +723,7 @@ export default {
     },
     changeUserAuditPageNumber (num) {
       let params = {pageNumber: num, pageInfo: 10}
-      if (this.tabValue === '人员变动查看') {
+      if (this.tabValue === '人员变动审核查看') {
         this.getUserAuditPage(params)
       }
     },

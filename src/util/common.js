@@ -86,13 +86,21 @@ export const idCardCheck = (idCard) => {
   let myDate = new Date()
   let month = myDate.getMonth() + 1
   let day = myDate.getDate()
-  var age = myDate.getFullYear() - year - 1
-  if (((parseInt(months) < parseInt(month)) || (months === month)) && days <= day) {
-    age = age + 1
+  var age = myDate.getFullYear() - year
+  if (parseInt(month) < parseInt(months)) {
+    return {
+      age: age - 1,
+      birthDay
+    }
+  } else if ((parseInt(month) === parseInt(months)) && (parseInt(days) < parseInt(day))) {
+    return {
+      age: age - 1,
+      birthDay
+    }
+  } else {
+    return {
+      age: age,
+      birthDay
+    }
   }
-  let strData = {
-    age,
-    birthDay
-  }
-  return strData
 }
