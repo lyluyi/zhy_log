@@ -67,11 +67,11 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">申请日期：</Button>
-          <DatePicker :options="limitDateA" @on-change="userCdChange.changeDate=$event" placement="bottom" v-model="userCdChange.changeDate" />
+          <DatePicker placement="bottom" v-model="userCdChange.changeDate" @on-change="userCdChange.changeDate=$event" />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">生效日期：</Button>
-          <DatePicker :options="limitDateB" @on-change="userCdChange.effectDate=$event" type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.effectDate" ></DatePicker>
+          <DatePicker type="date" placeholder="Select date" placement="bottom" v-model="userCdChange.effectDate" ></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
@@ -121,9 +121,9 @@
         <Col class="col_flex tr" span="6">
           <Button type="error" size="large" style="margin:auto;width:128px;" @click="approvalNotApproved"  v-if="auditStatus == '审批中'">审批不通过</Button>
         </Col>
-        <!-- <Col class="col_flex tr" span="6">
+        <Col class="col_flex tr" span="6">
           <Button type="warning" size="large" style="margin:auto;width:128px;" @click="approvalAndRetreat"  v-if="auditStatus == '审批中'">回退</Button>
-        </Col> -->
+        </Col>
         <Col class="col_flex tr" span="6">
           <Button type="info" size="large" style="margin:auto;width:128px;" @click="approvalDisable"  v-if="auditStatus == '审批中'">审批作废</Button>
         </Col>
@@ -151,19 +151,6 @@ import { getUserAudit, getUserAuditOldUser, getJobChangeApply, userAudit, postUs
 export default {
   data () {
     return {
-      limitDateA: {
-        disabledDate: date => {
-          let startTime = this.oldData.startworkdataView ? new Date(this.oldData.startworkdataView).valueOf() : Date.now()
-          return date && date.valueOf() < startTime // 从某个时间开始 默认从当前时间开始
-        }
-      },
-      limitDateB: {
-        disabledDate: date => {
-          let startTime = this.oldData.startworkdataView ? new Date(this.oldData.startworkdataView).valueOf() : Date.now()
-          let endTime = Date.now()
-          return (date && (date.valueOf() < startTime)) || (date.valueOf() > endTime)
-        }
-      },
       auditId: '',
       applyCode: '',
       auditStatus: '',
@@ -324,8 +311,8 @@ export default {
       })
     },
     updateApply () {
-      let { cidNew, cnameNew, didNew, dnameNew, jobnameNew, jobIdNew, upheaderNew, upheaderNewName, changeType, changeDate, area, remark, toBeWorkDate, effectDate } = {...this.userCdChange}
-      let params = Object.assign({}, {id: this.userCdChange.id}, { cidNew, cnameNew, didNew, dnameNew, jobnameNew, jobIdNew, upheaderNew, upheaderNewName, changeType, changeDate, area, remark, toBeWorkDate, effectDate })
+      let { cidNew, cnameNew, didNew, dnameNew, jobnameNew, jobIdNew, upheaderNew, upheaderNewName, changeType, changeDate, area, remark, toBeWorkDate } = {...this.userCdChange}
+      let params = Object.assign({}, {id: this.userCdChange.id}, { cidNew, cnameNew, didNew, dnameNew, jobnameNew, jobIdNew, upheaderNew, upheaderNewName, changeType, changeDate, area, remark, toBeWorkDate })
       updateUserCdChange(params).then((res) => {
         if (res.code === 200) {
           this.$Message.success(res.msg)

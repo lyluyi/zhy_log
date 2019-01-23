@@ -29,6 +29,10 @@
                 <Table border :columns="columns" :data="userAuditWillPageData" @on-row-dblclick="handleRowClick"></Table>
                 <Page :total="userAuditWillPageParams.totalRow" :current="userAuditWillPageParams.pageNumber" :page-size="userAuditWillPageParams.pageSize" @on-change="changeUserAuditWillPageNumber" show-total  class="mt20" />
               </TabPane>
+              <TabPane :label="tabPane.overdue" name="overdue">
+                <Table border :columns="columns" :data="userAuditWillPageData" @on-row-dblclick="handleRowClick"></Table>
+                <Page :total="userAuditWillPageParams.totalRow" :current="userAuditWillPageParams.pageNumber" :page-size="userAuditWillPageParams.pageSize" @on-change="changeUserAuditWillPageNumber" show-total  class="mt20" />
+              </TabPane>
             </Tabs>
           </Col>
         </Row>
@@ -103,6 +107,11 @@ export default {
           return h('div', [
             h('span', '三个月之内')
           ])
+        },
+        overdue: (h) => {
+          return h('div', [
+            h('span', '逾期提醒')
+          ])
         }
       },
       baseColumns: [
@@ -146,18 +155,18 @@ export default {
     tabChange (name) {
       if (name === 'thisMonth') {
         this.currentTabName = 'thisMonth'
-        // console.log(this.currentTabName)
-        // console.log(this.getQueryTypeValue())
         this.createTabColumns()
       }
       if (name === 'nextMonth') {
         this.currentTabName = 'nextMonth'
-        // console.log(this.getQueryTypeValue())
         this.createTabColumns()
       }
       if (name === 'threeMonth') {
         this.currentTabName = 'threeMonth'
-        // console.log(this.getQueryTypeValue())
+        this.createTabColumns()
+      }
+      if (name === 'overdue') {
+        this.currentTabName = 'overdue'
         this.createTabColumns()
       }
     },
