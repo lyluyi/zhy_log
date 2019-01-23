@@ -27,6 +27,13 @@
             <Button class="wd mr10 tr" type="text" >签订用工单位：</Button>
             <Input type="text" placeholder="" v-model="userContractPageParams.conCname" />
           </Col>
+          <Col class="col_flex" span="8">
+            <Button class="wd mr10 tr" type="text" >用户状态：</Button>
+            <i-select v-model="userContractPageParams.userStatus">
+              <Option>请选择</Option>
+              <Option v-for="item in userStatusItems" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </i-select>
+          </Col>
         </Row>
         <Row :gutter="16" class="mb20 mt20 pt20">
           <Col class="col_flex" span="24">
@@ -53,6 +60,7 @@
 import { getUserContractInfoPage } from '@/server/api'
 import companyQuery from '@/common/companyQuery'
 import departmentQuery from '@/common/departmentQuery'
+import getDic from '@/server/apiDic'
 
 export default {
 
@@ -62,6 +70,7 @@ export default {
       model1: false,
       flag2: false,
       model2: false,
+      userStatusItems: {},
       userContractColumns: [
         {
           title: '工号',
@@ -168,6 +177,10 @@ export default {
 
   created () {
     this.queryUserContractData()
+    getDic('userStatus').then((res) => {
+      // console.log(res)
+      this.userStatusItems = res.data
+    })
   },
   methods: {
     query () {
