@@ -70,8 +70,7 @@
         </Col>
 
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">固定限期合同：</Button>
-          <!-- <Input placeholder="" v-model="userContract.isGraduates" /> -->
+          <Button class="wd mr10 tr" type="text">非固定限期合同：</Button>
           <i-switch v-model="userContract.isLongConView" @on-change="isLongConViewChange" />
         </Col>
       </Row>
@@ -297,7 +296,7 @@ export default {
         conCname: '', // 签约用工单位
         isGraduates: 0, // 是否应届毕业生
         isGraduatesView: false, // 是否应届毕业生
-        isLongCon: 0, // 是否无固定期限合同
+        isLongCon: '否', // 是否无固定期限合同
         isLongConView: false
       },
       currentTabName: 'newContractWork', // 选择的tab
@@ -319,6 +318,8 @@ export default {
       this.signTypeItems = res.data
     })
     this.queryUserContractPageData()
+    console.log(this.userContract.isLongCon)
+    console.log(this.userContract.isLongConView)
   },
   mounted () {},
   methods: {
@@ -427,10 +428,11 @@ export default {
     },
     isLongConViewChange () {
       if (this.userContract.isLongConView) {
-        this.userContract.isLongCon = '1'
+        this.userContract.isLongCon = '是'
       } else {
-        this.userContract.isLongCon = '0'
+        this.userContract.isLongCon = '否'
       }
+      console.log(this.userContract.isLongCon)
     },
     queryCompany () { // 公司信息查询
       this.flag1 = true
