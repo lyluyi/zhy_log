@@ -257,7 +257,7 @@ export default {
           console.log(params)
           if (res.code === 200) {
             this.$Message.info('健康证日期更新成功！')
-            this.$router.go(0)
+            this.queryUserAuditWillPageData()
           } else {
             this.$Message.info('健康证日期更新失败！')
           }
@@ -274,7 +274,7 @@ export default {
         updateUserAuditWill(params).then(res => {
           if (res.code === 200) {
             this.$Message.info('身份证到期日更新成功！')
-            this.$router.go(0)
+            this.queryUserAuditWillPageData()
           } else {
             this.$Message.info('身份证到期日更新失败！')
           }
