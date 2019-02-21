@@ -21,7 +21,6 @@
       </Row>
       <Divider>{{ this.allData.cname === '' ? '人员月度异动汇总表' : this.allData.cname + '——' + '人员月度异动汇总表' }}</Divider>
       <Table :columns="columns1" :data="data1" border ></Table>
-      <Page :total="pageInfo.totalRow" :current="pageInfo.pageNumber" :page-size="pageInfo.pageSize" @on-change="changePageNumber" show-total  class="mt20" />
       <Divider></Divider>
       <Row :gutter="16" class="mt20 mb20">
         <Col class="col_flex tr" span="24">
@@ -36,7 +35,7 @@
 
 import companyQuery from '@/common/companyQuery'
 
-import { getReportMm, getReportMmGenerate } from '@/server/api'
+import { getComReportMm, getReportMmGenerate } from '@/server/api'
 
 export default {
   data () {
@@ -45,33 +44,234 @@ export default {
       flag1: false,
       columns1: [
         {
-          title: '公司',
+          title: '部门',
+          fixed: 'left',
           aligh: 'center',
-          key: 'cname'
+          width: 160,
+          key: 'dname'
         },
         {
-          title: '月结名称',
+          title: '上月人数',
           aligh: 'center',
-          key: 'recordType'
+          width: 120,
+          key: 'shangyuerenshu'
         },
         {
-          title: '月结年',
+          title: '本月入职人数',
           aligh: 'center',
-          key: 'recordYear'
+          width: 600,
+          children: [
+            {
+              title: '入职',
+              aligh: 'center',
+              width: 120,
+              key: 'ruzhirenshu'
+            },
+            {
+              title: '离职',
+              aligh: 'center',
+              width: 120,
+              children: [
+                {
+                  title: '转正前',
+                  aligh: 'center',
+                  width: 120,
+                  key: 'quit_befor'
+                },
+                {
+                  title: '转正后',
+                  aligh: 'center',
+                  width: 120,
+                  key: 'quit_after'
+                }
+              ]
+            },
+            {
+              title: '转岗',
+              aligh: 'center',
+              width: 120,
+              children: [
+                {
+                  title: '转入',
+                  aligh: 'center',
+                  width: 120,
+                  key: 'cd_in'
+                },
+                {
+                  title: '转出',
+                  aligh: 'center',
+                  width: 120,
+                  key: 'cd_out'
+                }
+              ]
+            }
+          ]
         },
         {
-          title: '月结月',
+          title: '本月合计',
           aligh: 'center',
-          key: 'recordMonth'
+          width: 120,
+          key: 'benyuerenshu'
+        },
+        {
+          title: '离职率',
+          aligh: 'center',
+          width: 240,
+          children: [
+            {
+              title: '转正前',
+              aligh: 'center',
+              width: 120,
+              key: 'for_q_befor'
+            },
+            {
+              title: '转正后',
+              aligh: 'center',
+              width: 120,
+              key: 'for_q_after'
+            }
+          ]
+        },
+        {
+          title: '岗位异动',
+          aligh: 'center',
+          width: 480,
+          children: [
+            {
+              title: '转正',
+              aligh: 'center',
+              width: 120,
+              key: 'u_for'
+            },
+            {
+              title: '晋升',
+              aligh: 'center',
+              width: 120,
+              key: 'cd_up'
+            },
+            {
+              title: '降职',
+              aligh: 'center',
+              width: 120,
+              key: 'cd_down'
+            },
+            {
+              title: '平调',
+              aligh: 'center',
+              width: 120,
+              key: 'cd_pd'
+            }
+          ]
+        },
+        // {
+        //   title: '离职率',
+        //   aligh: 'center',
+        //   width: 240,
+        //   children: [
+        //     {
+        //       title: '转正前',
+        //       aligh: 'center',
+        //       width: 120,
+        //       key: 'for_q_befor'
+        //     },
+        //     {
+        //       title: '转正后',
+        //       aligh: 'center',
+        //       width: 120,
+        //       key: 'for_q_after'
+        //     }
+        //   ]
+        // },
+        {
+          title: '合同签订数量',
+          aligh: 'center',
+          width: 480,
+          children: [
+            {
+              title: '劳动合同',
+              aligh: 'center',
+              width: 120,
+              key: 'new_con_ld'
+            },
+            {
+              title: '劳动协议',
+              aligh: 'center',
+              width: 120,
+              key: 'new_con_lw'
+            },
+            {
+              title: '实习协议',
+              aligh: 'center',
+              width: 120,
+              key: 'new_con_sx'
+            },
+            {
+              title: '其它协议',
+              aligh: 'center',
+              width: 120,
+              key: 'new_con_qt'
+            }
+          ]
+        },
+        {
+          title: '合同续签数量',
+          aligh: 'center',
+          width: 240,
+          children: [
+            {
+              title: '劳动合同',
+              aligh: 'center',
+              width: 120,
+              key: 'old_con_ld'
+            },
+            {
+              title: '劳动协议',
+              aligh: 'center',
+              width: 120,
+              key: 'old_con_lw'
+            }
+          ]
+        },
+        {
+          title: '签收数量',
+          aligh: 'center',
+          width: 120,
+          key: 'total_con'
+        },
+        {
+          title: '离职原因',
+          aligh: 'center',
+          width: 360,
+          children: [
+            {
+              title: '辞退',
+              aligh: 'center',
+              width: 120,
+              key: 'quit_ct'
+            },
+            {
+              title: '自离',
+              aligh: 'center',
+              width: 120,
+              key: 'quit_zl'
+            },
+            {
+              title: '辞职',
+              aligh: 'center',
+              width: 120,
+              key: 'quit_cz'
+            }
+          ]
+        },
+        {
+          title: '同签订总人',
+          aligh: 'center',
+          fixed: 'right',
+          width: 160,
+          key: 'hetongrenshu'
         }
       ],
       data1: [],
-      pageInfo: {
-        pageNumber: 1,
-        pageSize: 10,
-        totalPage: 0,
-        totalRow: 0
-      },
       allData: {
         cname: '',
         cid: '',
@@ -95,25 +295,21 @@ export default {
       this.flag1 = item.comFlag
       this.model1 = item.commodal
     },
-    changePageNumber (num) {
-      this.pageInfo.pageNumber = num
-      let params = { ...this.pageInfo, ...this.allData }
-      getReportMm(params).then((res) => {
-        let { pageNumber, pageSize, totalPage, totalRow } = { ...res }
-        this.data1 = res.list
-        this.pageInfo = { pageNumber, pageSize, totalPage, totalRow }
-        this.$Message.success('数据查询成功！')
-      })
-    },
     query () {
       this.$Loading.start()
       let params = this.allData
-      getReportMm(params).then((res) => {
+      if (!this.allData.cid) {
+        this.$Message.error('请选择公司')
+        return
+      }
+      if (!this.allData.time) {
+        this.$Message.error('请选择月份')
+        return
+      }
+      getComReportMm(params).then((res) => {
         console.log(res)
         this.$Loading.finish()
-        let { pageNumber, pageSize, totalPage, totalRow } = { ...res }
-        this.data1 = res.list
-        this.pageInfo = { pageNumber, pageSize, totalPage, totalRow }
+        this.data1 = res.data
         this.$Message.success('数据查询成功！')
       }).catch((err) => {
         this.$Loading.finish()
@@ -122,8 +318,12 @@ export default {
       })
     },
     exportTable () {
-      this.$Spin.show()
       let params = this.allData
+      if (!this.allData.time) {
+        this.$Message.error('请选择月份')
+        return
+      }
+      this.$Spin.show()
       getReportMmGenerate(params).then((res) => {
         console.log(res)
         this.$Spin.hide()

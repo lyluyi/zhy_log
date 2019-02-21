@@ -36,7 +36,7 @@
 
 import companyQuery from '@/common/companyQuery'
 
-import { getComReportMm } from '@/server/api'
+import { getGSReportMM } from '@/server/api'
 
 export default {
   data () {
@@ -164,25 +164,25 @@ export default {
             }
           ]
         },
-        {
-          title: '离职率',
-          aligh: 'center',
-          width: 240,
-          children: [
-            {
-              title: '转正前',
-              aligh: 'center',
-              width: 120,
-              key: 'for_q_befor'
-            },
-            {
-              title: '转正后',
-              aligh: 'center',
-              width: 120,
-              key: 'for_q_after'
-            }
-          ]
-        },
+        // {
+        //   title: '离职率',
+        //   aligh: 'center',
+        //   width: 240,
+        //   children: [
+        //     {
+        //       title: '转正前',
+        //       aligh: 'center',
+        //       width: 120,
+        //       key: 'for_q_befor'
+        //     },
+        //     {
+        //       title: '转正后',
+        //       aligh: 'center',
+        //       width: 120,
+        //       key: 'for_q_after'
+        //     }
+        //   ]
+        // },
         {
           title: '合同签订数量',
           aligh: 'center',
@@ -305,14 +305,22 @@ export default {
     // changePageNumber (num) {
     //   this.pageInfo.pageNumber = num
     //   let params = { ...this.pageInfo, ...this.allData }
-    //   getComReportMm(params).then((res) => {
+    //   getGSReportMM(params).then((res) => {
     //     this.data1 = res.list
     //   })
     // },
     query () {
       this.$Loading.start()
+      if (!this.allData.cid) {
+        this.$Message.error('请选择公司!')
+        return
+      }
+      if (!this.allData.time) {
+        this.$Message.error('请输入日期!')
+        return
+      }
       let params = this.allData
-      getComReportMm(params).then((res) => {
+      getGSReportMM(params).then((res) => {
         console.log(res)
         this.$Loading.finish()
         this.data1 = res.data
@@ -325,6 +333,14 @@ export default {
     },
     exportTable () {
       let params = this.allData
+      if (!this.allData.cid) {
+        this.$Message.error('请选择公司!')
+        return
+      }
+      if (!this.allData.time) {
+        this.$Message.error('请输入日期!')
+        return
+      }
       this.$axios.post('user/report/gs/month/exportUserCdChangeInfo', params, {
         responseType: 'blob',
         timeout: 60000 * 2
