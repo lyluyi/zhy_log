@@ -3,7 +3,7 @@
       <div class="userAuditView_title mb20">
         人员变动查看
       </div>
-      <Tabs :value="tabValue" :animated="false">
+      <Tabs v-model="tabValue" :animated="false">
         <TabPane label="人员变动审核查看" name="人员变动审核查看">
           <div class="userAudit_inputGroup">
             <Divider orientation="left">人员变动审核查看</Divider>
@@ -682,7 +682,7 @@ export default {
     }).then(res => {
       console.log(params)
       this.userAuditData = res.data.list
-      let { pageNumber, pageSize, totalPage, totalRow } = {...res.data}
+      let { pageNumber, pageSize, totalPage, totalRow } = {...res.data, ...this.userAuditQueryData}
       this.userAuditPageInfo = {
         pageNumber: pageNumber,
         pageSize: pageSize,
@@ -722,9 +722,12 @@ export default {
       })
     },
     changeUserAuditPageNumber (num) {
-      let params = {pageNumber: num, pageInfo: 10}
       if (this.tabValue === '人员变动审核查看') {
+        let params = {pageNumber: num, pageInfo: 10, ...this.userAuditQueryParams}
         this.getUserAuditPage(params)
+      } else {
+        let params = {pageNumber: num, pageInfo: 10}
+        this.getUserStatusPage(params)
       }
     },
     getUserAuditPage (params) {
@@ -739,8 +742,7 @@ export default {
         }
       })
     },
-    getUserStatusPage () {
-      let params = { ...this.userQueryPageInfo, ...this.userAuditQueryData }
+    getUserStatusPage (params) {
       switch (this.userAuditQueryData.auditTypeStatus) {
         case '异动':
           this.userAuditDetailColumns = this.jobChangeColumns

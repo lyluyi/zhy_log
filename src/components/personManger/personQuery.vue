@@ -1036,7 +1036,7 @@ export default {
           // this.data1.push(this.allData.userStudyhis)
           break
         case '家庭关系': this.infoTemplate = '家庭关系'
-          this.data1 = this.allData.userStudyhis
+          this.data1 = this.allData.userFamily
           // this.data1.push(this.allData.userFamily)
           break
         case '语言情况': this.infoTemplate = '语言情况'
