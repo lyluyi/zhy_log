@@ -235,3 +235,12 @@ export const getReportMm = (params) => { return fetch('FormData', 'montylyStatem
 export const getReportMmGenerate = (params) => { return fetch('FormData', 'montylyStatement/generate', params) } // 一键月结
 
 export const getReportYyGenerate = (params) => { return fetch('FormData', 'yearlyStatement/generate', params) } // 一键年结
+
+// 公司月报表
+export const getGSReportMM = (params) => { return fetch('FormData', '/user/report/gs/month/userCdChangeReport', params) }
+// 公司年报表
+export const getGSReportYY = (params) => { return fetch('FormData', '/user/report/gs/year/userCdChangeReport', params) }
+// 集团月报表
+export const getJTReportMM = (params) => { return fetch('FormData', '/user/report/jt/month/userCdChangeReport', params) }
+// 集团年报表
+export const getJTReportYY = (params) => { return fetch('FormData', '/user/report/jt/year/userCdChangeReport', params) }

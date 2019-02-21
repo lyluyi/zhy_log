@@ -36,7 +36,7 @@
 
 import companyQuery from '@/common/companyQuery'
 
-import { getGroReportYy } from '@/server/api'
+import { getJTReportYY } from '@/server/api'
 
 export default {
   data () {
@@ -164,25 +164,25 @@ export default {
             }
           ]
         },
-        {
-          title: '离职率',
-          aligh: 'center',
-          width: 240,
-          children: [
-            {
-              title: '转正前',
-              aligh: 'center',
-              width: 120,
-              key: 'for_q_befor'
-            },
-            {
-              title: '转正后',
-              aligh: 'center',
-              width: 120,
-              key: 'for_q_after'
-            }
-          ]
-        },
+        // {
+        //   title: '离职率',
+        //   aligh: 'center',
+        //   width: 240,
+        //   children: [
+        //     {
+        //       title: '转正前',
+        //       aligh: 'center',
+        //       width: 120,
+        //       key: 'for_q_befor'
+        //     },
+        //     {
+        //       title: '转正后',
+        //       aligh: 'center',
+        //       width: 120,
+        //       key: 'for_q_after'
+        //     }
+        //   ]
+        // },
         {
           title: '合同签订数量',
           aligh: 'center',
@@ -309,8 +309,12 @@ export default {
     // },
     query () {
       this.$Loading.start()
+      if (!this.allData.time) {
+        this.$Message.error('请选择年份')
+        return
+      }
       let params = this.allData
-      getGroReportYy(params).then((res) => {
+      getJTReportYY(params).then((res) => {
         console.log(res)
         this.$Loading.finish()
         this.data1 = res.data

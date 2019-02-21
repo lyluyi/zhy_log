@@ -36,7 +36,7 @@
 
 import companyQuery from '@/common/companyQuery'
 
-import { getGroReportMm } from '@/server/api'
+import { getJTReportMM } from '@/server/api'
 
 export default {
   data () {
@@ -164,25 +164,25 @@ export default {
             }
           ]
         },
-        {
-          title: '离职率',
-          aligh: 'center',
-          width: 240,
-          children: [
-            {
-              title: '转正前',
-              aligh: 'center',
-              width: 120,
-              key: 'for_q_befor'
-            },
-            {
-              title: '转正后',
-              aligh: 'center',
-              width: 120,
-              key: 'for_q_after'
-            }
-          ]
-        },
+        // {
+        //   title: '离职率',
+        //   aligh: 'center',
+        //   width: 240,
+        //   children: [
+        //     {
+        //       title: '转正前',
+        //       aligh: 'center',
+        //       width: 120,
+        //       key: 'for_q_befor'
+        //     },
+        //     {
+        //       title: '转正后',
+        //       aligh: 'center',
+        //       width: 120,
+        //       key: 'for_q_after'
+        //     }
+        //   ]
+        // },
         {
           title: '合同签订数量',
           aligh: 'center',
@@ -308,9 +308,13 @@ export default {
     //   })
     // },
     query () {
+      if (!this.allData.time) {
+        this.$Message.error('请输入日期!')
+        return
+      }
       this.$Loading.start()
       let params = this.allData
-      getGroReportMm(params).then((res) => {
+      getJTReportMM(params).then((res) => {
         console.log(res)
         this.$Loading.finish()
         this.data1 = res.data
