@@ -498,6 +498,66 @@ const router = new Router({
             requireAuth: true
           },
           component: (resolve) => require(['../components/personManger/userContract.vue'], resolve)
+        },
+        {
+          path: 'com_report_mm',
+          name: 'com_report_mm',
+          meta: {
+            title: '公司月度报表',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/report/com_report_mm.vue'], resolve)
+        },
+        {
+          path: 'com_report_yy',
+          name: 'com_report_yy',
+          meta: {
+            title: '公司年度报表',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/report/com_report_yy.vue'], resolve)
+        },
+        {
+          path: 'group_report_mm',
+          name: 'group_report_mm',
+          meta: {
+            title: '集团月度报表',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/report/group_report_mm.vue'], resolve)
+        },
+        {
+          path: 'group_report_yy',
+          name: 'group_report_yy',
+          meta: {
+            title: '集团年度报表',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/report/group_report_yy.vue'], resolve)
+        },
+        {
+          path: 'report_yy',
+          name: 'report_yy',
+          meta: {
+            title: '年度报表',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/report/report_yy.vue'], resolve)
+        },
+        {
+          path: 'report_mm',
+          name: 'report_mm',
+          meta: {
+            title: '月度报表',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/report/report_mm.vue'], resolve)
         }
       ]
     }

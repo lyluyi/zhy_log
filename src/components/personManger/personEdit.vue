@@ -67,7 +67,7 @@
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">证件类型：</Button>
-              <Select v-model="allData.idCardType"  placement="bottom">
+              <Select clearable v-model="allData.idCardType"  placement="bottom">
                   <Option v-for="item in idType" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </Col>
@@ -87,7 +87,7 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">性别：</Button>
-              <Select v-model="allData.sex"  placement="bottom">
+              <Select clearable v-model="allData.sex"  placement="bottom">
                 <Option v-for="item in sexType" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </Col>
@@ -103,14 +103,14 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">员工状态：</Button>
-              <Select v-model="allData.userStatus"  placement="bottom">
+              <Select clearable v-model="allData.userStatus"  placement="bottom">
                 <Option v-for="item in emloyType" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
               <!-- <Input type="text" placeholder=""  v-model="allData.healhstayus"/> -->
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">员工属性：</Button>
-              <Select v-model="allData.userType"  placement="bottom">
+              <Select clearable v-model="allData.userType"  placement="bottom">
                 <Option v-for="item in emloyAttr" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
               <!-- <Input type="text" placeholder="" v-model="allData.userType" /> -->
@@ -119,7 +119,7 @@
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">学历：</Button>
-              <Select v-model="allData.education"  placement="bottom">
+              <Select clearable v-model="allData.education"  placement="bottom">
                 <Option v-for="item in educationType" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </Col>
@@ -129,7 +129,7 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">婚姻状况：</Button>
-              <Select v-model="allData.marriageid"  placement="bottom">
+              <Select clearable v-model="allData.marriageid"  placement="bottom">
                 <Option v-for="item in marriageidType" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </Col>
@@ -141,7 +141,7 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">预计转正日期：</Button>
-              <DatePicker @on-change="allData.beWorkDate=$event" type="date" placeholder="Select date"  placement="bottom" v-model="allData.beWorkDate"></DatePicker>
+              <DatePicker @on-change="allData.toBeWorkDate=$event" type="date" placeholder="Select date"  placement="bottom" v-model="allData.toBeWorkDate"></DatePicker>
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">健康证到期日：</Button>
@@ -151,7 +151,7 @@
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">民族：</Button>
-              <Select v-model="allData.nationid"  placement="bottom">
+              <Select clearable v-model="allData.nationid"  placement="bottom">
                 <Option v-for="item in nationidType" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </Col>
@@ -163,7 +163,7 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">所属区域：</Button>
-              <Select v-model="allData.area"  placement="bottom">
+              <Select clearable v-model="allData.area"  placement="bottom">
                 <Option v-for="item in areaType" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </Col>
@@ -175,7 +175,7 @@
             </Col> -->
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">是否负责人：</Button>
-              <Select v-model="allData.isHeader"  placement="bottom">
+              <Select clearable v-model="allData.isHeader"  placement="bottom">
                 <Option v-for="item in ynType" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </Col>
@@ -195,7 +195,7 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">直/间接：</Button>
-              <Select v-model="allData.hrType1"  placement="bottom">
+              <Select clearable v-model="allData.hrType1"  placement="bottom">
                 <Option v-for="item in hrType1Array" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </Col>
@@ -215,13 +215,13 @@
           <Row :gutter="16" class="mb10">
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">是否储备人才：</Button>
-              <Select v-model="allData.isreserveid"  placement="bottom">
+              <Select clearable v-model="allData.isreserveid"  placement="bottom">
                 <Option v-for="item in ynType" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">政治面貌：</Button>
-              <Select v-model="allData.politics"  placement="bottom">
+              <Select clearable v-model="allData.politics"  placement="bottom">
                 <Option v-for="item in politicsType" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </Col>
@@ -237,7 +237,7 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">人员来源：</Button>
-              <Select v-model="allData.source"  placement="bottom">
+              <Select clearable v-model="allData.source"  placement="bottom">
                 <Option v-for="item in sourceType" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </Col>
@@ -276,7 +276,7 @@
             </Col>
             <Col class="col_flex" span="8">
               <Button class="wd mr10 tr" type="text">是否工会成员：</Button>
-              <Select v-model="allData.isLabour"  placement="bottom">
+              <Select clearable v-model="allData.isLabour"  placement="bottom">
                   <Option v-for="item in ynType" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </Col>
@@ -310,7 +310,7 @@
         </TabPane>
          <TabPane label="相关信息" name="相关信息" class="person_tabpane">
           <div class="mb20 col_flex">
-            <Select v-model="infoRecordTypeValue" @on-change="infoRecordChange" style="width:150px">
+            <Select clearable v-model="infoRecordTypeValue" @on-change="infoRecordChange" style="width:150px">
               <Option v-for="item in infoRecordType" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
               <Button type="primary" class="ml20" @click="updateItem">更新</Button>
@@ -414,7 +414,7 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">院校性质：</Button>
-                  <Select v-model="userStudyhis.schoolType"  placement="bottom">
+                  <Select clearable v-model="userStudyhis.schoolType"  placement="bottom">
                     <Option v-for="item in schoolTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                   </Select>
                 </Col>
@@ -424,7 +424,7 @@
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">毕业类型：</Button>
-                  <Select v-model="userStudyhis.graduationType"  placement="bottom">
+                  <Select clearable v-model="userStudyhis.graduationType"  placement="bottom">
                     <Option v-for="item in graduationTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                   </Select>
                 </Col>
@@ -463,7 +463,7 @@
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">与己关系：</Button>
-                  <Select v-model="userFamily.relationship"  placement="bottom">
+                  <Select clearable v-model="userFamily.relationship"  placement="bottom">
                     <Option v-for="item in relationshipTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                   </Select>
                 </Col>
@@ -535,7 +535,7 @@
                 </Col>
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text">与己关系：</Button>
-                  <Select v-model="userUrgent.urgentType"  placement="bottom">
+                  <Select clearable v-model="userUrgent.urgentType"  placement="bottom">
                     <Option v-for="item in relationshipTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                   </Select>
                 </Col>
@@ -810,6 +810,7 @@ export default {
         hrType1: '', // 直/间接
         area: '', // 所属区域
         beWorkDate: '', // 转正日期
+        toBeWorkDate: '', // 预计转正日期
         upHeader: '', // 直接主管
         upHeaderId: '', // 直接主管id
         jobId: '', // 职位名称
@@ -895,6 +896,9 @@ export default {
     })
     getDic('Graduation').then((res) => {
       this.graduationTypeList = res.data
+    })
+    getDic('Relationship').then((res) => {
+      this.relationshipTypeList = res.data
     })
   },
   // mounted () {
@@ -1161,7 +1165,7 @@ export default {
           this.data1 = [].concat(this.allData.userStudyhis)
           break
         case '家庭关系':
-          this.allData.userStudyhis.splice(index, 1)
+          this.allData.userFamily.splice(index, 1)
           this.data1 = [].concat(this.allData.userFamily)
           break
         case '语言情况':

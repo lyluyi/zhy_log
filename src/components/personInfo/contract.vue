@@ -8,7 +8,8 @@
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">工号：</Button>
-          <Input placeholder="" v-model="currentUser.userId" readonly />
+          <Input placeholder="" v-model="currentUser.userId"  readonly v-if="userContract.conType !== '借调协议'"/>
+          <Input placeholder="" search enter-button v-else @on-search="queryId"  v-model="currentUser.userId" readonly />
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text" >姓名：</Button>
@@ -68,7 +69,6 @@
             <Option v-for="item in signTypeItems" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </i-select>
         </Col>
-
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">非固定限期合同：</Button>
           <i-switch v-model="userContract.isLongConView" @on-change="isLongConViewChange" />
@@ -79,7 +79,7 @@
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">合同类型：</Button>
           <!-- <Input placeholder="" v-model="userContract.conType" /> -->
-          <i-select v-model="userContract.conType">
+          <i-select v-model="userContract.conType" @on-change="selectUserContract">
             <Option v-for="item in conTypeItems" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </i-select>
         </Col>
@@ -101,17 +101,17 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">合同生效日：</Button>
-          <DatePicker type="date" placeholder="合同生效日" placement="bottom" v-model="userContract.conBeginDate"></DatePicker>
+          <DatePicker type="date" placeholder="合同生效日" placement="bottom" v-model="userContract.conBeginDate" @on-change="userContract.conBeginDate=$event"></DatePicker>
         </Col>
         <Col class="col_flex" span="8" v-if="userContract.isLongConView === false">
           <Button class="wd mr10 tr" type="text">合同终止日：</Button>
-          <DatePicker type="date" placeholder="合同终止日" placement="bottom" v-model="userContract.conEndDate"></DatePicker>
+          <DatePicker type="date" placeholder="合同终止日" placement="bottom" v-model="userContract.conEndDate" @on-change="userContract.conEndDate=$event"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">签订日期：</Button>
-          <DatePicker type="date" placeholder="签订日期" placement="bottom" v-model="userContract.signDate"></DatePicker>
+          <DatePicker type="date" placeholder="签订日期" placement="bottom" v-model="userContract.signDate" @on-change="userContract.signDate=$event"></DatePicker>
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">签约用人单位：</Button>
@@ -178,6 +178,7 @@
     </div>
     <companyQuery @tableCompany="getCompany" @statusCompany='getCompanyStatus' :data="model1" v-if="flag1"></companyQuery>
     <departmentQuery @tableDepartment="getDepartment" @statusDepartment='getDepartmentStatus' :data="model2" v-if="flag2" :cid="cid"></departmentQuery>
+    <userIdQuery @tableUserId="getUserId" @statusUserId='getUserIdStatus' :data="modal6" v-if="flag6"></userIdQuery>
   </div>
 </template>
 <script>
@@ -186,6 +187,7 @@ import { getUserContractPage, postSaveUserContractPage } from '@/server/api'
 import getDic from '@/server/apiDic'
 import companyQuery from '@/common/companyQuery'
 import departmentQuery from '@/common/departmentQuery'
+import userIdQuery from '@/common/userIdQuery'
 
 export default {
   data () {
@@ -194,6 +196,8 @@ export default {
       model1: false,
       flag2: false,
       model2: false,
+      flag6: false,
+      model6: false,
       tabPane: {
         newContractWork: (h) => {
           return h('div', [
@@ -324,7 +328,11 @@ export default {
   mounted () {},
   methods: {
     selectUser (item, index) {
-      this.currentUser = item
+      if (this.userContract.conType === '借调协议') {
+        return false
+      } else {
+        this.currentUser = item
+      }
     },
     tabChange (name) {
       if (name === 'thisMonth') {
@@ -370,6 +378,22 @@ export default {
         this.queryUserContractPageData()
       }
     },
+    selectUserContract () {
+      if (this.userContract.conType === '借调协议') {
+        this.currentUser = {}
+      }
+    },
+    queryId () {
+      this.modal6 = true
+      this.flag6 = true
+    },
+    getUserId (item) {
+      this.currentUser = item
+    },
+    getUserIdStatus (item) {
+      this.flag6 = item.comFlag
+      this.modal6 = item.commodal
+    },
     queryUserContractPageData () {
       this.UserContractPageParams = {
         newSigningConTypes: this.newSigningConTypes,
@@ -391,7 +415,6 @@ export default {
       })
     },
     queryUserContractPage () {
-
     },
     changeUserContractPageNumber (num) {
       this.UserContractPageParams.pageNumber = num
@@ -407,7 +430,10 @@ export default {
     saveContract () {
       if (this.currentUser.userId) {
         this.userContract.userId = this.currentUser.userId
+        this.userContract.cid = this.currentUser.cid
+        this.userContract.did = this.currentUser.did
         postSaveUserContractPage(this.userContract).then((res) => {
+          // debugger
           if (res.code === 200) {
             this.$Message.info({ content: '保存成功' })
             this.$router.go(0)
@@ -467,7 +493,8 @@ export default {
   },
   components: {
     departmentQuery,
-    companyQuery
+    companyQuery,
+    userIdQuery
   }
 }
 </script>

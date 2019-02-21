@@ -218,3 +218,20 @@ export const deletePriHR = (params) => { return fetch('Json', 'priHR/deletePriHR
 
 // 查询合同信息
 export const getUserContractInfoPage = (params) => { return fetch('FormData', 'userContract/userContractPage', params) }
+
+// 报表
+export const getComReportMm = (params) => { return fetch('FormData', 'user/report/gs/month/userCdChangeInfo', params) } // 公司月度报表查询
+
+export const getComReportYy = (params) => { return fetch('FormData', 'user/report/gs/year/userCdChangeInfo', params) } // 公司月度报表查询
+
+export const getGroReportMm = (params) => { return fetch('FormData', 'user/report/jt/month/userCdChangeInfo', params) } // 集团月度报表查询
+
+export const getGroReportYy = (params) => { return fetch('FormData', 'user/report/jt/year/userCdChangeInfo', params) } // 集团月度报表查询
+
+export const getReportYy = (params) => { return fetch('FormData', 'yearlyStatement/page', params) } // 年度报表查询
+
+export const getReportMm = (params) => { return fetch('FormData', 'montylyStatement/page', params) } // 月度报表查询
+
+export const getReportMmGenerate = (params) => { return fetch('FormData', 'montylyStatement/generate', params) } // 一键月结
+
+export const getReportYyGenerate = (params) => { return fetch('FormData', 'yearlyStatement/generate', params) } // 一键年结
