@@ -159,7 +159,8 @@ export default {
       UserAuditType: [],
       UserAuditStatus: [
         { label: '审批中', value: '审批中' },
-        { label: '审批不通过', value: '审批不通过' }
+        { label: '审批不通过', value: '审批不通过' },
+        { label: '审批通过', value: '审批通过' }
       ]
     }
   },

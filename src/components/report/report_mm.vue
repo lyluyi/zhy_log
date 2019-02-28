@@ -11,7 +11,7 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">月份：</Button>
-          <DatePicker type="month" placeholder="Select month" style="width: 200px" v-model="allData.time" @on-change="allData.time=$event"></DatePicker>
+          <DatePicker :options="limitDateA" type="month" placeholder="Select month" style="width: 200px" v-model="allData.time" @on-change="allData.time=$event"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
@@ -40,6 +40,12 @@ import { getComReportMm, getReportMmGenerate } from '@/server/api'
 export default {
   data () {
     return {
+      limitDateA: {
+        disabledDate: date => { // 大于当前时间
+          let startTime = new Date('2018-01-01')
+          return date.valueOf() < startTime // 从某个时间开始 默认从当前时间开始
+        }
+      },
       modal1: false,
       flag1: false,
       columns1: [
@@ -47,41 +53,39 @@ export default {
           title: '部门',
           fixed: 'left',
           aligh: 'center',
-          width: 160,
+          width: 100,
           key: 'dname'
         },
         {
           title: '上月人数',
           aligh: 'center',
-          width: 120,
+          width: 100,
           key: 'shangyuerenshu'
         },
         {
           title: '本月入职人数',
           aligh: 'center',
-          width: 600,
           children: [
             {
               title: '入职',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'ruzhirenshu'
             },
             {
               title: '离职',
               aligh: 'center',
-              width: 120,
               children: [
                 {
                   title: '转正前',
                   aligh: 'center',
-                  width: 120,
+                  width: 100,
                   key: 'quit_befor'
                 },
                 {
                   title: '转正后',
                   aligh: 'center',
-                  width: 120,
+                  width: 100,
                   key: 'quit_after'
                 }
               ]
@@ -89,18 +93,17 @@ export default {
             {
               title: '转岗',
               aligh: 'center',
-              width: 120,
               children: [
                 {
                   title: '转入',
                   aligh: 'center',
-                  width: 120,
+                  width: 100,
                   key: 'cd_in'
                 },
                 {
                   title: '转出',
                   aligh: 'center',
-                  width: 120,
+                  width: 100,
                   key: 'cd_out'
                 }
               ]
@@ -110,24 +113,23 @@ export default {
         {
           title: '本月合计',
           aligh: 'center',
-          width: 120,
+          width: 100,
           key: 'benyuerenshu'
         },
         {
           title: '离职率',
           aligh: 'center',
-          width: 240,
           children: [
             {
               title: '转正前',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'for_q_befor'
             },
             {
               title: '转正后',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'for_q_after'
             }
           ]
@@ -135,30 +137,29 @@ export default {
         {
           title: '岗位异动',
           aligh: 'center',
-          width: 480,
           children: [
             {
               title: '转正',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'u_for'
             },
             {
               title: '晋升',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'cd_up'
             },
             {
               title: '降职',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'cd_down'
             },
             {
               title: '平调',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'cd_pd'
             }
           ]
@@ -171,13 +172,13 @@ export default {
         //     {
         //       title: '转正前',
         //       aligh: 'center',
-        //       width: 120,
+        //       width: 100,
         //       key: 'for_q_befor'
         //     },
         //     {
         //       title: '转正后',
         //       aligh: 'center',
-        //       width: 120,
+        //       width: 100,
         //       key: 'for_q_after'
         //     }
         //   ]
@@ -185,30 +186,29 @@ export default {
         {
           title: '合同签订数量',
           aligh: 'center',
-          width: 480,
           children: [
             {
               title: '劳动合同',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'new_con_ld'
             },
             {
               title: '劳动协议',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'new_con_lw'
             },
             {
               title: '实习协议',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'new_con_sx'
             },
             {
               title: '其它协议',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'new_con_qt'
             }
           ]
@@ -216,18 +216,17 @@ export default {
         {
           title: '合同续签数量',
           aligh: 'center',
-          width: 240,
           children: [
             {
               title: '劳动合同',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'old_con_ld'
             },
             {
               title: '劳动协议',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'old_con_lw'
             }
           ]
@@ -235,30 +234,29 @@ export default {
         {
           title: '签收数量',
           aligh: 'center',
-          width: 120,
+          width: 100,
           key: 'total_con'
         },
         {
           title: '离职原因',
           aligh: 'center',
-          width: 360,
           children: [
             {
               title: '辞退',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'quit_ct'
             },
             {
               title: '自离',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'quit_zl'
             },
             {
               title: '辞职',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'quit_cz'
             }
           ]
@@ -267,7 +265,7 @@ export default {
           title: '同签订总人',
           aligh: 'center',
           fixed: 'right',
-          width: 160,
+          width: 100,
           key: 'hetongrenshu'
         }
       ],

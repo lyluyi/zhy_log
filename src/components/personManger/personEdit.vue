@@ -310,7 +310,7 @@
         </TabPane>
          <TabPane label="相关信息" name="相关信息" class="person_tabpane">
           <div class="mb20 col_flex">
-            <Select clearable v-model="infoRecordTypeValue" @on-change="infoRecordChange" style="width:150px">
+            <Select v-model="infoRecordTypeValue" @on-change="infoRecordChange" style="width:150px">
               <Option v-for="item in infoRecordType" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
               <Button type="primary" class="ml20" @click="updateItem">更新</Button>
