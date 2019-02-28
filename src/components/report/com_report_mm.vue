@@ -11,7 +11,7 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">月份：</Button>
-          <DatePicker type="month" placeholder="Select month" style="width: 200px" v-model="allData.time" @on-change="allData.time=$event"></DatePicker>
+          <DatePicker :disabled="isSelect" :readonly="isSelect" :options="limitDateA" type="month" placeholder="Select month" style="width: 200px" v-model="allData.time" @on-change="allData.time=$event"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
@@ -36,11 +36,18 @@
 
 import companyQuery from '@/common/companyQuery'
 
-import { getGSReportMM } from '@/server/api'
+import { getGSReportMM, getComReportMmTime } from '@/server/api'
 
 export default {
   data () {
     return {
+      limitDateA: {
+        disabledDate: date => { // 大于当前时间
+          let startTime = Date.now('2019-01')
+          return date && date.valueOf() < startTime // 从某个时间开始 默认从当前时间开始
+        }
+      },
+      isSelect: true,
       modal1: false,
       flag1: false,
       columns1: [
@@ -297,6 +304,42 @@ export default {
     getCompany (item) {
       this.allData.cid = item.cid
       this.allData.cname = item.cname
+      this.getTimeLimit()
+    },
+    getTimeLimit () {
+      getComReportMmTime({ cid: this.allData.cid }).then(res => {
+        if (res.code === 200) {
+          this.isSelect = false
+          this.limitDateA = {
+            disabledDate: date => { // 大于当前时间
+              let flag = true
+              res.data.forEach(item => {
+                let month = item
+                let lastMonth = this.getLastMonth(item)
+                // 从某个时间开始 默认从当前时间开始
+                flag = flag && !(date.valueOf() > new Date(lastMonth) && date.valueOf() < new Date(month))
+              })
+              return flag
+            }
+          }
+        } else {
+          this.$Message.error(res.message)
+        }
+      }).catch(err => {
+        throw err
+      })
+    },
+    getLastMonth (item) { // 获取上个月
+      let time = item + '-01'
+      let date = new Date(time)
+      let year = date.getFullYear()
+      let month = date.getMonth()
+      if (month === 0 || month === '0' || month === '00') {
+        year = year - 1
+        month = 12
+      }
+      month > 9 ? month = month + '' : month = '0' + month
+      return year + '-' + month
     },
     getCompanyStatus (item) {
       this.flag1 = item.comFlag

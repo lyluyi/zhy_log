@@ -148,10 +148,8 @@ export const getUserQuitApply = (params) => { return fetch('FormData', 'userQuit
 export const getUserOrganizationApply = (params) => { return fetch('FormData', 'userOrganization/findUserOrganizationById', params) }
 
 // 查询待转正员工
-export const getCanUserFormalUser = (params) => { return fetch('Json', 'userFormal/selectUserPage', params) }
 
-// 查询待晋升员工
-export const getCanUpUserFormalUser = (params) => { return fetch('Json', 'userFormal/selectUpUserPage', params) }
+export const getCanUserFormalUser = (params) => { return fetch('Json', 'userFormal/selectUserPage', params) }
 
 // 保存员工转正信息
 
@@ -224,11 +222,19 @@ export const getUserContractInfoPage = (params) => { return fetch('FormData', 'u
 // 报表
 export const getComReportMm = (params) => { return fetch('FormData', 'user/report/gs/month/userCdChangeInfo', params) } // 公司月度报表查询
 
+export const getComReportMmTime = (params) => { return fetch('FormData', 'montylyStatement/getCompanyMonthlyCanSelectMonth', params) } // 公司月度报表查询时间限定
+
 export const getComReportYy = (params) => { return fetch('FormData', 'user/report/gs/year/userCdChangeInfo', params) } // 公司月度报表查询
+
+export const getComReportYyTime = (params) => { return fetch('FormData', 'yearlyStatement/getCompanyYearlyCanSelectYear', params) } // 公司年度报表查询时间限定
 
 export const getGroReportMm = (params) => { return fetch('FormData', 'user/report/jt/month/userCdChangeInfo', params) } // 集团月度报表查询
 
+export const getGroReportMmTime = (params) => { return fetch('FormData', 'montylyStatement/getGTMonthlyCanSelectMonth', params) } // 集团月度报表查询查询时间限定
+
 export const getGroReportYy = (params) => { return fetch('FormData', 'user/report/jt/year/userCdChangeInfo', params) } // 集团月度报表查询
+
+export const getGroReportYyTime = (params) => { return fetch('FormData', 'yearlyStatement/getGTYearlyCanSelectYear', params) } // 集团年度度报查询时间限定
 
 export const getReportYy = (params) => { return fetch('FormData', 'yearlyStatement/page', params) } // 年度报表查询
 
@@ -240,9 +246,12 @@ export const getReportYyGenerate = (params) => { return fetch('FormData', 'yearl
 
 // 公司月报表
 export const getGSReportMM = (params) => { return fetch('FormData', '/user/report/gs/month/userCdChangeReport', params) }
+
 // 公司年报表
 export const getGSReportYY = (params) => { return fetch('FormData', '/user/report/gs/year/userCdChangeReport', params) }
+
 // 集团月报表
 export const getJTReportMM = (params) => { return fetch('FormData', '/user/report/jt/month/userCdChangeReport', params) }
+
 // 集团年报表
 export const getJTReportYY = (params) => { return fetch('FormData', '/user/report/jt/year/userCdChangeReport', params) }

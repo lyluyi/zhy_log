@@ -293,7 +293,7 @@ export default {
       this.modal6 = item.commodal
     },
     saveValidate () {
-      if (this.userCdChange.changeType !== '升职') {
+      if (this.userCdChange.changeType === '升迁') {
         if (this.userCdChange.toBeWorkDate === '') {
           return false
         } else {
