@@ -107,6 +107,9 @@ export const getJobId = (params) => { return fetch('FormData', 'job/page', param
 
 export const postJobChange = (params) => { return fetch('Json', 'userCdChange', params) } // 保存岗位变动信息
 
+// 查询待晋升员工
+export const getCanUpUserFormalUser = (params) => { return fetch('Json', 'userFormal/selectUpUserPage', params) }
+
 // 查询岗位变动信息
 
 export const getJobChangeApply = (params) => { return fetch('FormData', 'userCdChange/findUserCdChangeById', params) }
