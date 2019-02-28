@@ -11,7 +11,7 @@
         </Col> -->
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">年：</Button>
-          <DatePicker type="year" placeholder="Select year" style="width: 200px" v-model="allData.time" @on-change="allData.time=$event"></DatePicker>
+          <DatePicker :disabled="isSelect" :readonly="isSelect" :options="limitDateA" type="year" placeholder="Select year" style="width: 200px" v-model="allData.time" @on-change="allData.time=$event"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
@@ -36,11 +36,18 @@
 
 import companyQuery from '@/common/companyQuery'
 
-import { getJTReportYY } from '@/server/api'
+import { getJTReportYY, getGroReportYyTime } from '@/server/api'
 
 export default {
   data () {
     return {
+      limitDateA: {
+        disabledDate: date => { // 大于当前时间
+          let startTime = Date.now('2019-01')
+          return date && date.valueOf() < startTime // 从某个时间开始 默认从当前时间开始
+        }
+      },
+      isSelect: true,
       modal1: false,
       flag1: false,
       columns1: [
@@ -48,41 +55,40 @@ export default {
           title: '公司',
           fixed: 'left',
           aligh: 'center',
-          width: 160,
+          width: 100,
           key: 'cname'
         },
         {
           title: '上月人数',
           aligh: 'center',
-          width: 120,
+          width: 100,
           key: 'shangyuerenshu'
         },
         {
           title: '本月入职人数',
           aligh: 'center',
-          width: 600,
           children: [
             {
               title: '入职',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'ruzhirenshu'
             },
             {
               title: '离职',
               aligh: 'center',
-              width: 120,
+              width: 100,
               children: [
                 {
                   title: '转正前',
                   aligh: 'center',
-                  width: 120,
+                  width: 100,
                   key: 'quit_befor'
                 },
                 {
                   title: '转正后',
                   aligh: 'center',
-                  width: 120,
+                  width: 100,
                   key: 'quit_after'
                 }
               ]
@@ -90,18 +96,18 @@ export default {
             {
               title: '转岗',
               aligh: 'center',
-              width: 120,
+              width: 100,
               children: [
                 {
                   title: '转入',
                   aligh: 'center',
-                  width: 120,
+                  width: 100,
                   key: 'cd_in'
                 },
                 {
                   title: '转出',
                   aligh: 'center',
-                  width: 120,
+                  width: 100,
                   key: 'cd_out'
                 }
               ]
@@ -111,24 +117,23 @@ export default {
         {
           title: '本月合计',
           aligh: 'center',
-          width: 120,
+          width: 100,
           key: 'benyuerenshu'
         },
         {
           title: '离职率',
           aligh: 'center',
-          width: 240,
           children: [
             {
               title: '转正前',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'for_q_befor'
             },
             {
               title: '转正后',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'for_q_after'
             }
           ]
@@ -136,30 +141,29 @@ export default {
         {
           title: '岗位异动',
           aligh: 'center',
-          width: 480,
           children: [
             {
               title: '转正',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'u_for'
             },
             {
               title: '晋升',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'cd_up'
             },
             {
               title: '降职',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'cd_down'
             },
             {
               title: '平调',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'cd_pd'
             }
           ]
@@ -172,13 +176,13 @@ export default {
         //     {
         //       title: '转正前',
         //       aligh: 'center',
-        //       width: 120,
+        //       width: 100,
         //       key: 'for_q_befor'
         //     },
         //     {
         //       title: '转正后',
         //       aligh: 'center',
-        //       width: 120,
+        //       width: 100,
         //       key: 'for_q_after'
         //     }
         //   ]
@@ -186,30 +190,29 @@ export default {
         {
           title: '合同签订数量',
           aligh: 'center',
-          width: 480,
           children: [
             {
               title: '劳动合同',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'new_con_ld'
             },
             {
               title: '劳动协议',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'new_con_lw'
             },
             {
               title: '实习协议',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'new_con_sx'
             },
             {
               title: '其它协议',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'new_con_qt'
             }
           ]
@@ -217,18 +220,17 @@ export default {
         {
           title: '合同续签数量',
           aligh: 'center',
-          width: 240,
           children: [
             {
               title: '劳动合同',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'old_con_ld'
             },
             {
               title: '劳动协议',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'old_con_lw'
             }
           ]
@@ -236,30 +238,29 @@ export default {
         {
           title: '签收数量',
           aligh: 'center',
-          width: 120,
+          width: 100,
           key: 'total_con'
         },
         {
           title: '离职原因',
           aligh: 'center',
-          width: 360,
           children: [
             {
               title: '辞退',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'quit_ct'
             },
             {
               title: '自离',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'quit_zl'
             },
             {
               title: '辞职',
               aligh: 'center',
-              width: 120,
+              width: 100,
               key: 'quit_cz'
             }
           ]
@@ -268,7 +269,7 @@ export default {
           title: '同签订总人',
           aligh: 'center',
           fixed: 'right',
-          width: 160,
+          width: 100,
           key: 'hetongrenshu'
         }
       ],
@@ -285,21 +286,22 @@ export default {
     }
   },
   created () {
+    this.getTimeLimit()
   },
   mounted () {},
   methods: {
-    queryCompany () { // 公司信息查询
-      this.flag1 = true
-      this.model1 = true
-    },
-    getCompany (item) {
-      this.allData.cid = item.cid
-      this.allData.cname = item.cname
-    },
-    getCompanyStatus (item) {
-      this.flag1 = item.comFlag
-      this.model1 = item.commodal
-    },
+    // queryCompany () { // 公司信息查询
+    //   this.flag1 = true
+    //   this.model1 = true
+    // },
+    // getCompany (item) {
+    //   this.allData.cid = item.cid
+    //   this.allData.cname = item.cname
+    // },
+    // getCompanyStatus (item) {
+    //   this.flag1 = item.comFlag
+    //   this.model1 = item.commodal
+    // },
     // changePageNumber (num) {
     //   this.pageInfo.pageNumber = num
     //   let params = { ...this.pageInfo, ...this.allData }
@@ -307,6 +309,41 @@ export default {
     //     this.data1 = res.list
     //   })
     // },
+    getTimeLimit () {
+      getGroReportYyTime({cid: this.allData.cid}).then(res => {
+        if (res.code === 200) {
+          this.isSelect = false
+          this.limitDateA = {
+            disabledDate: date => { // 大于当前时间
+              let flag = true
+              res.data.forEach(item => {
+                let month = item
+                let lastMonth = this.getLastMonth(item)
+                // 从某个时间开始 默认从当前时间开始
+                flag = flag && !(date.valueOf() > new Date(lastMonth) && date.valueOf() < new Date(month))
+              })
+              return flag
+            }
+          }
+        } else {
+          this.$Message.error(res.message)
+        }
+      }).catch(err => {
+        throw err
+      })
+    },
+    getLastMonth (item) { // 获取上个月
+      let time = item + '-01'
+      let date = new Date(time)
+      let year = date.getFullYear()
+      let month = date.getMonth()
+      if (month === 0 || month === '0' || month === '00') {
+        year = year - 1
+        month = 12
+      }
+      month > 9 ? month = month + '' : month = '0' + month
+      return year + '-' + month
+    },
     query () {
       this.$Loading.start()
       if (!this.allData.time) {

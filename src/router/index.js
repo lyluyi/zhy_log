@@ -320,16 +320,6 @@ const router = new Router({
           component: (resolve) => require(['../components/personManger/fullMember.vue'], resolve)
         },
         {
-          path: 'fullMember_up',
-          name: 'fullMember_up',
-          meta: {
-            title: '晋升转正',
-            content: true,
-            requireAuth: true
-          },
-          component: (resolve) => require(['../components/personManger/fullMember_up.vue'], resolve)
-        },
-        {
           path: 'fullMemberAudit',
           name: 'fullMemberAudit',
           meta: {
