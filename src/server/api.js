@@ -148,8 +148,10 @@ export const getUserQuitApply = (params) => { return fetch('FormData', 'userQuit
 export const getUserOrganizationApply = (params) => { return fetch('FormData', 'userOrganization/findUserOrganizationById', params) }
 
 // 查询待转正员工
-
 export const getCanUserFormalUser = (params) => { return fetch('Json', 'userFormal/selectUserPage', params) }
+
+// 查询待晋升员工
+export const getCanUpUserFormalUser = (params) => { return fetch('Json', 'userFormal/selectUpUserPage', params) }
 
 // 保存员工转正信息
 
