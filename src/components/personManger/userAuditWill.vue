@@ -5,13 +5,17 @@
       </div>
       <div class="userAuditWill_inputGroup">
         <Row :gutter="16" class="mb20 mt20 pt20">
-          <Col class="col_flex" span="24">
+          <Col class="col_flex" span="12">
             <Button class="wd tc" type="primary" style="margin:0 16px;">查询条件</Button>
             <div>
               <RadioGroup v-model="queryType" @on-change="queryTypeChange" >
                 <Radio v-bind:key="item.value" v-for="item in queryTypeList" :label="item.title"></Radio>
               </RadioGroup>
             </div>
+          </Col>
+          <Col class="col_flex" span="12">
+              <Button class="wd tc" type="primary" style="margin:0 16px;">员工姓名</Button>
+              <Input type="text" v-model="userAuditWillPageParams.userName" style="width:200px" @on-change="userNameChange" />
           </Col>
         </Row>
         <Row :gutter="16" class="mb10">
@@ -134,6 +138,7 @@ export default {
       ],
       columns: [],
       userAuditWillPageParams: {
+        userName: '',
         queryType: '',
         timeType: '',
         pageNumber: 1,
@@ -210,6 +215,7 @@ export default {
     queryUserAuditWillPageData () {
       this.userAuditWillPageParams = {
         queryType: this.getQueryTypeValue(),
+        userName: this.userAuditWillPageParams.userName,
         timeType: this.currentTabName,
         pageNumber: 1,
         pageSize: 10,
@@ -289,6 +295,9 @@ export default {
     },
     modalCancel () {
       this.modal = false
+    },
+    userNameChange () {
+      this.queryUserAuditWillPageData()
     }
   },
   components: {
