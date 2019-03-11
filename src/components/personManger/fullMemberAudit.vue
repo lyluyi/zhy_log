@@ -74,6 +74,10 @@
             <Option v-for="item in emloyType" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </Col>
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">转正类型：</Button>
+          <Input placeholder="" v-model="userFormal.formalType" readonly />
+        </Col>
       </Row>
       <Row :gutter="16" class="mb10">
         <Col class="col_flex" span="24">
@@ -157,7 +161,8 @@ export default {
         remark: '', // 备注
         cid: '', // 公司id
         did: '', // 部门id
-        signTheOpinion: '' // 核签意见
+        signTheOpinion: '', // 核签意见
+        formalType: '' // 转正类型
       },
       oldData: {}
     }
