@@ -57,6 +57,10 @@
           <Button class="wd mr10 tr" type="text">员工状态：</Button>
           <Input placeholder="" v-model="oldData.userStatus" readonly />
         </Col>
+        <Col class="col_flex" span="8">
+          <Button class="wd mr10 tr" type="text">转正类型：</Button>
+          <Input placeholder="" v-model="userFormal.formalType" readonly />
+        </Col>
       </Row>
 
       <Divider orientation="left">常规</Divider>
@@ -113,7 +117,8 @@ export default {
         remark: '', // 备注
         cid: '', // 公司id
         did: '', // 部门id
-        signTheOpinion: '' // 核签意见
+        signTheOpinion: '', // 核签意见
+        formalType: '' // 转正类型
       },
       oldData: {
 
