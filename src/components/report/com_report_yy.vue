@@ -53,15 +53,15 @@ export default {
       columns1: [
         {
           title: '部门',
-          fixed: 'left',
+          // fixed: 'left',
           aligh: 'center',
-          width: 100,
+          width: 120,
           key: 'dname'
         },
         {
           title: '上月人数',
           aligh: 'center',
-          width: 100,
+          // width: 100,
           key: 'shangyuerenshu'
         },
         {
@@ -71,7 +71,7 @@ export default {
             {
               title: '入职',
               aligh: 'center',
-              width: 100,
+              // width: 100,
               key: 'ruzhirenshu'
             },
             {
@@ -81,13 +81,13 @@ export default {
                 {
                   title: '转正前',
                   aligh: 'center',
-                  width: 100,
+                  // width: 100,
                   key: 'quit_befor'
                 },
                 {
                   title: '转正后',
                   aligh: 'center',
-                  width: 100,
+                  // width: 100,
                   key: 'quit_after'
                 }
               ]
@@ -99,13 +99,13 @@ export default {
                 {
                   title: '转入',
                   aligh: 'center',
-                  width: 100,
+                  // width: 100,
                   key: 'cd_in'
                 },
                 {
                   title: '转出',
                   aligh: 'center',
-                  width: 100,
+                  // width: 100,
                   key: 'cd_out'
                 }
               ]
@@ -115,7 +115,7 @@ export default {
         {
           title: '本月合计',
           aligh: 'center',
-          width: 100,
+          // width: 100,
           key: 'benyuerenshu'
         },
         {
@@ -125,13 +125,13 @@ export default {
             {
               title: '转正前',
               aligh: 'center',
-              width: 100,
+              // width: 100,
               key: 'for_q_befor'
             },
             {
               title: '转正后',
               aligh: 'center',
-              width: 100,
+              // width: 100,
               key: 'for_q_after'
             }
           ]
@@ -143,25 +143,25 @@ export default {
             {
               title: '转正',
               aligh: 'center',
-              width: 100,
+              // width: 100,
               key: 'u_for'
             },
             {
               title: '晋升',
               aligh: 'center',
-              width: 100,
+              // width: 100,
               key: 'cd_up'
             },
             {
               title: '降职',
               aligh: 'center',
-              width: 100,
+              // width: 100,
               key: 'cd_down'
             },
             {
               title: '平调',
               aligh: 'center',
-              width: 100,
+              // width: 100,
               key: 'cd_pd'
             }
           ]
@@ -174,13 +174,13 @@ export default {
         //     {
         //       title: '转正前',
         //       aligh: 'center',
-        //       width: 100,
+        //       // width: 100,
         //       key: 'for_q_befor'
         //     },
         //     {
         //       title: '转正后',
         //       aligh: 'center',
-        //       width: 100,
+        //       // width: 100,
         //       key: 'for_q_after'
         //     }
         //   ]
@@ -192,25 +192,25 @@ export default {
             {
               title: '劳动合同',
               aligh: 'center',
-              width: 100,
+              // width: 100,
               key: 'new_con_ld'
             },
             {
               title: '劳动协议',
               aligh: 'center',
-              width: 100,
+              // width: 100,
               key: 'new_con_lw'
             },
             {
               title: '实习协议',
               aligh: 'center',
-              width: 100,
+              // width: 100,
               key: 'new_con_sx'
             },
             {
               title: '其它协议',
               aligh: 'center',
-              width: 100,
+              // width: 100,
               key: 'new_con_qt'
             }
           ]
@@ -222,13 +222,13 @@ export default {
             {
               title: '劳动合同',
               aligh: 'center',
-              width: 100,
+              // width: 100,
               key: 'old_con_ld'
             },
             {
               title: '劳动协议',
               aligh: 'center',
-              width: 100,
+              // width: 100,
               key: 'old_con_lw'
             }
           ]
@@ -236,7 +236,7 @@ export default {
         {
           title: '签收数量',
           aligh: 'center',
-          width: 100,
+          // width: 100,
           key: 'total_con'
         },
         {
@@ -246,19 +246,19 @@ export default {
             {
               title: '辞退',
               aligh: 'center',
-              width: 100,
+              // width: 100,
               key: 'quit_ct'
             },
             {
               title: '自离',
               aligh: 'center',
-              width: 100,
+              // width: 100,
               key: 'quit_zl'
             },
             {
               title: '辞职',
               aligh: 'center',
-              width: 100,
+              // width: 100,
               key: 'quit_cz'
             }
           ]
@@ -266,8 +266,8 @@ export default {
         {
           title: '同签订总人',
           aligh: 'center',
-          fixed: 'right',
-          width: 100,
+          // fixed: 'right',
+          // width: 100,
           key: 'hetongrenshu'
         }
       ],
@@ -420,5 +420,9 @@ export default {
   line-height: 36px;
   height: 36px;
   padding-left: 10px;
+}
+.com_report_mm .ivu-table-cell  {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
 }
 </style>
