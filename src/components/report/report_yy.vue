@@ -20,8 +20,7 @@
         </Col>
       </Row>
       <Divider>{{ this.allData.cname === '' ? '年度报表' : this.allData.cname + '——' + '年度报表' }}</Divider>
-      <Table :columns="columns1" :data="data1" border>
-      </Table>
+      <Table :columns="columns1" :data="data1" border ></Table>
       <Divider></Divider>
       <Row :gutter="16" class="mt20 mb20">
         <Col class="col_flex tr" span="24">
@@ -52,15 +51,15 @@ export default {
       columns1: [
         {
           title: '部门',
-          fixed: 'left',
+          // fixed: 'left',
           aligh: 'center',
-          width: 100,
+          width: 120,
           key: 'dname'
         },
         {
           title: '上月人数',
           aligh: 'center',
-          width: 100,
+          // width: 40,
           key: 'shangyuerenshu'
         },
         {
@@ -70,24 +69,24 @@ export default {
             {
               title: '入职',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               key: 'ruzhirenshu'
             },
             {
               title: '离职',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               children: [
                 {
                   title: '转正前',
                   aligh: 'center',
-                  width: 100,
+                  // width: 40,
                   key: 'quit_befor'
                 },
                 {
                   title: '转正后',
                   aligh: 'center',
-                  width: 100,
+                  // width: 40,
                   key: 'quit_after'
                 }
               ]
@@ -95,18 +94,18 @@ export default {
             {
               title: '转岗',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               children: [
                 {
                   title: '转入',
                   aligh: 'center',
-                  width: 100,
+                  // width: 40,
                   key: 'cd_in'
                 },
                 {
                   title: '转出',
                   aligh: 'center',
-                  width: 100,
+                  // width: 40,
                   key: 'cd_out'
                 }
               ]
@@ -116,7 +115,7 @@ export default {
         {
           title: '本月合计',
           aligh: 'center',
-          width: 100,
+          // width: 40,
           key: 'benyuerenshu'
         },
         {
@@ -126,13 +125,13 @@ export default {
             {
               title: '转正前',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               key: 'for_q_befor'
             },
             {
               title: '转正后',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               key: 'for_q_after'
             }
           ]
@@ -144,25 +143,25 @@ export default {
             {
               title: '转正',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               key: 'u_for'
             },
             {
               title: '晋升',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               key: 'cd_up'
             },
             {
               title: '降职',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               key: 'cd_down'
             },
             {
               title: '平调',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               key: 'cd_pd'
             }
           ]
@@ -175,13 +174,13 @@ export default {
         //     {
         //       title: '转正前',
         //       aligh: 'center',
-        //       width: 100,
+        //       width: 40,
         //       key: 'for_q_befor'
         //     },
         //     {
         //       title: '转正后',
         //       aligh: 'center',
-        //       width: 100,
+        //       width: 40,
         //       key: 'for_q_after'
         //     }
         //   ]
@@ -193,25 +192,25 @@ export default {
             {
               title: '劳动合同',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               key: 'new_con_ld'
             },
             {
               title: '劳动协议',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               key: 'new_con_lw'
             },
             {
               title: '实习协议',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               key: 'new_con_sx'
             },
             {
               title: '其它协议',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               key: 'new_con_qt'
             }
           ]
@@ -223,13 +222,13 @@ export default {
             {
               title: '劳动合同',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               key: 'old_con_ld'
             },
             {
               title: '劳动协议',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               key: 'old_con_lw'
             }
           ]
@@ -237,7 +236,7 @@ export default {
         {
           title: '签收数量',
           aligh: 'center',
-          width: 100,
+          // width: 40,
           key: 'total_con'
         },
         {
@@ -247,19 +246,19 @@ export default {
             {
               title: '辞退',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               key: 'quit_ct'
             },
             {
               title: '自离',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               key: 'quit_zl'
             },
             {
               title: '辞职',
               aligh: 'center',
-              width: 100,
+              // width: 40,
               key: 'quit_cz'
             }
           ]
@@ -267,8 +266,8 @@ export default {
         {
           title: '同签订总人',
           aligh: 'center',
-          fixed: 'right',
-          width: 100,
+          // fixed: 'right',
+          // width: 120,
           key: 'hetongrenshu'
         }
       ],
@@ -344,7 +343,7 @@ export default {
 
 <style>
 .com_report_yy{
-  height: 100%;
+  height: 40%;
   padding: 10px 10px;
   font-size: 14px;
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","\5FAE\8F6F\96C5\9ED1",Arial,sans-serif;
@@ -356,11 +355,16 @@ export default {
 }
 .com_report_yy_title{
   background: #2d8cf0;
-  width: 100%;
+  width: 40%;
   text-align: left;
   color: #fff;
   line-height: 36px;
   height: 36px;
   padding-left: 10px;
+}
+
+.com_report_yy .ivu-table-cell {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
 }
 </style>
