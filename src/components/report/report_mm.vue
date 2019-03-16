@@ -11,7 +11,8 @@
         </Col>
         <Col class="col_flex" span="8">
           <Button class="wd mr10 tr" type="text">月份：</Button>
-          <DatePicker :options="limitDateA" type="month" placeholder="Select month" style="width: 200px" v-model="allData.time" @on-change="allData.time=$event"></DatePicker>
+          <!-- <DatePicker :options="limitDateA" type="month" placeholder="Select month" style="width: 200px" v-model="allData.time" @on-change="allData.time=$event"></DatePicker> -->
+          <DatePicker type="month" placeholder="Select month" style="width: 200px" v-model="allData.time" @on-change="allData.time=$event"></DatePicker>
         </Col>
       </Row>
       <Row :gutter="16" class="mt20">
