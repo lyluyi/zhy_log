@@ -214,8 +214,8 @@ export default {
           key: 'userStatus'
         },
         {
-          title: '备注',
-          key: 'remark'
+          title: '晋升见习转正日期',
+          key: 'upToDateView'
         }
       ],
       data1: []
@@ -306,7 +306,8 @@ export default {
     },
     tableClick (item, index) {
       this.oldData = item
-      this.userFormal.toBeWorkDate = item.toBeWorkDateView
+      // this.userFormal.toBeWorkDate = item.toBeWorkDateView
+      this.userFormal.toBeWorkDate = item.upToDateView
       this.userFormal.userId = item.userId
       this.userFormal.userName = item.userName
       this.userFormal.cname = item.cname
