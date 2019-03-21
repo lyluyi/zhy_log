@@ -23,9 +23,17 @@
                     <Option v-for="item in UserAuditType" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
               </Col>
-              <Col class="col_flex" span="8">
+              <!-- <Col class="col_flex" span="8">
                 <Button class="wd mr10 tr" type="text" >用户名：</Button>
                 <Input placeholder="" search enter-button @on-search="queryUser" v-model="userAuditQueryParams.userName" readonly />
+              </Col> -->
+              <Col class="col_flex" span="8">
+                <Button class="wd mr10 tr" type="text" >员工编号：</Button>
+                <Input placeholder="" enter-button v-model="userAuditQueryParams.userId" />
+              </Col>
+              <Col class="col_flex" span="8">
+                <Button class="wd mr10 tr" type="text" >员工姓名：</Button>
+                <Input placeholder="" enter-button v-model="userAuditQueryParams.userName" />
               </Col>
             </Row>
             <Row :gutter="16" class="mb20 mt20 pt20">

@@ -568,6 +568,26 @@ const router = new Router({
             requireAuth: true
           },
           component: (resolve) => require(['../components/report/report_mm.vue'], resolve)
+        },
+        {
+          path: 'com_report_detail_mm',
+          name: 'com_report_detail_mm',
+          meta: {
+            title: '公司人员异动详情报表',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/report/com_report_detail_mm.vue'], resolve)
+        },
+        {
+          path: 'group_report_detail_mm',
+          name: 'group_report_detail_mm',
+          meta: {
+            title: '集团人员异动详情报表',
+            content: true,
+            requireAuth: true
+          },
+          component: (resolve) => require(['../components/report/group_report_detail_mm.vue'], resolve)
         }
       ]
     }

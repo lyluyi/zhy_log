@@ -249,12 +249,16 @@ export const getReportYyGenerate = (params) => { return fetch('FormData', 'yearl
 
 // 公司月报表
 export const getGSReportMM = (params) => { return fetch('FormData', '/user/report/gs/month/userCdChangeReport', params) }
+// 公司月报表详情
+export const getGSReportMMDetail = (params) => { return fetch('FormData', '/user/report/gs/month/userCdChangeInfoDetail', params) }
 
 // 公司年报表
 export const getGSReportYY = (params) => { return fetch('FormData', '/user/report/gs/year/userCdChangeReport', params) }
 
 // 集团月报表
 export const getJTReportMM = (params) => { return fetch('FormData', '/user/report/jt/month/userCdChangeReport', params) }
+// 集团月报表详情
+export const getJTReportMMDetail = (params) => { return fetch('FormData', '/user/report/jt/month/userCdChangeInfoDetail', params) }
 
 // 集团年报表
 export const getJTReportYY = (params) => { return fetch('FormData', '/user/report/jt/year/userCdChangeReport', params) }
