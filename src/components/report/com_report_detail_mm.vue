@@ -17,9 +17,10 @@
       <Row :gutter="16" class="mt20">
         <Col class="col_flex tr" span="24">
           <Button type="primary" size="large" style="margin:auto;width:128px;" @click="query">查询</Button>
+          <Button type="success" size="large" style="margin:auto;width:128px;" @click="exportTable">导出查询</Button>
         </Col>
       </Row>
-      <Divider>{{ this.allData.cname === '' ? '人员月度异动汇总表' : this.allData.cname + '——' + '人员月度异动汇总表' }}</Divider>
+      <Divider>{{ this.allData.cname === '' ? '人员月度异动详情表' : this.allData.cname + '——' + '人员月度异动详情表' }}</Divider>
       <Table :columns="columns1" :data="data1" border ></Table>
       <Divider></Divider>
     </div>
@@ -276,6 +277,33 @@ export default {
     getCompanyStatus (item) {
       this.flag1 = item.comFlag
       this.model1 = item.commodal
+    },
+    exportTable () {
+      let params = this.allData
+      if (!this.allData.cid) {
+        this.$Message.error('请选择公司!')
+        return
+      }
+      if (!this.allData.time) {
+        this.$Message.error('请输入日期!')
+        return
+      }
+      this.$axios.post('user/report/gs/month/exportUserCdChangeDetailInfo', params, {
+        responseType: 'blob',
+        timeout: 60000 * 2
+      }).then(res => {
+        let blob = res.data
+        let reader = new FileReader()
+        reader.readAsDataURL(blob)
+        reader.onload = (e) => {
+          let a = document.createElement('a')
+          a.download = this.allData.cname + '——人员月度异动详情表.xls'
+          a.href = URL.createObjectURL(blob)
+          document.body.appendChild(a)
+          a.click()
+          document.body.removeChild(a)
+        }
+      })
     },
     query () {
       this.$Loading.start()
