@@ -10,22 +10,22 @@
             <!--
             <Input placeholder="" v-model="userAuditQueryParams.auditStatus"  />
             -->
-            <Select v-model="userAuditQueryParams.auditStatus" style="width:200px">
-                <Option v-for="item in UserAuditStatus" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Select v-model="userAuditQueryParams.auditStatus" >
+              <Option v-for="item in UserAuditStatus" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
           </Col>
           <Col class="col_flex" span="8">
             <Button class="wd mr10 tr" type="text" >申请类型：</Button>
-            <Select v-model="userAuditQueryParams.auditType" style="width:200px">
+            <Select v-model="userAuditQueryParams.auditType" >
                 <Option v-for="item in UserAuditType" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
           </Col>
           <Col class="col_flex" span="8">
-            <Button class="wd mr10 tr" type="text" >创建时间: </Button>
-            <Date-picker type="daterange" format="yyyy-MM-dd" @on-change="createTimeRangeChange" style="width:200px" />
+            <Button class="wd mr10 tr" type="text" >创建时间：</Button>
+            <Date-picker type="daterange" format="yyyy-MM-dd" @on-change="createTimeRangeChange"  />
           </Col>
         </Row>
-        <Row>
+        <Row :gutter="16" class="mb10">
           <Col class="col_flex" span="8">
             <Button class="wd mr10 tr" type="text" >员工编号：</Button>
             <Input placeholder="" enter-button v-model="userAuditQueryParams.userId" />

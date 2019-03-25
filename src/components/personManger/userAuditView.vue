@@ -3,7 +3,7 @@
       <div class="userAuditView_title mb20">
         人员变动查看
       </div>
-      <Tabs v-model="tabValue" :animated="false">
+      <Tabs v-model="tabValue" :animated="false" style="minHeight: 500px;">
         <TabPane label="人员变动审核查看" name="人员变动审核查看">
           <div class="userAudit_inputGroup">
             <Divider orientation="left">人员变动审核查看</Divider>
@@ -13,13 +13,13 @@
                 <!--
                 <Input placeholder="" v-model="userAuditQueryParams.auditStatus"  />
                 -->
-                <Select v-model="userAuditQueryParams.auditStatus" style="width:200px">
+                <Select v-model="userAuditQueryParams.auditStatus" >
                     <Option v-for="item in UserAuditStatus" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
               </Col>
               <Col class="col_flex" span="8">
                 <Button class="wd mr10 tr" type="text" >申请类型：</Button>
-                <Select v-model="userAuditQueryParams.auditType" style="width:200px">
+                <Select v-model="userAuditQueryParams.auditType" >
                     <Option v-for="item in UserAuditType" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
               </Col>
@@ -31,6 +31,8 @@
                 <Button class="wd mr10 tr" type="text" >员工编号：</Button>
                 <Input placeholder="" enter-button v-model="userAuditQueryParams.userId" />
               </Col>
+            </Row>
+            <Row :gutter="16" class="mb10">
               <Col class="col_flex" span="8">
                 <Button class="wd mr10 tr" type="text" >员工姓名：</Button>
                 <Input placeholder="" enter-button v-model="userAuditQueryParams.userName" />
@@ -55,11 +57,147 @@
             <Row :gutter="16" class="mb10">
               <Col class="col_flex" span="8">
                 <Button class="wd mr10 tr" type="text">审批状态：</Button>
-                <Select v-model="userAuditQueryData.auditTypeStatus" style="width:200px">
-                    <Option v-for="item in UserAuditQueryType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                <Select v-model="userAuditQueryData.auditTypeStatus" @on-change="changeHandleUserAudit" >
+                  <Option v-for="item in UserAuditQueryType" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
               </Col>
             </Row>
+            <div v-show="jobChangeFlag">
+              <!-- 异动 -->
+              <Divider class="subDiver" orientation="center" style="">异动人员变动查看</Divider>
+              <Row :gutter="16" class="mb10">
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text" >姓名：</Button>
+                  <Input placeholder="" enter-button v-model="jobChangeParams.username" />
+                </Col>
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text" >创建时间：</Button>
+                  <Date-picker type="daterange" format="yyyy-MM-dd" @on-change="createTimeRangeChange"  />
+                </Col>
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text">原公司：</Button>
+                  <Input placeholder="" v-model="jobChangeParams.oldCname" search enter-button readonly @on-search="queryCompany(1)" />
+                </Col>
+              </Row>
+              <Row :gutter="16" class="mb10">
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text">原部门：</Button>
+                  <Input placeholder="" v-model="jobChangeParams.oldDname" search enter-button readonly @on-search="queryDepartment(1)" />
+                </Col>
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text">新公司：</Button>
+                  <Input placeholder="" v-model="jobChangeParams.newCname" search enter-button readonly @on-search="queryCompany(2)" />
+                </Col>
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text">新部门：</Button>
+                  <Input placeholder="" v-model="jobChangeParams.newDname" search enter-button readonly @on-search="queryDepartment(2)" />
+                </Col>
+              </Row>
+            </div>
+            <div v-show="fullMemberFlag">
+              <!-- 转正 -->
+              <Divider class="subDiver" orientation="center" style="">转正人员变动查看</Divider>
+              <Row :gutter="16" class="mb10">
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text" >姓名：</Button>
+                  <Input placeholder="" enter-button v-model="fullMemberParams.username" />
+                </Col>
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text" >转正时间：</Button>
+                  <Date-picker type="daterange" format="yyyy-MM-dd" @on-change="createTimeRangeChange"  />
+                </Col>
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text">公司：</Button>
+                  <Input placeholder="" v-model="fullMemberParams.cname" search enter-button readonly @on-search="queryCompany(3)" />
+                </Col>
+              </Row>
+              <Row :gutter="16" class="mb10">
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text">部门：</Button>
+                  <Input placeholder="" v-model="fullMemberParams.dname" search enter-button readonly @on-search="queryDepartment(3)" />
+                </Col>
+              </Row>
+            </div>
+            <div v-show="transferFlag">
+              <!-- 转编 -->
+              <Divider class="subDiver" orientation="center" style="">转编人员变动查看</Divider>
+              <Row :gutter="16" class="mb10">
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text" >姓名：</Button>
+                  <Input placeholder="" enter-button v-model="transferParams.username" />
+                </Col>
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text" >转正时间：</Button>
+                  <Date-picker type="daterange" format="yyyy-MM-dd" @on-change="createTimeRangeChange"  />
+                </Col>
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text">公司：</Button>
+                  <Input placeholder="" v-model="transferParams.cname" search enter-button readonly @on-search="queryCompany(4)" />
+                </Col>
+              </Row>
+              <Row :gutter="16" class="mb10">
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text">部门：</Button>
+                  <Input placeholder="" v-model="transferParams.dname" search enter-button readonly @on-search="queryDepartment(4)" />
+                </Col>
+              </Row>
+            </div>
+            <div v-show="dimissionFlag">
+              <!-- 离退 -->
+              <Divider class="subDiver" orientation="center" style="">离退人员变动查看</Divider>
+              <Row :gutter="16" class="mb10">
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text" >姓名：</Button>
+                  <Input placeholder="" enter-button v-model="dimissionParams.username" />
+                </Col>
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text" >转正时间：</Button>
+                  <Date-picker type="daterange" format="yyyy-MM-dd" @on-change="createTimeRangeChange"  />
+                </Col>
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text">公司：</Button>
+                  <Input placeholder="" v-model="dimissionParams.cname" search enter-button readonly @on-search="queryCompany(5)" />
+                </Col>
+              </Row>
+              <Row :gutter="16" class="mb10">
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text">部门：</Button>
+                  <Input placeholder="" v-model="dimissionParams.dname" search enter-button readonly @on-search="queryDepartment(5)" />
+                </Col>
+              </Row>
+            </div>
+            <div v-show="reEmployFlag">
+              <!-- 回聘 -->
+              <Divider class="subDiver" orientation="center" style="">回聘人员变动查看</Divider>
+              <Row :gutter="16" class="mb10">
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text" >姓名：</Button>
+                  <Input placeholder="" enter-button v-model="reEmployParams.username" />
+                </Col>
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text" >创建时间：</Button>
+                  <Date-picker type="daterange" format="yyyy-MM-dd" @on-change="createTimeRangeChange"  />
+                </Col>
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text">原公司：</Button>
+                  <Input placeholder="" v-model="reEmployParams.oldCname" search enter-button readonly @on-search="queryCompany(6)" />
+                </Col>
+              </Row>
+              <Row :gutter="16" class="mb10">
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text">原部门：</Button>
+                  <Input placeholder="" v-model="reEmployParams.oldDname" search enter-button readonly @on-search="queryDepartment(6)" />
+                </Col>
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text">新公司：</Button>
+                  <Input placeholder="" v-model="reEmployParams.newCname" search enter-button readonly @on-search="queryCompany(7)" />
+                </Col>
+                <Col class="col_flex" span="8">
+                  <Button class="wd mr10 tr" type="text">新部门：</Button>
+                  <Input placeholder="" v-model="reEmployParams.newDname" search enter-button readonly @on-search="queryDepartment(7)" />
+                </Col>
+              </Row>
+            </div>
             <Row :gutter="16" class="mb20 mt20 pt20">
               <Col class="col_flex" span="24">
                 <Button class="wd tc" type="primary" style="margin: 0 auto;" @click="queryDetailAudit">查询</Button>
@@ -75,6 +213,8 @@
         </TabPane>
       </Tabs>
       <userIdQuery @tableUserId="getUserId" @statusUserId='getUserIdStatus' :data="modal6" v-if="openSelectUserDialog"></userIdQuery>
+      <departmentQuery @tableDepartment="getDepartment" @statusDepartment='getDepartmentStatus' :data="model2" v-if="flag2" :cid="upCid"></departmentQuery>
+    <companyQuery @tableCompany="getCompany" @statusCompany='getCompanyStatus' :data="model1" v-if="flag1"></companyQuery>
     </div>
 </template>
 <script>
@@ -87,6 +227,9 @@ import {
   getReEmployCum,
   getTransferCum
 } from '@/server/api'
+
+import departmentQuery from '@/common/departmentQuery'
+import companyQuery from '@/common/companyQuery'
 
 import getDic from '@/server/apiDic'
 import userIdQuery from '@/common/userIdQuery'
@@ -175,6 +318,66 @@ export default {
         { 'label': '离退', value: '离退' },
         { 'label': '回聘', value: '回聘' }
       ],
+      jobChangeParams: {
+        username: '',
+        userId: '',
+        oldCname: '',
+        oldCid: '',
+        oldDname: '',
+        oldDid: '',
+        newCname: '',
+        newCid: '',
+        newDname: '',
+        newDid: '',
+        createTimeStart: '',
+        createTimeEnd: ''
+      },
+      reEmployParams: {
+        username: '',
+        userId: '',
+        cname: '',
+        cid: '',
+        createTimeStart: '',
+        createTimeEnd: ''
+      },
+      dimissionParams: {
+        username: '',
+        userId: '',
+        cname: '',
+        cid: '',
+        createTimeStart: '',
+        createTimeEnd: ''
+      },
+      fullMemberParams: {
+        username: '',
+        userId: '',
+        cname: '',
+        cid: '',
+        createTimeStart: '',
+        createTimeEnd: ''
+      },
+      transferParams: {
+        username: '',
+        userId: '',
+        oldCname: '',
+        oldCid: '',
+        oldDname: '',
+        oldDid: '',
+        newCname: '',
+        newCid: '',
+        newDname: '',
+        newDid: '',
+        createTimeStart: '',
+        createTimeEnd: ''
+      },
+      jobChangeFlag: true,
+      fullMemberFlag: false,
+      dimissionFlag: false,
+      transferFlag: false,
+      reEmployFlag: false,
+      comTypeVaule: 1,
+      depTypeValue: 1,
+      upCid: '',
       userTypeQueryData: [],
       userAuditDetailColumns: [],
       jobChangeColumns: [ // userCdChange/page
@@ -719,6 +922,121 @@ export default {
       this.userAuditQueryParams.userId = item.userId
       this.userAuditQueryParams.userName = item.userName
     },
+    queryCompany (num) { // 公司信息查询
+      this.flag1 = true
+      this.model1 = true
+      this.comTypeVaule = num
+    },
+    getCompany (item) {
+      if (this.comTypeVaule === 1) {
+        this.jobChangeParams.oldCname = item.cname
+        this.jobChangeParams.oldCid = item.cid
+        this.jobChangeParams.oldDname = ''
+        this.jobChangeParams.oldDid = ''
+      }
+      if (this.comTypeVaule === 2) {
+        this.jobChangeParams.newCname = item.cname
+        this.jobChangeParams.newCid = item.cid
+        this.jobChangeParams.newDname = ''
+        this.jobChangeParams.newDid = ''
+      }
+      if (this.comTypeVaule === 3) {
+        this.fullMemberParams.cname = item.cname
+        this.fullMemberParams.cid = item.cid
+        this.fullMemberParams.dname = ''
+        this.fullMemberParams.did = ''
+      }
+      if (this.comTypeVaule === 4) {
+        this.transferParams.cname = item.cname
+        this.transferParams.cid = item.cid
+        this.transferParams.dname = ''
+        this.transferParams.did = ''
+      }
+      if (this.comTypeVaule === 5) {
+        this.dimissionParams.cname = item.cname
+        this.dimissionParams.cid = item.cid
+        this.dimissionParams.dname = ''
+        this.dimissionParams.did = ''
+      }
+      if (this.comTypeVaule === 6) {
+        this.reEmployParams.oldCname = item.cname
+        this.reEmployParams.oldCid = item.cid
+        this.reEmployParams.oldDname = ''
+        this.reEmployParams.oldDid = ''
+      }
+      if (this.comTypeVaule === 7) {
+        this.reEmployParams.newCname = item.cname
+        this.reEmployParams.newCid = item.cid
+        this.reEmployParams.newDname = ''
+        this.reEmployParams.newDid = ''
+      }
+      this.upCid = item.cid
+    },
+    getCompanyStatus (item) {
+      this.flag1 = item.comFlag
+      this.model1 = item.commodal
+    },
+    queryDepartment (num) { // 部门信息查询
+      this.depTypeVaule = num
+      if (this.comTypeVaule === 1 && this.jobChangeParams.oldCname === '') {
+        this.$Message.info({ content: '请先输入原公司' })
+      } else if (this.comTypeVaule === 2 && this.jobChangeParams.newCname === '') {
+        this.$Message.info({ content: '请先输入新公司' })
+      } else if (this.comTypeVaule === 3 && this.fullMemberParams.cname === '') {
+        this.$Message.info({ content: '请先输入公司' })
+      } else if (this.comTypeVaule === 4 && this.transferParams.cname === '') {
+        this.$Message.info({ content: '请先输入公司' })
+      } else if (this.comTypeVaule === 5 && this.dimissionParams.cname === '') {
+        this.$Message.info({ content: '请先输入公司' })
+      } else if (this.comTypeVaule === 6 && this.reEmployParams.oldCname === '') {
+        this.$Message.info({ content: '请先输入原公司' })
+      } else if (this.comTypeVaule === 7 && this.reEmployParams.newCname === '') {
+        this.$Message.info({ content: '请先输入新公司' })
+      } else {
+        if (this.comTypeVaule === num) {
+          this.flag2 = true
+          this.model2 = true
+        } else {
+          this.$Message.info({ content: '请依次选择公司并匹配部门！' })
+        }
+      }
+    },
+    getDepartment (item) {
+      // console.log(item)
+      if (this.depTypeVaule === 1 && this.comTypeVaule === 1) {
+        this.jobChangeParams.oldDname = item.dname
+        this.jobChangeParams.oldDid = item.did
+      }
+      if (this.depTypeVaule === 2 && this.comTypeVaule === 2) {
+        this.jobChangeParams.newDname = item.dname
+        this.jobChangeParams.newDid = item.did
+      }
+      if (this.depTypeVaule === 3 && this.comTypeVaule === 3) {
+        this.fullMemberParams.dname = item.dname
+        this.fullMemberParams.did = item.did
+      }
+      if (this.depTypeVaule === 4 && this.comTypeVaule === 4) {
+        this.transferParams.dname = item.dname
+        this.transferParams.did = item.did
+      }
+      if (this.depTypeVaule === 5 && this.comTypeVaule === 5) {
+        this.dimissionParams.dname = item.dname
+        this.dimissionParams.did = item.did
+      }
+      if (this.depTypeVaule === 6 && this.comTypeVaule === 6) {
+        this.reEmployParams.oldDname = item.dname
+        this.reEmployParams.oldDid = item.did
+      }
+      if (this.depTypeVaule === 7 && this.comTypeVaule === 7) {
+        this.reEmployParams.newDname = item.dname
+        this.reEmployParams.newDid = item.did
+      }
+    },
+    getDepartmentStatus (item) {
+      // console.log(item)
+      this.flag2 = item.comFlag
+      this.model2 = item.commodal
+    },
     getAuditTypeDictionaries () {
       getDic('UserAuditType').then((res) => {
         this.UserAuditType = res.data
@@ -729,13 +1047,71 @@ export default {
         this.UserAuditStatus = res.data
       })
     },
+    changeHandleUserAudit (val) {
+      switch (val) {
+        case '异动':
+          this.jobChangeFlag = true
+          this.transferFlag = false
+          this.fullMemberFlag = false
+          this.reEmployFlag = false
+          this.dimissionFlag = false
+          break
+        case '转正':
+          this.jobChangeFlag = false
+          this.transferFlag = false
+          this.fullMemberFlag = true
+          this.reEmployFlag = false
+          this.dimissionFlag = false
+          break
+        case '转编':
+          this.jobChangeFlag = false
+          this.transferFlag = true
+          this.fullMemberFlag = false
+          this.reEmployFlag = false
+          this.dimissionFlag = false
+          break
+        case '离职':
+          this.jobChangeFlag = false
+          this.transferFlag = false
+          this.fullMemberFlag = false
+          this.reEmployFlag = false
+          this.dimissionFlag = true
+          break
+        case '回聘':
+          this.jobChangeFlag = false
+          this.transferFlag = false
+          this.fullMemberFlag = false
+          this.reEmployFlag = true
+          this.dimissionFlag = false
+          break
+      }
+    },
     changeUserAuditPageNumber (num) {
       if (this.tabValue === '人员变动审核查看') {
         let params = {pageNumber: num, pageInfo: 10, ...this.userAuditQueryParams}
         this.getUserAuditPage(params)
       } else {
-        let params = {pageNumber: num, pageInfo: 10}
-        this.getUserStatusPage(params)
+        let params = { pageNumber: num, pageInfo: 10 }
+        if (this.jobChangeFlag === true) {
+          params = {params, ...this.jobChangeParams}
+          this.getUserStatusPage(params)
+        }
+        if (this.fullMemberFlag === true) {
+          params = {params, ...this.fullMemberParams}
+          this.getUserStatusPage(params)
+        }
+        if (this.transferFlag === true) {
+          params = {params, ...this.transferParams}
+          this.getUserStatusPage(params)
+        }
+        if (this.dimissionFlag === true) {
+          params = {params, ...this.dimissionParams}
+          this.getUserStatusPage(params)
+        }
+        if (this.reEmployFlag === true) {
+          params = {params, ...this.reEmployParams}
+          this.getUserStatusPage(params)
+        }
       }
     },
     getUserAuditPage (params) {
@@ -845,23 +1221,70 @@ export default {
       }
     },
     queryDetailAudit () {
-      this.getUserStatusPage()
+      if (this.jobChangeFlag === true) {
+        let params = {...this.pageInfo, ...this.jobChangeParams}
+        this.getUserStatusPage(params)
+      }
+      if (this.fullMemberFlag === true) {
+        let params = {...this.pageInfo, ...this.fullMemberParams}
+        this.getUserStatusPage(params)
+      }
+      if (this.transferFlag === true) {
+        let params = {...this.pageInfo, ...this.transferParams}
+        this.getUserStatusPage(params)
+      }
+      if (this.dimissionFlag === true) {
+        let params = {...this.pageInfo, ...this.dimissionParams}
+        this.getUserStatusPage(params)
+      }
+      if (this.reEmployFlag === true) {
+        let params = {...this.pageInfo, ...this.reEmployParams}
+        this.getUserStatusPage(params)
+      }
+    },
+    createTimeRangeChange (createTimeRange) {
+      if (this.userAuditQueryData.auditTypeStatus === '异动') {
+        this.jobChangeParams.createTimeStart = createTimeRange[0] + ' 00:00:00'
+        this.jobChangeParams.createTimeEnd = createTimeRange[1] + ' 23:59:59'
+      }
+      if (this.userAuditQueryData.auditTypeStatus === '转正') {
+        this.fullMemberParams.createTimeStart = createTimeRange[0] + ' 00:00:00'
+        this.fullMemberParams.createTimeEnd = createTimeRange[1] + ' 23:59:59'
+      }
+      if (this.userAuditQueryData.auditTypeStatus === '转编') {
+        this.transferParams.createTimeStart = createTimeRange[0] + ' 00:00:00'
+        this.transferParams.createTimeEnd = createTimeRange[1] + ' 23:59:59'
+      }
+      if (this.userAuditQueryData.auditTypeStatus === '离职') {
+        this.dimissionParams.createTimeStart = createTimeRange[0] + ' 00:00:00'
+        this.dimissionParams.createTimeEnd = createTimeRange[1] + ' 23:59:59'
+      }
+      if (this.userAuditQueryData.auditTypeStatus === '回聘') {
+        this.reEmployParams.createTimeStart = createTimeRange[0] + ' 00:00:00'
+        this.reEmployParams.createTimeEnd = createTimeRange[1] + ' 23:59:59'
+      }
+      if (this.userAuditQueryData.auditTypeStatus === '异动') {
+        this.jobChangeParams.createTimeStart = createTimeRange[0] + ' 00:00:00'
+        this.jobChangeParams.createTimeEnd = createTimeRange[1] + ' 23:59:59'
+      }
     }
   },
   components: {
-    userIdQuery
+    userIdQuery,
+    departmentQuery,
+    companyQuery
   }
 }
 </script>
 
 <style>
-.userAuditView{
+.userAuditView {
   height: 100%;
   padding: 10px 10px;
   font-size: 14px;
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","\5FAE\8F6F\96C5\9ED1",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
-  min-height: 400px;
+  min-height: 500px;
 }
 .userAuditView_title{
   background: #2d8cf0;
@@ -876,6 +1299,11 @@ export default {
   font-size: 15px;
   font-weight: bolder;
   color:#2d8cf0;
+}
+.subDiver .ivu-divider-inner-text {
+  color: #515a6e !important;
+  font-size: 14px !important;
+  font-weight: bolder !important;
 }
 
 /* .userAuditView .ivu-input-group { width: 60% !important; } */
