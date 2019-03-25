@@ -217,7 +217,6 @@ export default {
     queryUserAudit () {
       let params = {pageNumber: 1, pageInfo: 10}
       params = Object.assign({}, params, this.inquiry)
-      console.log(params)
       this.getUserAuditPage(params)
     },
     getUserAuditPage (params) {
@@ -242,6 +241,7 @@ export default {
     },
     changeUserContractPageNumber (num) {
       this.UserContractPageParams.pageNumber = num
+      this.UserContractPageParams = Object.assign({}, this.UserContractPageParams, this.inquiry)
       this.getUserAuditPage(this.UserContractPageParams)
     },
     saveContract () {
