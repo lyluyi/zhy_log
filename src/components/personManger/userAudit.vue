@@ -21,8 +21,18 @@
             </Select>
           </Col>
           <Col class="col_flex" span="8">
-            <Button class="wd mr10 tr" type="text" >用户名：</Button>
-            <Input placeholder="" search enter-button @on-search="queryUser" v-model="userAuditQueryParams.userName" readonly />
+            <Button class="wd mr10 tr" type="text" >创建时间: </Button>
+            <Date-picker type="daterange" format="yyyy-MM-dd" @on-change="createTimeRangeChange" style="width:200px" />
+          </Col>
+        </Row>
+        <Row>
+          <Col class="col_flex" span="8">
+            <Button class="wd mr10 tr" type="text" >员工编号：</Button>
+            <Input placeholder="" enter-button v-model="userAuditQueryParams.userId" />
+          </Col>
+          <Col class="col_flex" span="8">
+            <Button class="wd mr10 tr" type="text" >员工姓名：</Button>
+            <Input placeholder="" enter-button v-model="userAuditQueryParams.userName" />
           </Col>
         </Row>
         <Row :gutter="16" class="mb20 mt20 pt20">
@@ -147,7 +157,9 @@ export default {
         applyCode: '',
         auditStatus: '审批中',
         userId: '',
-        userName: ''
+        userName: '',
+        createTimeStart: '',
+        createTimeEnd: ''
       },
       userAuditData: [],
       userAuditPageInfo: {
@@ -251,6 +263,10 @@ export default {
       } else if (this.userAuditCountDialog.selectAuditType === '员工回聘申请') {
         this.$router.push({name: 'reEmployAudit', params: { entityId: this.userAuditCountDialog.selectId, id: this.userAuditCountDialog.selectId }})
       }
+    },
+    createTimeRangeChange (createTimeRange) {
+      this.userAuditQueryParams.createTimeStart = createTimeRange[0] + ' 00:00:00'
+      this.userAuditQueryParams.createTimeEnd = createTimeRange[1] + ' 23:59:59'
     }
   },
   components: {
