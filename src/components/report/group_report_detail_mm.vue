@@ -266,7 +266,6 @@ export default {
         this.$Message.error('请输入日期!')
         return
       }
-      debugger
       let data = new FormData()
       data.append('time', params.time)
       this.$axios.post('user/report/jt/month/exportUserCdChangeInfoDetail', data, {
