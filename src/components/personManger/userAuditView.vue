@@ -68,10 +68,10 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text" >姓名：</Button>
-                  <Input placeholder="" enter-button v-model="jobChangeParams.username" />
+                  <Input placeholder="" enter-button v-model="jobChangeParams.userName" />
                 </Col>
                 <Col class="col_flex" span="8">
-                  <Button class="wd mr10 tr" type="text" >创建时间：</Button>
+                  <Button class="wd mr10 tr" type="text" >申请时间：</Button>
                   <Date-picker type="daterange" format="yyyy-MM-dd" @on-change="createTimeRangeChange"  />
                 </Col>
                 <Col class="col_flex" span="8">
@@ -100,10 +100,10 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text" >姓名：</Button>
-                  <Input placeholder="" enter-button v-model="fullMemberParams.username" />
+                  <Input placeholder="" enter-button v-model="fullMemberParams.userName" />
                 </Col>
                 <Col class="col_flex" span="8">
-                  <Button class="wd mr10 tr" type="text" >转正时间：</Button>
+                  <Button class="wd mr10 tr" type="text" >申请时间：</Button>
                   <Date-picker type="daterange" format="yyyy-MM-dd" @on-change="createTimeRangeChange"  />
                 </Col>
                 <Col class="col_flex" span="8">
@@ -124,10 +124,10 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text" >姓名：</Button>
-                  <Input placeholder="" enter-button v-model="transferParams.username" />
+                  <Input placeholder="" enter-button v-model="transferParams.userName" />
                 </Col>
                 <Col class="col_flex" span="8">
-                  <Button class="wd mr10 tr" type="text" >转正时间：</Button>
+                  <Button class="wd mr10 tr" type="text" >申请时间：</Button>
                   <Date-picker type="daterange" format="yyyy-MM-dd" @on-change="createTimeRangeChange"  />
                 </Col>
                 <Col class="col_flex" span="8">
@@ -148,10 +148,10 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text" >姓名：</Button>
-                  <Input placeholder="" enter-button v-model="dimissionParams.username" />
+                  <Input placeholder="" enter-button v-model="dimissionParams.userName" />
                 </Col>
                 <Col class="col_flex" span="8">
-                  <Button class="wd mr10 tr" type="text" >转正时间：</Button>
+                  <Button class="wd mr10 tr" type="text" >申请时间：</Button>
                   <Date-picker type="daterange" format="yyyy-MM-dd" @on-change="createTimeRangeChange"  />
                 </Col>
                 <Col class="col_flex" span="8">
@@ -172,10 +172,10 @@
               <Row :gutter="16" class="mb10">
                 <Col class="col_flex" span="8">
                   <Button class="wd mr10 tr" type="text" >姓名：</Button>
-                  <Input placeholder="" enter-button v-model="reEmployParams.username" />
+                  <Input placeholder="" enter-button v-model="reEmployParams.userName" />
                 </Col>
                 <Col class="col_flex" span="8">
-                  <Button class="wd mr10 tr" type="text" >创建时间：</Button>
+                  <Button class="wd mr10 tr" type="text" >申请时间：</Button>
                   <Date-picker type="daterange" format="yyyy-MM-dd" @on-change="createTimeRangeChange"  />
                 </Col>
                 <Col class="col_flex" span="8">
@@ -319,7 +319,7 @@ export default {
         { 'label': '回聘', value: '回聘' }
       ],
       jobChangeParams: {
-        username: '',
+        userName: '',
         userId: '',
         oldCname: '',
         oldCid: '',
@@ -333,7 +333,7 @@ export default {
         createTimeEnd: ''
       },
       reEmployParams: {
-        username: '',
+        userName: '',
         userId: '',
         cname: '',
         cid: '',
@@ -341,7 +341,7 @@ export default {
         createTimeEnd: ''
       },
       dimissionParams: {
-        username: '',
+        userName: '',
         userId: '',
         cname: '',
         cid: '',
@@ -349,7 +349,7 @@ export default {
         createTimeEnd: ''
       },
       fullMemberParams: {
-        username: '',
+        userName: '',
         userId: '',
         cname: '',
         cid: '',
@@ -357,7 +357,7 @@ export default {
         createTimeEnd: ''
       },
       transferParams: {
-        username: '',
+        userName: '',
         userId: '',
         oldCname: '',
         oldCid: '',
@@ -1070,6 +1070,13 @@ export default {
           this.reEmployFlag = false
           this.dimissionFlag = false
           break
+        case '离退':
+          this.jobChangeFlag = false
+          this.transferFlag = false
+          this.fullMemberFlag = false
+          this.reEmployFlag = false
+          this.dimissionFlag = true
+          break
         case '离职':
           this.jobChangeFlag = false
           this.transferFlag = false
@@ -1255,7 +1262,7 @@ export default {
         this.transferParams.createTimeStart = createTimeRange[0] + ' 00:00:00'
         this.transferParams.createTimeEnd = createTimeRange[1] + ' 23:59:59'
       }
-      if (this.userAuditQueryData.auditTypeStatus === '离职') {
+      if (this.userAuditQueryData.auditTypeStatus === '离退') {
         this.dimissionParams.createTimeStart = createTimeRange[0] + ' 00:00:00'
         this.dimissionParams.createTimeEnd = createTimeRange[1] + ' 23:59:59'
       }
