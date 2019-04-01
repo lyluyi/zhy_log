@@ -222,6 +222,9 @@ export const deletePriHR = (params) => { return fetch('Json', 'priHR/deletePriHR
 // 查询合同信息
 export const getUserContractInfoPage = (params) => { return fetch('FormData', 'userContract/userContractPage', params) }
 
+// 修改合同信息
+export const updateUserContract = (params) => { return fetch('Json', 'userContract/updateUserContract', params) }
+
 // 报表
 export const getComReportMm = (params) => { return fetch('FormData', 'user/report/gs/month/userCdChangeInfo', params) } // 公司月度报表查询
 
