@@ -70,7 +70,7 @@
           </i-select>
         </Col>
         <Col class="col_flex" span="8">
-          <Button class="wd mr10 tr" type="text">非固定限期合同：</Button>
+          <Button class="wd mr10 tr" type="text">非固定限期：</Button>
           <i-switch v-model="userContract.isLongConView" @on-change="isLongConViewChange" />
         </Col>
       </Row>
@@ -137,10 +137,10 @@
       </Row>
 
       <Row :gutter="16" class="mb20 mt20 pt20">
-          <!-- <Col class="col_flex" span="24">
-            <Button class="wd tc" type="primary" style="margin:0 16px;">查询条件</Button>
-          </Col> -->
-        </Row>
+        <!-- <Col class="col_flex" span="24">
+          <Button class="wd tc" type="primary" style="margin:0 16px;">查询条件</Button>
+        </Col> -->
+      </Row>
         <Row :gutter="16" class="mb10">
           <Col class="col_flex" span="24">
             <Tabs value="newContractWork" @on-click="tabChange" :animated="false" style="width: 100%;">
@@ -458,7 +458,6 @@ export default {
       } else {
         this.userContract.isLongCon = '否'
       }
-      console.log(this.userContract.isLongCon)
     },
     queryCompany () { // 公司信息查询
       this.flag1 = true
@@ -481,12 +480,10 @@ export default {
       }
     },
     getDepartment (item) {
-      // console.log(item)
       this.userContract.conDept = item.dname
       this.did = item.did
     },
     getDepartmentStatus (item) {
-      // console.log(item)
       this.flag2 = item.comFlag
       this.model2 = item.commodal
     }
