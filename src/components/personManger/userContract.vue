@@ -125,7 +125,7 @@
 
 <script>
 
-import { getUserContractInfoPage, updateUserContract } from '@/server/api'
+import { getUserContractInfoPage, updateUserContract, getUserContractById } from '@/server/api'
 import companyQuery from '@/common/companyQuery'
 import departmentQuery from '@/common/departmentQuery'
 import getDic from '@/server/apiDic'
@@ -257,12 +257,12 @@ export default {
           width: 218,
           key: 'conCname'
         },
-        {
-          title: 'ID',
-          width: 80,
-          // className: 'trNone',
-          key: 'id'
-        },
+        // {
+        //   title: 'ID',
+        //   width: 80,
+        //   // className: 'trNone',
+        //   key: 'id'
+        // },
         {
           title: '操作',
           key: 'action',
@@ -286,6 +286,20 @@ export default {
                     this.userContract = {}
                     this.updateContractId = params.row.id
                     // this.show(params.index)
+                    getUserContractById({id: params.row.id}).then((res) => {
+                      this.userContract = { ...res.data }
+
+                      if (this.userContract.isLongCon && this.userContract.isLongCon === '是') {
+                        this.userContract.isLongConView = true
+                      } else {
+                        this.userContract.isLongConView = false
+                      }
+                      if (this.userContract.isGraduates && this.userContract.isGraduates === '是') {
+                        this.userContract.isGraduatesView = true
+                      } else {
+                        this.userContract.isGraduatesView = false
+                      }
+                    })
                   }
                 }
               }, '编辑')
@@ -407,9 +421,9 @@ export default {
     },
     isGraduatesViewChange () {
       if (this.userContract.isGraduatesView) {
-        this.userContract.isGraduates = '1'
+        this.userContract.isGraduates = '是'
       } else {
-        this.userContract.isGraduates = '0'
+        this.userContract.isGraduates = '否'
       }
     }
   },
