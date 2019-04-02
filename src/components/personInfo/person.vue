@@ -926,6 +926,11 @@ export default {
       this.allData.cid = item.cid
       this.allData.cname = item.cname
       this.allData.area = item.area
+      this.allData.dname = ''
+      this.allData.jobName = ''
+      this.allData.jobLevel = ''
+      this.allData.upHeader = ''
+      this.allData.jobType = ''
     },
     getCompanyStatus (item) {
       this.flag1 = item.comFlag
