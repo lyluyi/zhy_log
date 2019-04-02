@@ -265,3 +265,5 @@ export const getJTReportMMDetail = (params) => { return fetch('FormData', '/user
 
 // 集团年报表
 export const getJTReportYY = (params) => { return fetch('FormData', '/user/report/jt/year/userCdChangeReport', params) }
+
+export const getUserContractById = (params) => { return fetch('FormData', '/userContract/findUserContractById', params) }
