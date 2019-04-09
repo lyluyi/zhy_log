@@ -466,6 +466,7 @@ export default {
     getCompany (item) {
       this.userContract.conCname = item.cname
       this.cid = item.cid
+      this.userContract.conDept = ''
     },
     getCompanyStatus (item) {
       this.flag1 = item.comFlag

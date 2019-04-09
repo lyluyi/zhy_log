@@ -150,6 +150,7 @@ export default {
     getUserId (item) {
       this.allData.comHeaderId = item.userId
       this.allData.comHeader = item.userName
+      this.allData.upCid = ''
     }
   },
   components: {
