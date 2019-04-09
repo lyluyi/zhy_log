@@ -227,6 +227,9 @@ export default {
       this.userCdChange.cidNew = item.cid
       this.userCdChange.cnameNew = item.cname
       this.userCdChange.area = item.area
+      this.userCdChange.dnameNew = ''
+      this.userCdChange.didNew = ''
+      this.userCdChange.jobNameNew = ''
     },
     getCompanyStatus (item) {
       this.flag1 = item.comFlag
