@@ -91,6 +91,7 @@ export default {
     getCompany (item) {
       this.allData.cid = item.cid
       this.allData.cname = item.cname
+      this.allData.upDid = ''
     },
     getCompanyStatus (item) {
       this.flag1 = item.comFlag

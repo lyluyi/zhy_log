@@ -30,6 +30,15 @@ export default {
   //     })
   //   }
   // }
+  // mounted () {
+  //   let app = document.querySelector('#app')
+  //   window.addEventListener('scroll', this.handleScroll, true)
+  // },
+  // methods: {
+  //   handleScroll (e) {
+  //     console.log(e)
+  //   }
+  // }
 }
 </script>
 

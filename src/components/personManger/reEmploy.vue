@@ -250,6 +250,9 @@ export default {
     getCompany (item) {
       this.userReturn.cid = item.cid
       this.userReturn.cname = item.cname
+      this.userReturn.dname = ''
+      this.userReturn.did = ''
+      this.userReturn.jobName = ''
     },
     getCompanyStatus (item) {
       this.flag1 = item.comFlag
